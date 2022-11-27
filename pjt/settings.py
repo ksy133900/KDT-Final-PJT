@@ -130,7 +130,7 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = "staticfiles"
 
-# AUTH_USER_MODEL = "accounts.User"
+AUTH_USER_MODEL = "accounts.User"
 
 
 # Default primary key field type
