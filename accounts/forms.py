@@ -15,6 +15,7 @@ class CustomUserCreationForm(UserCreationForm):
     def signup(self, request, user):
         # form에 기입된 데이터를 가져오기 위해 cleaned_data 사용
         user.nickname = self.cleaned_data["nickname"]
+        user.age = self.cleaned_data["age"]
         user.save()
 
 
