@@ -4,7 +4,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  height: 35%;
+  height: 44%;
   padding: 0px;
   border-radius: 6px;
   background: #ffffff;
@@ -27,6 +27,7 @@
 
 .search-txt {
   vertical-align: text-top;
+  height: 27px;
   padding-inline-start: 10px;
   background: none;
   border: none;
@@ -53,10 +54,16 @@
 
 .clicked {
   margin-left: 0px;
-  height: 27px;
   border-radius: 6px 0 0 6px;
   outline: rgb(255, 255, 255);
   box-shadow: 0px 0px 0 2.6px rgb(0 233 255 / 96%);
 }
 
 /* 검색창 끝 */
+
+.nav-style {
+  background-color: rgb(255, 121, 40);
+  border-radius: 19px;
+  border: 1px solid rgb(255, 121, 40);
+  box-shadow: 0.1em 0.1em 5px 1px #dcdcdc;
+}
