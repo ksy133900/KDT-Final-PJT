@@ -1,0 +1,62 @@
+/* 검색창 시작*/
+.search-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 35%;
+  padding: 0px;
+  border-radius: 6px;
+  background: #ffffff;
+  box-shadow: 0px 0px 0 2px #48ff09;
+}
+
+.search-btn {
+  color: #8380a7;
+  float: right;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+}
+
+
+.search-txt {
+  vertical-align: text-top;
+  padding-inline-start: 10px;
+  background: none;
+  border: none;
+  outline: none;
+  color: #000000;
+  font-size: 20px;
+  margin-inline-end: 6px;
+}
+
+.jb-c {
+  position: absolute;
+  top: 0px;
+  display: none;
+}
+
+.search-btn:hover .jb-b {
+  visibility: hidden;
+}
+
+.search-btn:hover .jb-c {
+  display: block;
+}
+
+
+.clicked {
+  margin-left: 0px;
+  height: 27px;
+  border-radius: 6px 0 0 6px;
+  outline: rgb(255, 255, 255);
+  box-shadow: 0px 0px 0 2.6px rgb(0 233 255 / 96%);
+}
+
+/* 검색창 끝 */

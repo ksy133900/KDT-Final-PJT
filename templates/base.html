@@ -1,4 +1,5 @@
 {% load django_bootstrap5 %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,9 +9,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
   <!-- Bootstrap icon -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
   <title> 독토 </title>
 
   <style>
@@ -21,12 +25,120 @@
 </head>
 
 <body>
+  <!--내비바 시작-->
+  <nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'articles:index' %}"> <img
+          src="https://cdn-icons-png.flaticon.com/512/3296/3296160.png" style="width: 52px;"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">독토</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              장르
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          <li class="nav-item">
+            <a class="nav-link" href="#">매칭서비스</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">전체 후기</a>
+          </li>
+          </li>
+        </ul>
+        <!--search_box-->
+        <div class="search-box">
+          <form action="" method="post">
+            {% csrf_token %}
+            <input class="search-txt" type="text" placeholder="" size="15" name="q" value="{{q}}"
+              style="vertical-align: top;">
+            <button class="search-btn" type="submit" maxlength="50" style="height: 27px;width:32px;">
+              <img src="{% static 'images/book2.jpg' %}" alt="" class="jb-b" style="width:120%; margin-right:5px;">
+              <img src="{% static 'images/book.gif' %}" alt="" class="jb-c"
+                style="width: 10%; margin-top: 2px; margin-right: 5px;">
+            </button>
+          </form>
+        </div>
+        <!--search_box-->
+      </div>
+      <div class="navbar-nav">
+        {% if request.accounts.is_authenticated %}
+        <div class="navbar-nav fw-bold">
+          <a class="nav-link" aria-current="page" href="{% url 'accounts:detail' request.accounts.pk %}">
+            {{ request.accounts }}</a>
+        </div>
+        <div class="navbar-nav fw-bold">
+          <a class="nav-link" aria-current="page" href="{% url 'accounts:logout' %}">
+            로그아웃</a>
+        </div>
+        {% else %}
+        <div class="navbar-nav fw-bold">
+          <a class="nav-link" aria-current="page" href="{% url 'accounts:signup' %}">회원 가입</a>
+        </div>
+        <div class="navbar-nav fw-bold">
+          <a class="nav-link" aria-current="page" href="{% url 'accounts:login' %}">로그인</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+  <!--내비바 끝-->
   <header></header>
   {% block content%}
   {% endblock content %}
 
+  <!--검색창 클릭 효과 시작-->
+  <script>
+    var div2 = document.getElementsByClassName("search-txt");
+
+    function handleClick(event) {
+      console.log(event.target);
+      // console.log(this);
+      // 콘솔창을 보면 둘다 동일한 값이 나온다
+
+      console.log(event.target.classList);
+
+      if (event.target.classList[1] === "clicked") {
+        event.target.classList.remove("clicked");
+      } else {
+        for (var i = 0; i < div2.length; i++) {
+          div2[i].classList.remove("clicked");
+        }
+
+        event.target.classList.add("clicked");
+      }
+    }
+
+    function init() {
+      for (var i = 0; i < div2.length; i++) {
+        div2[i].addEventListener("click", handleClick);
+      }
+    }
+
+    init();
+  </script>
+  <!--검색창 클릭 효과 끝-->
+
+
+  <!--footer 시작-->
+  <footer class="fixed-bottom text-center bg-white">© 2022 Docto, 독서 토론 매칭 by 2조</footer>
+  </div>
+  </footer>
+  <!--footer 끝-->
   <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
   <!-- Axios -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </body>
