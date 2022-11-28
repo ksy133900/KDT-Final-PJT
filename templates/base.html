@@ -36,8 +36,8 @@
 <body>
   <!--내비바 시작-->
   <nav class="navbar navbar-expand-lg bg-light" style="padding: 0px; box-shadow: 0.1em 0.1em 5px 0.5px #bfbfbf;">
-    <div class=" container-fluid">
-      <a class="navbar-brand" href="{% url 'articles:index' %}"> <img
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'review:index' %}"> <img
           src="https://cdn-icons-png.flaticon.com/512/3296/3296160.png" style="width: 52px;"></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
         aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,7 +46,7 @@
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav" style="font-family: 'Black And White Picture', sans-serif; font-size: x-large;">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">독토</a>
+            <a class="nav-link active" aria-current="page" href="{% url 'review:index' %}">독토</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -80,11 +80,13 @@
         </div>
         <!--search_box-->
       </div>
+
       <div class="navbar-nav" style="font-family: 'Single Day', cursive;">
-        {% if request.accounts.is_authenticated %}
+        {% if request.user.is_authenticated %}
+
         <div class="navbar-nav fw-bold">
-          <a class="nav-link" aria-current="page" href="{% url 'accounts:detail' request.accounts.pk %}">
-            {{ request.accounts }}</a>
+          <a class="nav-link" aria-current="page" href="#">
+            {{ request.user.nickname }}</a>
         </div>
         <div class="navbar-nav fw-bold" style="padding-left: 10px;">
           <a class="nav-link" aria-current="page" href="{% url 'accounts:logout' %}">
@@ -104,6 +106,7 @@
   <!--내비바 끝-->
   <header></header>
   {% block content%}
+ 
   {% endblock content %}
 
   <!--검색창 클릭 효과 시작-->
