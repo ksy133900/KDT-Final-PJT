@@ -1,17 +1,132 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load django_bootstrap5 %}
+{% block css %}
+<style>
 
+</style>
+{% endblock css %}
 {% block content %}
-  <div class="container my-5">
-    <h1 class="text-center">회원가입</h1>
 
-    <form action="{% url 'accounts:signup' %}" method="POST">
-      {% csrf_token %}
-      {% bootstrap_form signup_form %}
 
-      <div class="text-end">
-        <input type="submit" value="회원가입" class="btn btn-primary">
-      </div>
-    </form>
-  </div>
+  <section class="container" style="width: 1000px; height: 1315px; margin-top: 70px;">
+     <h2 class="d-flex justify-content-center my-5">독토</h2>
+
+      <div style="display: flex;align-items: center;justify-content: center">
+          
+          <form action="{% url 'accounts:signup' %}" method="POST">
+            {% csrf_token %}
+            {% bootstrap_form signup_form %}
+      
+            <div class="text-end">
+              <input type="submit" value="회원가입" class="btn btn-primary">
+            </div>
+          </form>
+        </div> 
+       
+    <!-- </div>
+    <div>
+      <form class="mx-3" action="{% url 'accounts:signup' %}"
+        style="border-top: 0px solid rgb(51, 51, 51); font-size:14px;" method="POST">
+        {% csrf_token %}
+        <div class="d-flex align-items-center">
+          <h6 class="my-3" style="width: 123px; color: rgb(51, 51, 51); font-size:14px;">아이디</h6>
+          <div class="my-3">
+            <input type="text" style="width: 333px; height: 46px;" name="username" maxlength="150" autofocus=""
+              class="signup-input form-control" placeholder="아이디를 입력해주세요" required="" id="id_username">
+          </div>
+          </div>
+          <div class="d-flex align-items-center">
+              <h6 class="my-3" style="width:123px; color: rgb(51, 51, 51); font-size:14px;">닉네임</h6>
+              <div class="my-3">
+                <input type="text" style="width:333px; height: 46px;" name="nickname" class="signup-input form-control"
+                  placeholder="닉네임을 입력해주세요" requird="" id="id_nickname">
+              </div>
+  
+  
+        </div>
+        <div class="d-flex align-items-center">
+          <h6 class="my-3" style="width: 123px; color: rgb(51, 51, 51); font-size: 14px;">비밀번호</h6>
+          <div class="my-3">
+            <input type="password" style="width:333px; height: 46px;"  name="password1" autocomplete="new-password"
+              class="signup-input form-control" placeholder="비밀번호를 입력해주세요" required="" id="id_password1">
+          </div>
+        </div>
+        <div class="d-flex align-items-center">
+          <h6 class="my-3" style="width: 123px; color: rgb(51, 51, 51); font-size: 14px;">비밀번호 확인</h6>
+          <div class="my-3">
+            <input type="password" style="width:333px; height: 46px;" name="password2" autocomplete="new-password"
+              class="signup-input form-control" placeholder="비밀번호를 한 번 더 입력해주세요" required="" id="id_password2">
+          </div>
+        </div>
+
+
+          <div class="d-flex align-items-center">
+          <h6 class="my-3" style="width:123px; color: rgb(51, 51, 51); font-size:14px;">장르</h6>
+          <div class="my-3">
+          <select name="genre"  style="width:333px; height: 46px;" class="form-select" id="id_genre">
+            <option value="장르" selected="">장르</option>
+          
+            <option value="추리">추리</option>
+          
+            <option value="스릴러">스릴러</option>
+          
+            <option value="공포">공포</option>
+          
+            <option value="판타지">판타지</option>
+          
+            <option value="로맨스">로맨스</option>
+          
+          </select>
+          </div>
+          </div>
+
+
+          
+          <div class="d-flex align-items-center">
+            <h6 class="my-3" style="width:123px; color: rgb(51, 51, 51); font-size:14px;">선호 요일</h6>
+            <div class="my-3">
+          <select name="day" style="width:333px; height: 46px;" class="form-select" id="id_day">
+            <option selected>요일을 선택해주세요</option>
+            <option value="1">월</option>
+            <option value="2">화</option>
+            <option value="3">수</option>
+            <option value="3">목</option>
+            <option value="3">금</option>
+            <option value="3">토</option>
+            <option value="3">일</option>
+          </select>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center">
+          <h6 class="my-3" style="width:123px; color: rgb(51, 51, 51); font-size:14px;">선호 시간</h6>
+          <div class="my-3">
+          <select name="time"  style="width:333px; height: 46px;" class="form-select" id="id_time">
+            <option value="시간" selected="">시간</option>
+          
+            <option value="오전">오전 : 06:00 ~ 11:59 사이</option>
+          
+            <option value="오후">오후 : 12:00 ~ 17:59 사이</option>
+            <option value="저녁">저녁 : 18:00 ~ 23:59 사이</option>
+      
+          
+          </select>
+          </div>
+          </div>
+
+        <div class="d-flex justify-content-center my-3">
+          <input type="submit" value="회원가입" class="btn btn-primary">
+        </div>
+
+        
+      </form>
+    </div>
+    <hr>
+    <div class="d-flex justify-content-center align-items-center">
+      <p class='mb-0' style="color: rgba(194, 200, 204, 1)">이미 회원이라면? <a class="text-decoration-none"
+          style="color:#5e0080" href="{% url 'accounts:login' %}">로그인</a></p>
+    </div> -->
+  
+  </section> 
 {% endblock content %}

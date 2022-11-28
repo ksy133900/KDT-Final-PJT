@@ -14,7 +14,7 @@ class Review(models.Model):
         ("판타지", "판타지"),
         ("로맨스", "로맨스"),
     ]
-    genre = models.CharField(max_length=20, choices=genre_choice)
+    genre = models.CharField(max_length=20, choices=genre_choice, null=True)
     age = models.IntegerField(null=True)
     # 조회수
     view_count = models.IntegerField(default=0)
