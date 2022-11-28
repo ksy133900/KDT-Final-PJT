@@ -8,7 +8,7 @@
   padding: 0px;
   border-radius: 6px;
   background: #ffffff;
-  box-shadow: 0px 0px 0 2px #48ff09;
+  box-shadow: 0px 0px 0 2px #30950e;
 }
 
 .search-btn {
@@ -56,14 +56,16 @@
   margin-left: 0px;
   border-radius: 6px 0 0 6px;
   outline: rgb(255, 255, 255);
-  box-shadow: 0px 0px 0 2.6px rgb(0 233 255 / 96%);
+  box-shadow: 0px 0px 0 2.6px rgb(1 255 0 / 96%);
 }
 
 /* 검색창 끝 */
-
+/* nav바 */
 .nav-style {
   background-color: rgb(255, 121, 40);
   border-radius: 19px;
   border: 1px solid rgb(255, 121, 40);
   box-shadow: 0.1em 0.1em 5px 1px #dcdcdc;
 }
+
+/* nav바 */
