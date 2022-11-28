@@ -1,0 +1,24 @@
+/* pro_index css */
+
+.top_banner {
+  width: 100%;
+  height: 400px;
+  background-image: url("static/images/pro_index_back.jpg");
+  background-repeat: no-repeat;
+}
+
+.top_banner img {
+  height: 400px;
+  opacity: 0.6;
+}
+
+.btn_1 {
+  width: 250px;
+  height: 40px;
+  background-color: coral;
+}
+
+.btn_2 {
+  background-color: white;
+  box-shadow: 3px 3px 3px rgb(121, 121, 121);
+}
