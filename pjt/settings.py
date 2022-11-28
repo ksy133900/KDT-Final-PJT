@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     "book",
     "accounts",
     "review",
+    "taggit.apps.TaggitAppConfig",
+    "taggit_templatetags2",
 ]
 
 MIDDLEWARE = [
