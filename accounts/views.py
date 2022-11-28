@@ -16,7 +16,7 @@ def signup(request):
         if signup_form.is_valid():
             user = signup_form.save()
 
-            return redirect("review:index")
+            return redirect("review:login")
     else:
         signup_form = CustomUserCreationForm()
 
@@ -50,3 +50,20 @@ def login(request):
 def logout(request):
     auth_logout(request)
     return redirect("review:index")
+
+
+# def detail(request, pk):
+#     user = get_user_model().objects.get(pk=pk)
+#     reviews = user.review.all()
+#     like_reviews = user.like_reviews.all()
+#     reviews_count = len(reviews)
+#     like_reviews_count = len(like_reviews)
+
+#     context = {
+#         "user": user,
+#         "reviews": reviews,
+#         "like_reviews": like_reviews,
+#         "articles_count": reviews_count,
+#         "like_articles_count": like_reviews_count,
+#     }
+#     return render(request, "accounts/detail.html", context)

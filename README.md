@@ -1,1 +1,1 @@
-# final-pjt-dokto
+# final-pjt-docto
