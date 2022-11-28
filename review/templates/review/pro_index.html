@@ -2,26 +2,26 @@
 {% load static %}
 {% block content %}
 
-<section class="container mt-3">
-  <div class="top_banner row align-items-center">
-    <div class="col-6">
+<section class="container mt-3 mb-5">
+  <div class="top_banner row m-0 mt-3 mb-3">
+    <div class="col col-lg-6 col-md-12">
       <h1>좋은 독토</h1>
       <h1>빨리 찾는, 독토</h1>
       <p>1:1 독서 토론 매칭 사이트</p>
       <a href="{% url 'accounts:signup' %}" class="btn btn_1">가입하기</a>
     </div>
-    <div class="col-6">
-      <img src="{% static 'images/pro_index_1.jpg' %}" alt="">
+    <div class="col col-lg-6 col-md-12 img_box p-1">
+      <img src="{% static 'images/pro_index_back.jpg' %}" alt="">
     </div>
   </div>
-  <div class="mid_banner mt-3">
-    <h1 class="text-center">독토가 궁금하신가요?</h1>
-    <div class="d-flex gap-3 justify-content-around">
-      <h3>독토를 어떻게 믿죠?</h3>
-      <h3>독토의 매칭 기준이란?</h3>
-      <h3>독토 요청은 어떻게 하나요?</h3>
+  <div class="mid_banner mt-3 mb-3">
+    <h1 class="text-center mt-3 mb-3">독토가 궁금하신가요?</h1>
+    <div class="row gap-3 justify-content-around text-center mt-3 mb-3">
+      <h3 class="col col-md-auto">독토를 어떻게 믿죠?</h3>
+      <h3 class="col col-md-auto">독토의 매칭 기준이란?</h3>
+      <h3 class="col col-md-auto">독토 요청은 어떻게 하나요?</h3>
     </div>
-    <div class="text-center">
+    <div class="text-center mt-3 mb-3">
       <a href="#" class="btn btn_2">
         FAQ로 더 알아보기
       </a>
