@@ -3,16 +3,18 @@
 {% block content %}
 <section class="container">
   <h1 class="text-center mt-5 mb-5">장르별 도서 목록</h1>
-  
+  <!--테이블 시작-->
   <table class="table text-center">
+    <!--테이블 비율-->
+    <colgroup>
+      <col width="7%" /><!--No.-->
+      <col width="35%" /><!--도서명-->
+      <col width="13%" /><!--장르-->
+      <col width="20%" /><!--작성자-->
+      <col width="25%" /><!--작성일-->
+    </colgroup>
+    <!--테이블 헤드-->
     <thead>
-      <colgroup>
-        <col width="7%" />
-        <col width="35%" />
-        <col width="13%" />
-        <col width="20%" />
-        <col width="25%" />
-      </colgroup>
       <tr>
         <th scope="col">No.</th>
         <th scope="col">도서명</th>
@@ -21,6 +23,7 @@
         <th scope="col">작성일</th>
       </tr>
     </thead>
+    <!--테이블 본문-->
     <tbody>
       {% for i in test %}
       <tr>
@@ -33,5 +36,6 @@
       {% endfor %}
     </tbody>
   </table>
+  <!--테이블 종료-->
 </section>
 {% endblock content %}
