@@ -16,7 +16,7 @@ def signup(request):
         if signup_form.is_valid():
             user = signup_form.save()
 
-            return redirect("review:index")
+            return redirect("review:login")
     else:
         signup_form = CustomUserCreationForm()
 
