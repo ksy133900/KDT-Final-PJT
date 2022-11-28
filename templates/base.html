@@ -24,12 +24,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Single+Day&display=swap" rel="stylesheet">
   <!-- nav font-->
   <title> 독토 </title>
-  <script defer src="{% static 'js/indexjs.js"></script>
+  <script defer src="{% static 'js/indexjs.js'%}"></script>
 
   <style>
-    a {
-      text-decoration: none;
-    }
   </style>
 </head>
 
@@ -37,7 +34,7 @@
   <!--내비바 시작-->
   <nav class="navbar navbar-expand-lg bg-light" style="padding: 0px; box-shadow: 0.1em 0.1em 5px 0.5px #bfbfbf;">
     <div class="container-fluid">
-      <a class="navbar-brand" href="{% url 'review:index' %}"> <img
+      <a class="navbar-brand" href="{% url 'review:pro_index' %}"> <img
           src="https://cdn-icons-png.flaticon.com/512/3296/3296160.png" style="width: 52px;"></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
         aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,7 +50,7 @@
               장르
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{% url 'articles:genre' %}">임시</a></li>
+              <li><a class="dropdown-item" href="{% url 'review:genre' %}">임시</a></li>
               <li><a class="dropdown-item" href="#">Another action</a></li>
               <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
