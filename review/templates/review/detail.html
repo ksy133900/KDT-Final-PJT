@@ -7,21 +7,21 @@
 
 {% block content %}
 
-<section class="container">
+<section class="container mt-3 mb-5">
   <!--상단부 시작-->
-  <div class="d-flex align-items-center justify-content-around">
+  <div class="top_banner row d-flex align-items-center justify-content-around">
     <!--책 이미지-->
-    <div class="img_box">
+    <div class="book_img col-auto">
       <img src="{% static 'images/book.gif' %}" alt="">
     </div>
-    <!--책 정보-->
-    <div>
-      <table class="table">
-    <!--테이블 비율-->
-    <colgroup>
-      <col width="width:50px" /><!--No.-->
-      <col width="width:200px" /><!--도서명-->
-    </colgroup>
+    <!--책 정보 시작-->
+    <div class="col-auto">
+      <table class="table" style="width: 600px;">
+        <!--테이블 비율-->
+        <colgroup>
+          <col width="20%" /><!--No.-->
+          <col width="80%" /><!--도서명-->
+        </colgroup>
         <tbody>
           <tr>
             <th scope="row">제목</th>
@@ -46,12 +46,41 @@
         </tbody>
       </table>
     </div>
+    <!--책 정보 종료-->
   </div>
   <!--상단부 종료-->
 
-  <!--하단 리뷰카드 시작-->
-  <div>
-
+  <!--하단 리뷰카드,리뷰작성버튼 시작-->
+  <div class="row justify-content-center">
+    <!--리뷰작성 버튼-->
+    <div class="d-grid justify-content-center mt-3 mb-5">
+      <a href="{% url 'review:create' %}" class="btn btn_1">리뷰작성</a>
+    </div>
+    <!--리뷰카드 시작-->
+    <div class="review_card row border rounded-3 p-3">
+      <div>
+        <div>
+          <h3>별점</h3>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="#">좋아요</a>
+            <a href="#">싫어요</a>
+          </div>
+        </div>
+        <div class="row justify-content-around">
+          <div class="profile_img col-4">
+            <img src="{% static 'images/cookie.png' %}" alt="프로필이미지">
+            <p>닉네임</p>
+          </div>
+          <div class="border bg-black bg-opacity-10 rounded-3 col-8">
+            <p>리뷰 내용</p>
+          </div>
+        </div>
+        <div class="d-grid d-md-flex justify-content-md-between">
+          <a href="#">독토요청하기</a>
+          <p>리뷰 작성일</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 

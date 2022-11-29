@@ -1,11 +1,38 @@
 /* review/detail css시작 */
-
-.img_box {
-  width: 450px;
-  height: 450px;
+.top_banner {
+  width: 100%;
 }
 
-.img_box img {
+.book_img {
+  width: 450px;
+}
+
+.book_img img {
+  width: 100%;
+}
+
+.btn_1 {
+  width: 150px;
+  height: 40px;
+  background-color: coral;
+  box-shadow: 3px 3px 3px rgb(121, 121, 121);
+
+}
+
+.btn_1:hover {
+  background-color: rgb(255, 162, 129);
+
+}
+
+.review_card {
+  width: 80%;
+}
+
+.profile_img {
+  width: 100px;
+}
+
+.profile_img img {
   width: 100%;
 }
 
