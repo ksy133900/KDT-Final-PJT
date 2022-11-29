@@ -9,13 +9,17 @@
       {% if user.profile.image %} 
       <img src="{{ user.profile.image.url }}" style="border-radius: 70%; max-width: 100%;" alt="">
       {% else %}
-      <img src="{% static 'images/no-avatar.jpg' %}" style="border-radius: 70%; max-width: 200px;" alt="">
+      <img src="{% static 'images/dummy-image-square.jpg' %}" style="border-radius: 70%; max-width: 200px;" alt="">
       {% endif %}
     <!-- 여기까지 유저 프로필 이미지  -->
     </div>
     <div class="ms-5 w-100">
       <div class="d-flex align-items-center mb-2">
-        <h1 class="mb-0" style="font-size: 30px;">{{ user.nickname }}님의 프로필</h1>
+        {% if user.profile.nickname %}
+        <h1 class="mb-0" style="font-size: 30px;">{{ user.profile.nickname }}님의 프로필</h1>
+        {% else %}
+        <h1 class="mb-0" style="font-size: 30px;">프로필 수정에서 닉네임을 입력해주세요</h1>
+        {% endif %}
        <!-- 회원 정보 수정 & 팔로우 버튼 및 팔로잉, 팔로워 수 -->
        {% if user == request.user %}
        <a href="{% url 'accounts:update' user.pk %}">
@@ -44,6 +48,9 @@
   <hr>
    <!--작성 글, 좋아요 모아보기(구현예정) -->
     <h5>작성 글</h5>
+    
+  <div>
+ 
              <!-- {% comment %}<div class="d-flex justify-content-between mb-4">
         
           <div class="mb-3" style="display: flex; flex-direction: row; margin-right: 100px">
