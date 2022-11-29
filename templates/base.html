@@ -28,8 +28,7 @@
   <!-- nav font-->
   <title> 독토 </title>
   <script defer src="{% static 'js/indexjs.js'%}"></script>
-  {% block css %}
-  {% endblock css %}
+ 
 
 </head>
 
@@ -43,7 +42,7 @@
         aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
         <ul class="navbar-nav" style="font-family: 'Black And White Picture', sans-serif; font-size: x-large;">
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{% url 'review:index' %}">독토</a>
@@ -79,27 +78,27 @@
           </form>
         </div>
         <!--search_box-->
-      </div>
-
-      <div class="navbar-nav" style="font-family: 'Single Day', cursive;">
-        {% if request.user.is_authenticated %}
-
-        <div class="navbar-nav fw-bold">
-          <a class="nav-link" aria-current="page" href="{% url 'accounts:profile' request.user.pk %}">
-            {{ request.user.nickname }}</a>
+        <!--회원가입,로그인 버튼-->
+        <div class="navbar-nav text-center gap-3" style="font-family: 'Single Day', cursive;">
+          {% if request.user.is_authenticated %}
+  
+          <div class="navbar-nav fw-bold">
+            <a class="nav-link" aria-current="page" href="{% url 'accounts:profile' request.user.pk %}">
+              {{ request.user.nickname }}</a>
+          </div>
+          <div class="navbar-nav fw-bold">
+            <a class="nav-link" aria-current="page" href="{% url 'accounts:logout' %}">
+              로그아웃</a>
+          </div>
+          {% else %}
+          <div class="navbar-nav fw-bold">
+            <a class="nav-link nav-style" aria-current="page" href="{% url 'accounts:signup' %}">회원 가입</a>
+          </div>
+          <div class="navbar-nav fw-bold">
+            <a class="nav-link nav-style" aria-current="page" href="{% url 'accounts:login' %}">로그인</a>
+          </div>
+          {% endif %}
         </div>
-        <div class="navbar-nav fw-bold" style="padding-left: 10px;">
-          <a class="nav-link" aria-current="page" href="{% url 'accounts:logout' %}">
-            로그아웃</a>
-        </div>
-        {% else %}
-        <div class="navbar-nav fw-bold">
-          <a class="nav-link nav-style" aria-current="page" href="{% url 'accounts:signup' %}">회원 가입</a>
-        </div>
-        <div class="navbar-nav fw-bold" style="padding-left: 10px;">
-          <a class="nav-link nav-style" aria-current="page" href="{% url 'accounts:login' %}">로그인</a>
-        </div>
-        {% endif %}
       </div>
     </div>
   </nav>
