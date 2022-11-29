@@ -51,6 +51,9 @@ def logout(request):
     auth_logout(request)
     return redirect("review:index")
 
+def profile(request):
+    return render(request,"accounts/profile.html")
+    
 
 # def detail(request, pk):
 #     user = get_user_model().objects.get(pk=pk)

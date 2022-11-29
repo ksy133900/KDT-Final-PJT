@@ -69,3 +69,16 @@ a {
 }
 
 /* pro_index css 종료 */
+
+/* profile css시작 */
+
+.img_box {
+  width: 150px;
+  height: 150px;
+}
+
+.img_box img {
+  width: 100%;
+}
+
+/* profile css시작 */
