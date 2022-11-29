@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+<section class="container mt-3 mb-5">
+  <h1 class="text-center">회원정보수정</h1>
+  <div class="mt-3">
+    <form action="" method="POST">
+      {% csrf_token %}
+      {% comment %} {% bootstrap_form signup_form %} {% endcomment %}
+    </form>
+  </div>
+</section>
+
+{% endblock content %}

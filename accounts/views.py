@@ -53,7 +53,9 @@ def logout(request):
 
 def profile(request):
     return render(request,"accounts/profile.html")
-    
+
+def update(request):
+    return render(request,"accounts/update.html")    
 
 # def detail(request, pk):
 #     user = get_user_model().objects.get(pk=pk)
