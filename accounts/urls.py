@@ -9,5 +9,5 @@ urlpatterns = [
     path("login/", views.login, name="login"),
     path("logout/", views.logout, name="logout"),
     # path("<int:pk>/", views.detail, name="detail"),
-    path("<int:pk>/profile/", views.profile, name="profile"),
+    path("profile/", views.profile, name="profile"),# 이후에 <int:pk>넣어야함
 ]
