@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 
 <div class="container-fluid" style="padding: 0px; margin: 0px;">
@@ -26,6 +26,25 @@
   </div>
 </div>
 
+<!-- 여기부터 글쓰기 및 유저 정보 페이지 팔로우 확인용 시험 코드라서 디자인 바꾸실거면 자유롭게 바꾸셔도 됩니다. -->
+<a class="active" href="{% url 'review:create' %}">글좀 써보자</a>
+
+{% for review in reviews %}
+
+        <div class="profile_box">
+            <a href="{% url 'accounts:profile' review.user.pk %}" class="text-dark">
+            {% if review.user.profile.image %}                        
+            <img class="profile_img" src="{{ review.user.profile.image.url }}">
+            {% else %}
+            <img src="{% static 'images/dummy-image-square.jpg' %}" alt="" class="rounded-2 border border-1" width="40px">
+          {% endif %}
+        </a>
+        </div>
+        <a href="{% url 'accounts:profile' review.user.pk %}" class="text-dark">
+        <span class="feed_name_txt"> {{ review.user.nickname }}</span></a>
+        {% endfor %}
+
+<!-- 여기까지 글쓰기 및 유저 정보 페이지 팔로우 확인용 시험 코드라서 디자인 바꾸실거면 자유롭게 바꾸셔도 됩니다. -->
 {% endblock %}
 
 
