@@ -1,9 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import get_user_model
 from .forms import *
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.http import JsonResponse
 
 # Create your views here.
 def signup(request):
@@ -15,8 +19,8 @@ def signup(request):
         signup_form = CustomUserCreationForm(request.POST)
         if signup_form.is_valid():
             user = signup_form.save()
-
-            return redirect("review:login")
+            Profile.objects.create(user=user)
+            return redirect("accounts:login")
     else:
         signup_form = CustomUserCreationForm()
 
@@ -57,18 +61,73 @@ def profile(request):
 def update(request):
     return render(request,"accounts/update.html")    
 
-# def detail(request, pk):
-#     user = get_user_model().objects.get(pk=pk)
-#     reviews = user.review.all()
-#     like_reviews = user.like_reviews.all()
-#     reviews_count = len(reviews)
-#     like_reviews_count = len(like_reviews)
+def profile(request, pk):
+    user = get_object_or_404(get_user_model(), pk=pk)
 
-#     context = {
-#         "user": user,
-#         "reviews": reviews,
-#         "like_reviews": like_reviews,
-#         "articles_count": reviews_count,
-#         "like_articles_count": like_reviews_count,
-#     }
-#     return render(request, "accounts/detail.html", context)
+    context = {
+        "user": user,
+    }
+
+    return render(request, "accounts/profile.html", context)
+
+
+# 회원 탈퇴
+def delete(request):
+    if request.user.is_authenticated:
+        request.user.delete()
+        messages.warning(request, "회원 탈퇴 되었습니다.")
+        auth_logout(request)
+
+    return redirect("review:index")
+
+
+@require_POST
+@login_required
+def follow(request, pk):
+    user = get_object_or_404(get_user_model(), pk=pk)
+
+    # 프로필에 해당하는 유저를 로그인한 유저가 팔로우 할 수 없음
+    if request.user == user:
+        messages.warning(request, "스스로 팔로우 할 수 없습니다.")
+        return redirect("accounts:detail", pk)
+
+    # 팔로우 상태면, 팔로우 취소를 누르면 삭제
+    if request.user in user.followers.all():
+        user.followers.remove(request.user)
+        is_followed = False
+
+    # 팔로우 상태가 아니면, '팔로우'를 누르면 추가
+    else:
+        user.followers.add(request.user)
+        is_followed = True
+
+    data = {
+        "followers_count": user.followers.count(),
+        "followings_count": user.followings.count(),
+        "is_followed": is_followed,
+    }
+
+    return JsonResponse(data)
+
+
+@login_required
+def update(request, pk):
+    if request.user.pk != pk:
+        return redirect("accounts:profile", pk)
+
+    user = get_object_or_404(get_user_model(), pk=pk)
+
+    if request.method == "POST":
+        profile_form = ProfileForm(request.POST, request.FILES, instance=user.profile)
+        if profile_form.is_valid():
+            profile_form.save()
+            return redirect("accounts:profile", pk)
+    else:
+        profile_form = ProfileForm(instance=user.profile)
+
+    context = {
+        "user": user,
+        "profile_form": profile_form,
+    }
+
+    return render(request, "accounts/update.html", context)

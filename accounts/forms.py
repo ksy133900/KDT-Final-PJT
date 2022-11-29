@@ -1,7 +1,8 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth import get_user_model
-from django.forms import ModelForm
+
 from .models import Profile
+from django import forms
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -38,13 +39,17 @@ class CustomUserCreationForm(UserCreationForm):
         user.save()
 
 
-class ProfileForm(ModelForm):
+class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile()
         fields = [
             "intro",
             "image",
         ]
+        labels = {
+            "image": "프로필 사진",
+            "intro": "소개글",
+        }
 
 
 class CustomUserChangeForm(UserChangeForm):

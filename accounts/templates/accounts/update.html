@@ -2,15 +2,13 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
+  <h1 class="text-center my-5">회원 정보 수정</h1>
+  <form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form profile_form %}
 
-<section class="container mt-3 mb-5">
-  <h1 class="text-center">회원정보수정</h1>
-  <div class="mt-3">
-    <form action="" method="POST">
-      {% csrf_token %}
-      {% comment %} {% bootstrap_form signup_form %} {% endcomment %}
-    </form>
-  </div>
-</section>
-
+    <div class="text-end">
+      <input type="submit" class="btn btn-primary" value="완료">
+    </div>
+  </form>
 {% endblock content %}

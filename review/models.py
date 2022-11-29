@@ -27,9 +27,9 @@ class Review(models.Model):
     like_users = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="like_reviews"
     )
-    # bookmark_users = models.ManyToManyField(
-    #     settings.AUTH_USER_MODEL, related_name="bookmark_reviews"
-    # )
+    bookmark_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name="bookmark_reviews"
+    )
 
     def __str__(self):
         return self.title

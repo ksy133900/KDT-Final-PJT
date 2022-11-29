@@ -1,58 +1,65 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block css %}
-<link rel="stylesheet" href="{% static 'css/profile.css' %}">
-{% endblock css %}
+
 {% block content %}
+<div class="container my-5">
+  <div class="d-flex justify-content-center align-items-center mb-4">
+    <div>
+      <!-- 유저 프로필 이미지  -->
+      {% if user.profile.image %} 
+      <img src="{{ user.profile.image.url }}" style="border-radius: 70%; max-width: 100%;" alt="">
+      {% else %}
+      <img src="{% static 'images/no-avatar.jpg' %}" style="border-radius: 70%; max-width: 200px;" alt="">
+      {% endif %}
+    <!-- 여기까지 유저 프로필 이미지  -->
+    </div>
+    <div class="ms-5 w-100">
+      <div class="d-flex align-items-center mb-2">
+        <h1 class="mb-0" style="font-size: 30px;">{{ user.nickname }}님의 프로필</h1>
+       <!-- 회원 정보 수정 & 팔로우 버튼 및 팔로잉, 팔로워 수 -->
+       {% if user == request.user %}
+       <a href="{% url 'accounts:update' user.pk %}">
+         <input type="submit" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #4b3a88; color: white;" value="프로필 수정">
+       </a>
+       {% elif request.user.is_authenticated %}
+         <form id="follow-form" data-user-id="{{ user.pk }}">
+           {% csrf_token %}
+           {% if request.user in user.followers.all %}
+             <input id="follow-btn" type="submit" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #262564; color: white;" value="언팔로우">
+           {% else %}
+             <input id="follow-btn" type="submit" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #13185c; color: white;" value="팔로우">
+           {% endif %}
+         </form>
+       {% endif %}
+     </div>
 
-<section class="container mt-5 mb-5 p-3 bg-dark bg-opacity-25 rounded-2">
-  <h1 class="text-center">ㅇㅇㅇ 님의 프로필</h1>
-  <!--프로필-->
-  <div>
-    <div class="border border-1 border-dark rounded-5 mt-3 mb-3 d-flex flex-column align-items-center bg-white">
-      <div class="img_box mt-3 mb-3">
-        <img src="{% static 'images/cookie.png' %}" alt="">
-      </div>
-      <h4>닉네임</h4>
-      <p>독토 매칭 찾고 있습니다</p><!--매칭 휴식중이면 "독토 매칭 휴식중 입니다"로 변경 되도록 하려합니다-->
+      <p class="text-primary mb-1">팔로잉 <span id="followings-count">{{ user.followings.count }}</span>  팔로워 <span id="followers-count">{{ user.followers.count }}</span></p>
+      {% if request.user == user %}
+      <a onclick="return confirm('정말 탈퇴하시겠습니까?');" href="{% url 'accounts:delete' %}" class="list-group-item list-group-item-action">회원탈퇴</a>
+      {% endif %}
+       <!--여기까지 회원 정보 수정 & 팔로우 버튼 및 팔로잉, 팔로워 수  -->
+
     </div>
   </div>
-  <!--선호나이-->
-  <div class="border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
-    <h4 class="text-center">선호 나이</h4>
-    <div class="d-grid gap-3 d-md-flex justify-content-around">
-      <div class="border border-3 border-warning rounded-5 bg-warning">
-        <h1 class="fw-bold m-2">20대</h1>
-      </div>
-      <div class="border border-3 border-info rounded-5 bg-info">
-        <h1 class="fw-bold m-2">30대</h1>
-      </div>
-      <div class="border border-3 border-secondary rounded-5 bg-secondary">
-        <h1 class="fw-bold m-2">40대</h1>
-      </div>
-      <div class="border border-3 border-success rounded-5 bg-success">
-        <h1 class="fw-bold m-2">50대</h1>
-      </div>
-    </div>
+  <hr>
+   <!--작성 글, 좋아요 모아보기(구현예정) -->
+    <h5>작성 글</h5>
+             <!-- {% comment %}<div class="d-flex justify-content-between mb-4">
+        
+          <div class="mb-3" style="display: flex; flex-direction: row; margin-right: 100px">
+            <div class="d-flex">
+              <div style="margin-right: 30px;"><a id="link_user_articles" data-bs-toggle="collapse" href="#user_articles" role="button" aria-expanded="false" aria-controls="collapseExample" class="me-3">
+              게시글<span class="ms-1">{{reviews_count}}</a></span></div>
+            </div>
+            <div class="d-flex">
+              <div style="margin-right: 30px;"><a id="link_like_articles" data-bs-toggle="collapse" href="#like_articles" role="button" aria-expanded="false" aria-controls="collapseExample" class="me-3">좋아요 누른 글
+              <span class="ms-1">{{like_reviews_count}}</span> </a></div></div>
+    </a>{% endcomment %} --> 
   </div>
-  <!--활동지역-->
-  <div class="border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
-    <p>경기 북부</p>
-  </div>
-  <!--선호시간-->
-  <div class="border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
-    <p>체크박스형식으로 받아서 보이도록 하려합니다.</p>
-    <a href="https://maximum-curry30.tistory.com/260">참고1</a>
-    <a href="https://jungwonjang.tistory.com/35">참고2</a>
-  </div>
-  <!--선호장르-->
-  <div class="border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
-    <p>스릴러</p>
-  </div>
-  <!--하고 싶은 말-->
-  <div class="border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
-    <p>좋은 사람있으면 오세요~</p>
-  </div>
-</section>
-
+  <!--여기까지 작성 글, 좋아요 모아보기(구현예정) -->
 {% endblock content %}
+
+{% block script %}
+  <script type="text/javascript" src="{% static 'js/profile_follow.js' %}"></script> <!--유저 팔로우 비동기 js -->
+
+{% endblock script %}
