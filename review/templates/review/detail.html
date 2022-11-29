@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/detail.css' %}">
+{% endblock css %}
+
+{% block content %}
+
+<section class="container">
+  <!--상단부 시작-->
+  <div class="d-flex align-items-center justify-content-around">
+    <!--책 이미지-->
+    <div class="img_box">
+      <img src="{% static 'images/book.gif' %}" alt="">
+    </div>
+    <!--책 정보-->
+    <div>
+      <table class="table">
+    <!--테이블 비율-->
+    <colgroup>
+      <col width="width:50px" /><!--No.-->
+      <col width="width:200px" /><!--도서명-->
+    </colgroup>
+        <tbody>
+          <tr>
+            <th scope="row">제목</th>
+            <td>책이름</td>
+          </tr>
+          <tr>
+            <th scope="row">장르</th>
+            <td>스릴러?</td>
+          </tr>
+          <tr>
+            <th scope="row">가격</th>
+            <td>10,000원</td>
+          </tr>
+          <tr>
+            <th scope="row">줄거리</th>
+            <td>생략표시로 처리예정</td>
+          </tr>
+          <tr>
+            <th scope="row">매칭수</th>
+            <td>해당도서로 매칭된 횟수</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!--상단부 종료-->
+
+  <!--하단 리뷰카드 시작-->
+  <div>
+
+  </div>
+</section>
+
+{% endblock content %}
