@@ -28,8 +28,26 @@
   <!-- nav font-->
   <title> 독토 </title>
   <script defer src="{% static 'js/indexjs.js'%}"></script>
+<<<<<<< review_
+=======
 
+>>>>>>> master
 
+<style>
+
+  .navi_profile_box {
+      width: 50px;
+      height: 50px;
+      border-radius: 70%;
+      overflow: hidden;
+      cursor: pointer;
+  }
+  .navi_profile_img {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+  }
+</style>
 </head>
 
 <body>
@@ -78,14 +96,31 @@
           </form>
         </div>
         <!--search_box-->
-        <!--회원가입,로그인 버튼-->
-        <div class="navbar-nav text-center gap-3" style="font-family: 'Single Day', cursive;">
-          {% if request.user.is_authenticated %}
 
-          <div class="navbar-nav fw-bold">
-            <a class="nav-link" aria-current="page" href="{% url 'accounts:profile' request.user.pk %}">
-              {{ request.user.nickname }}</a>
+      </div>
+
+        <!--회원가입,로그인 버튼-->
+      <div class="navbar-nav" style="font-family: 'Single Day', cursive;">
+        {% if request.user.is_authenticated %}
+
+        <div class="navbar-nav fw-bold">
+          <div style="display: flex;">
+          <a class="nav-link" aria-current="page" href="{% url 'accounts:profile' request.user.pk %}">
+            <div class="navi_profile_box">
+              {% if request.user.profile.image %}
+              <img src="{{ request.user.profile.image.url }}" class="navi_profile_img">
+            {% else %}
+              <img src="{% static 'images/dummy-image-square.jpg' %}" class="navi_profile_img">
+            {% endif %}
+            </div>
           </div>
+          {% if user.profile.nickname %}
+            {{ request.user.profile.nickname }}<
+          {% else %}
+          아직 닉네임 설정 안했어요!!!!
+          {% endif %}
+        </a>
+        </div>
           <div class="navbar-nav fw-bold">
             <a class="nav-link" aria-current="page" href="{% url 'accounts:logout' %}">
               로그아웃</a>
@@ -98,7 +133,6 @@
             <a class="nav-link nav-style" aria-current="page" href="{% url 'accounts:login' %}">로그인</a>
           </div>
           {% endif %}
-        </div>
       </div>
     </div>
   </nav>

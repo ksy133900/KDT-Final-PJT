@@ -7,7 +7,7 @@ from django.conf import settings
 # Create your models here.
 class User(AbstractUser):
     # username = models.CharField(max_length=16, unique=True)
-    nickname = models.CharField(max_length=20, unique=True, null=True)
+
     age = models.CharField(max_length=20, null=True)  # 나이
     genre_choice = [
         ("장르", "장르"),
@@ -43,6 +43,7 @@ class User(AbstractUser):
 
 
 class Profile(models.Model):
+    nickname = models.CharField(max_length=20, unique=True, null=True)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     # genre = models.OneToOneField(User, related_name="genre", on_delete=models.CASCADE)
     intro = models.TextField(blank=True)  # 소개글

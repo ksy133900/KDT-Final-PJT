@@ -38,12 +38,12 @@ def create(request):
         review_form = ReviewForm(request.POST, request.FILES)
         photo_form = PhotoForm(request.POST, request.FILES)
         images = request.FILES.getlist("image")
-        # tags = request.POST.get("tags", "").split(",")
+        tags = request.POST.get("tags", "").split(",")
 
-        # if request.POST.get("tags", "") != "":
-        #     tags = request.POST.get("tags", "").split(",")
-        # else:
-        #     tags = None
+        if request.POST.get("tags", "") != "":
+            tags = request.POST.get("tags", "").split(",")
+        else:
+            tags = None
 
         if review_form.is_valid() and photo_form.is_valid():
             review = review_form.save(commit=False)
@@ -56,11 +56,11 @@ def create(request):
                     image_instance.save()
 
             review.save()
-            # if tags:
-            #     for tag in tags:
-            #         tag = tag.strip()
-            #         article.tags.add(tag)
-            #         article.save()
+            if tags:
+                for tag in tags:
+                    tag = tag.strip()
+                    review.tags.add(tag)
+                    review.save()
 
             return redirect("review:index")
     else:
