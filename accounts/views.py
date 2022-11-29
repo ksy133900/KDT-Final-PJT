@@ -51,8 +51,8 @@ def logout(request):
     auth_logout(request)
     return redirect("review:index")
 
-def profile(request):
-    return render(request,"accounts/profile.html")
+def open_profile(request):
+    return render(request,"accounts/open_profile.html")
 
 def update(request):
     return render(request,"accounts/update.html")    
