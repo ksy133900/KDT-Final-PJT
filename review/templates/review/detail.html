@@ -14,14 +14,14 @@
     <div class="img_box">
       <img src="{% static 'images/book.gif' %}" alt="">
     </div>
-    <!--책 정보-->
+    <!--책 정보 시작-->
     <div>
-      <table class="table">
-    <!--테이블 비율-->
-    <colgroup>
-      <col width="width:50px" /><!--No.-->
-      <col width="width:200px" /><!--도서명-->
-    </colgroup>
+      <table class="table" style="width: 600px;">
+        <!--테이블 비율-->
+        <colgroup>
+          <col width="20%" /><!--No.-->
+          <col width="80%" /><!--도서명-->
+        </colgroup>
         <tbody>
           <tr>
             <th scope="row">제목</th>
@@ -46,12 +46,18 @@
         </tbody>
       </table>
     </div>
+    <!--책 정보 종료-->
   </div>
   <!--상단부 종료-->
 
-  <!--하단 리뷰카드 시작-->
+  <!--하단 리뷰카드,리뷰작성버튼 시작-->
   <div>
-
+    <!--리뷰작성 버튼-->
+    <div class="d-grid justify-content-center mt-3">
+      <a href="{% url 'review:create' %}" class="btn btn_1">리뷰작성</a>
+    </div>
+    <!--리뷰카드 시작-->
+    
   </div>
 </section>
 
