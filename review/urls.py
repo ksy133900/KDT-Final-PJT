@@ -9,4 +9,5 @@ urlpatterns = [
     path("genre/", views.genre, name="genre"),
     path("create/", views.create, name="create"),
     path("detail/", views.detail, name="detail"),
+    path("matching/", views.matching, name="matching"),
 ]

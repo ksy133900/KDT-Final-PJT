@@ -22,6 +22,11 @@ def index(request):
     return render(request, "review/index.html", context)
 
 
+def matching(request):
+
+    return render(request, "review/matching.html")
+
+
 def genre(request):
     test = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     context = {"test": test}
