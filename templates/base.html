@@ -28,9 +28,9 @@
   <!-- nav font-->
   <title> 독토 </title>
   <script defer src="{% static 'js/indexjs.js'%}"></script>
+  {% block css %}
+  {% endblock css %}
 
-  <style>
-  </style>
 </head>
 
 <body>
@@ -53,8 +53,8 @@
               장르
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{% url 'review:genre' %}">임시</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="{% url 'review:genre' %}">장르별목록(임시)</a></li>
+              <li><a class="dropdown-item" href="{% url 'review:detail' %}">도서디테일(임시)</a></li>
               <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
           <li class="nav-item">

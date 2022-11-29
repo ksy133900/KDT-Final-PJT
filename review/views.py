@@ -68,6 +68,6 @@ def create(request):
     return render(request, "review/create.html", context)
 
 
-# def detail(request):
+def detail(request):
 
-#     return render(request, "review/detail.html")
+    return render(request, "review/detail.html")

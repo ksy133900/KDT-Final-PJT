@@ -1,0 +1,46 @@
+/* pro_index css 시작 */
+
+.top_banner {
+  width: 100%;
+  background-color: rgb(245, 245, 245);
+  align-items: center;
+  justify-content: space-around;
+}
+
+.top_banner .img_box {
+  width: 600px;
+  opacity: 0.7;
+
+}
+
+.top_banner h1 {
+  letter-spacing: 3px;
+}
+
+.top_banner .img_box img {
+  max-width: 100%;
+}
+
+.btn_1 {
+  width: 250px;
+  height: 40px;
+  background-color: coral;
+  box-shadow: 3px 3px 3px rgb(121, 121, 121);
+
+}
+
+.btn_1:hover {
+  background-color: rgb(255, 162, 129);
+
+}
+
+.btn_2 {
+  background-color: rgb(243, 243, 243);
+  box-shadow: 3px 3px 3px rgb(121, 121, 121);
+}
+
+.mid_banner {
+  width: 100%;
+}
+
+/* pro_index css 종료 */

@@ -8,5 +8,5 @@ urlpatterns = [
     path("index/", views.index, name="index"),
     path("genre/", views.genre, name="genre"),
     path("create/", views.create, name="create"),
-    # path("detail/", views.detail, name="detail"),
+    path("detail/", views.detail, name="detail"),
 ]
