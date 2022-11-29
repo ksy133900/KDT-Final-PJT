@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import *
 from .forms import *
+from accounts.models import Profile
 
 # Create your views here.
 
@@ -8,16 +9,24 @@ from .forms import *
 def pro_index(request):
     return render(request, "review/pro_index.html")
 
+
 def index(request):
-    # review = Review.objects.order_by("-pk")
-    return render(request, "review/index.html")
-    
-def genre(request):
-    test = [0,1,2,3,4,5,6,7,8,9]
+    reviews = Review.objects.order_by("-pk")
+
+    profile = Profile.objects.order_by("-pk")
     context = {
-        "test": test
+        "reviews": reviews,
+        "profile": profile,
     }
+
+    return render(request, "review/index.html", context)
+
+
+def genre(request):
+    test = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    context = {"test": test}
     return render(request, "review/genre.html", context)
+
 
 def create(request):
     if request.method == "POST":
