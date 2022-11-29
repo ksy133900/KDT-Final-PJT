@@ -10,7 +10,6 @@ class CustomUserCreationForm(UserCreationForm):
         model = get_user_model()
         fields = [
             "username",
-            "nickname",
             "age",
             "genre",
             "day",
@@ -19,7 +18,6 @@ class CustomUserCreationForm(UserCreationForm):
             "password2",
         ]
         labels = {
-            "nickname": "닉네임",
             "age": "나이",
             "genre": "선호하는 장르",
             "day": "선호하는 요일",
@@ -30,7 +28,6 @@ class CustomUserCreationForm(UserCreationForm):
     # no such column: accounts_user.nickname
     def signup(self, request, user):
         # form에 기입된 데이터를 가져오기 위해 cleaned_data 사용
-        user.nickname = self.cleaned_data["nickname"]
         user.age = self.cleaned_data["age"]
         user.genre = self.cleaned_data["genre"]
         user.day = self.cleaned_data["day"]
@@ -42,20 +39,9 @@ class CustomUserCreationForm(UserCreationForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile()
-        fields = [
-            "intro",
-            "image",
-        ]
+        fields = ["intro", "image", "nickname"]
         labels = {
             "image": "프로필 사진",
             "intro": "소개글",
-        }
-
-
-class CustomUserChangeForm(UserChangeForm):
-    class Meta:
-        model = get_user_model()
-        fields = ["nickname"]
-        labels = {
             "nickname": "닉네임",
         }
