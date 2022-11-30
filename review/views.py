@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import *
 from .forms import *
 from accounts.models import Profile
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -33,6 +34,7 @@ def genre(request):
     return render(request, "review/genre.html", context)
 
 
+@login_required
 def create(request):
     if request.method == "POST":
         review_form = ReviewForm(request.POST, request.FILES)

@@ -8,6 +8,7 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse
+from review.models import Review
 
 # Create your views here.
 def signup(request):
@@ -55,20 +56,45 @@ def logout(request):
     auth_logout(request)
     return redirect("review:index")
 
-def profile(request):
-    return render(request,"accounts/profile.html")
-
-def open_profile(request):
-    return render(request,"accounts/open_profile.html")
-
-def update(request):
-    return render(request,"accounts/update.html")    
-
-def profile(request, pk):
+def open_profile(request,pk):
     user = get_object_or_404(get_user_model(), pk=pk)
 
+def open_profile(request, pk):
+    profile = Profile.objects.order_by("-pk")
+    review = Review.objects.order_by("-pk")
+    user = get_object_or_404(get_user_model(), pk=pk)
+    reviews = user.review_set.all()
+    reviews_count = len(reviews)
+
     context = {
+        "profile": profile,
+        "review": review,
         "user": user,
+        "reviews": reviews,
+        "reviews_count": reviews_count,
+    }
+    return render(request, "accounts/open_profile.html", context)
+
+
+def update(request):
+    return render(request, "accounts/update.html")
+
+
+    return render(request, "accounts/open_profile.html", context)
+
+def profile(request, pk):
+    profile = Profile.objects.order_by("-pk")
+    review = Review.objects.order_by("-pk")
+    user = get_object_or_404(get_user_model(), pk=pk)
+    reviews = user.review_set.all()
+    reviews_count = len(reviews)
+
+    context = {
+        "profile": profile,
+        "review": review,
+        "user": user,
+        "reviews": reviews,
+        "reviews_count": reviews_count,
     }
 
     return render(request, "accounts/profile.html", context)
