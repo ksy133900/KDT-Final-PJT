@@ -56,6 +56,8 @@ def logout(request):
     auth_logout(request)
     return redirect("review:index")
 
+def open_profile(request,pk):
+    user = get_object_or_404(get_user_model(), pk=pk)
 
 def open_profile(request, pk):
     profile = Profile.objects.order_by("-pk")
@@ -77,6 +79,8 @@ def open_profile(request, pk):
 def update(request):
     return render(request, "accounts/update.html")
 
+
+    return render(request, "accounts/open_profile.html", context)
 
 def profile(request, pk):
     profile = Profile.objects.order_by("-pk")

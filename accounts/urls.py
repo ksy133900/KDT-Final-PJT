@@ -11,7 +11,7 @@ urlpatterns = [
     path("<int:pk>/", views.profile, name="profile"),
     path(
         "<int:pk>/open_profile", views.open_profile, name="open_profile"
-    ),  # 이후에 <int:pk>넣어 주세요~
+    ),  
     path("<int:pk>/follow/", views.follow, name="follow"),
     path("<int:pk>/update/", views.update, name="update"),
     path("delete/", views.delete, name="delete"),  # 회원탈퇴
