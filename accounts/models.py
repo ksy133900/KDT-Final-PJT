@@ -8,6 +8,24 @@ from django.conf import settings
 class User(AbstractUser):
     # username = models.CharField(max_length=16, unique=True)
 
+    matching = models.BooleanField(default=True)  # 모집 여부
+    followings = models.ManyToManyField(
+        "self", symmetrical=False, related_name="followers"
+    )
+
+
+class Profile(models.Model):
+    nickname = models.CharField(max_length=20, unique=True, null=True)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    # genre = models.OneToOneField(User, related_name="genre", on_delete=models.CASCADE)
+    intro = models.TextField(blank=True)  # 소개글
+    image = ProcessedImageField(
+        blank=True,
+        upload_to="profile/",
+        processors=[ResizeToFill(300, 300)],
+        format="JPEG",
+        options={"quality": 90},
+    )
     age = models.CharField(max_length=20, null=True)  # 나이
     genre_choice = [
         ("장르", "장르"),
@@ -36,24 +54,6 @@ class User(AbstractUser):
         ("저녁", "저녁 : 18:00 ~ 23:59 사이"),
     ]
     time = models.CharField(max_length=20, choices=times, default="시간")  # 선호 시간
-    matching = models.BooleanField(default=True)  # 모집 여부
-    followings = models.ManyToManyField(
-        "self", symmetrical=False, related_name="followers"
-    )
-
-
-class Profile(models.Model):
-    nickname = models.CharField(max_length=20, unique=True, null=True)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    # genre = models.OneToOneField(User, related_name="genre", on_delete=models.CASCADE)
-    intro = models.TextField(blank=True)  # 소개글
-    image = ProcessedImageField(
-        blank=True,
-        upload_to="profile/",
-        processors=[ResizeToFill(300, 300)],
-        format="JPEG",
-        options={"quality": 90},
-    )
 
     def __str__(self):
         return self.user.email
