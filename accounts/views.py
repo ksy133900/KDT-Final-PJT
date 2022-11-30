@@ -66,9 +66,13 @@ def open_profile(request,pk):
 
 def profile(request, pk):
     user = get_object_or_404(get_user_model(), pk=pk)
+    reviews = user.review_set.all()
+    reviews_count = len(reviews)
 
     context = {
         "user": user,
+        "reviews": reviews,
+        "reviews_count": reviews_count,
     }
 
     return render(request, "accounts/profile.html", context)
