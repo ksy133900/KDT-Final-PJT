@@ -108,9 +108,9 @@
             </div>
           </div>
           {% if user.profile.nickname %}
-            {{ request.user.profile.nickname }}<
+            {{ request.user.profile.nickname }}
           {% else %}
-          아직 닉네임 설정 안했어요!!!!
+          {{request.user.username}}
           {% endif %}
         </a>
         </div>
