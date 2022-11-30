@@ -27,7 +27,7 @@
 
 .search-txt {
   vertical-align: text-top;
-  height: 27px;
+  height: 29px;
   padding-inline-start: 10px;
   background: none;
   border: none;
@@ -66,6 +66,7 @@
 
 ul {
   list-style-type: none;
+  list-style: none;
 }
 
 input,
@@ -93,7 +94,7 @@ button {
 /* 검색창 끝 */
 /* nav바 */
 .nav-style {
-  width: 75px;
+
   background-color: rgb(255, 121, 40);
   border-radius: 19px;
   border: 1px solid rgb(255, 121, 40);
