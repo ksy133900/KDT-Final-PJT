@@ -39,6 +39,7 @@
 
       <p class="text-primary mb-1">팔로잉 <span id="followings-count">{{ user.followings.count }}</span>  팔로워 <span id="followers-count">{{ user.followers.count }}</span></p>
       {% if request.user == user %}
+      <p> 가입일 : {{ user.date_joined | date:'Y년 m월 d일'}} </p>
       <a onclick="return confirm('정말 탈퇴하시겠습니까?');" href="{% url 'accounts:delete' %}" class="list-group-item list-group-item-action">회원탈퇴</a>
       {% endif %}
        <!--여기까지 회원 정보 수정 & 팔로우 버튼 및 팔로잉, 팔로워 수  -->
