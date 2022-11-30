@@ -12,11 +12,9 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
   {% bootstrap_css %}
-  <link rel="stylesheet" href="{% static 'css/style.css' %}?{% now 'U' %}">
   {% block css %}{% endblock css %}
   <!-- Bootstrap icon -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
   <link rel="stylesheet" href="{% static 'css/main.css' %}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,21 +26,21 @@
   <!-- nav font-->
   <title> 독토 </title>
   <script defer src="{% static 'js/indexjs.js'%}"></script>
-<style>
-
-  .navi_profile_box {
+  <style>
+    .navi_profile_box {
       width: 50px;
       height: 50px;
       border-radius: 70%;
       overflow: hidden;
       cursor: pointer;
-  }
-  .navi_profile_img {
+    }
+
+    .navi_profile_img {
       width: 100%;
       height: 100%;
       object-fit: fill;
-  }
-</style>
+    }
+  </style>
 </head>
 
 <body>
@@ -70,7 +68,7 @@
               <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
           <li class="nav-item">
-            <a class="nav-link" href="#">매칭서비스</a>
+            <a class="nav-link" href="{% url 'review:matching' %}">매칭서비스</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">전체 후기</a>
@@ -79,15 +77,16 @@
         </ul>
         <!--search_box-->
         <div class="search-box">
-          <form action="" method="post">
+          <form action="" method="get">
             {% csrf_token %}
-            <input class="search-txt" type="search" placeholder="도서 검색" size="15" name="q" value="{{q}}"
+            <input class="search-txt" id="search" type="search" placeholder="도서 검색" size="15" name="q" value="{{q}}"
               style="vertical-align: top;">
-            <button class="search-btn" type="submit" maxlength="50" style="height: 27px;width:32px;">
-              <img src="{% static 'images/book2.jpg' %}" alt="" class="jb-b" style="width:120%; margin-right:5px;">
+            <button class="search-btn" id="searchBtn" type="submit" maxlength="50" style="height: 27px;width:32px;">
+              <img src="{% static 'images/book2.jpg' %}" alt="" class="jb-b" style="width:190%; margin-right:5px;">
               <img src="{% static 'images/book.gif' %}" alt="" class="jb-c"
                 style="width: 10%; margin-top: 2px; margin-right: 5px;">
             </button>
+            <section class="container" style="list-style: none;"></section>
           </form>
         </div>
         <!--search_box-->
@@ -98,21 +97,17 @@
 
         <div class="navbar-nav fw-bold">
           <div style="display: flex;">
-          <a class="nav-link" aria-current="page" href="{% url 'accounts:profile' request.user.pk %}">
-            <div class="navi_profile_box">
-              {% if request.user.profile.image %}
-              <img src="{{ request.user.profile.image.url }}" class="navi_profile_img">
-            {% else %}
-              <img src="{% static 'images/dummy-image-square.jpg' %}" class="navi_profile_img">
-            {% endif %}
-            </div>
+            <a class="nav-link" aria-current="page" href="{% url 'accounts:profile' request.user.pk %}">
+              <div class="navi_profile_box">
+                {% if request.user.profile.image %}
+                <img src="{{ request.user.profile.image.url }}" class="navi_profile_img">
+                {% else %}
+                <img src="{% static 'images/dummy-image-square.jpg' %}" class="navi_profile_img">
+                {% endif %}
+              </div>
           </div>
           {% if user.profile.nickname %}
-            {{ request.user.profile.nickname }}<
-          {% else %}
-          아직 닉네임 설정 안했어요!!!!
-          {% endif %}
-        </a>
+          {{ request.user.profile.nickname }}< {% else %} 아직 닉네임 설정 안했어요!!!! {% endif %} </a>
         </div>
         <div class="navbar-nav fw-bold" style="padding-left: 10px;">
           <a class="nav-link" aria-current="page" href="{% url 'accounts:logout' %}">
@@ -131,10 +126,10 @@
   </nav>
   <!--내비바 끝-->
   <header></header>
-  {% block content%}
- 
-  {% endblock content %}
 
+  {% block content%}
+  {% endblock content %}
+  <script src="/static/js/script.js"></script>
   <!--검색창 클릭 효과 시작-->
   <script>
     var div2 = document.getElementsByClassName("search-txt");
@@ -177,10 +172,16 @@
   <!-- Bootstrap JS -->
 
   <!-- JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+    crossorigin="anonymous"></script>
   <!-- JQuery -->
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
   <!-- Axios -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <!-- Moment.js -->
