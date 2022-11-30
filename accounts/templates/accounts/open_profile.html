@@ -6,14 +6,14 @@
 {% block content %}
 
 <section class="container mt-5 mb-5 p-3 bg-dark bg-opacity-25 rounded-2">
-  <h1 class="text-center">ㅇㅇㅇ 님의 프로필</h1>
+  <h1 class="text-center">{{ user.profile.nickname }}님의 프로필</h1>
   <!--프로필-->
   <div>
     <div class="border border-1 border-dark rounded-5 mt-3 mb-3 d-flex flex-column align-items-center bg-white">
       <div class="img_box mt-3 mb-3">
-        <img src="{% static 'images/cookie.png' %}" alt="">
+        <img src="{{ user.profile.image.url }}" alt="">
       </div>
-      <h4>닉네임</h4>
+      <h4>{{ user.profile.nickname }}</h4>
       <p>독토 매칭 찾고 있습니다</p><!--매칭 휴식중이면 "독토 매칭 휴식중 입니다"로 변경 되도록 하려합니다-->
     </div>
   </div>
@@ -37,20 +37,24 @@
   </div>
   <!--활동지역-->
   <div class="border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
+    <h4>활동 지역</h4>
     <p>경기 북부</p>
   </div>
   <!--선호시간-->
   <div class="border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
+    <h4>선호시간</h4>
     <p>체크박스형식으로 받아서 보이도록 하려합니다.</p>
     <a href="https://maximum-curry30.tistory.com/260">참고1</a>
     <a href="https://jungwonjang.tistory.com/35">참고2</a>
   </div>
   <!--선호장르-->
   <div class="border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
+    <h4>선호 장르</h4>
     <p>스릴러</p>
   </div>
   <!--하고 싶은 말-->
   <div class="border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
+    <h4>하고 싶은 말</h4>
     <p>좋은 사람있으면 오세요~</p>
   </div>
 </section>

@@ -1,12 +1,32 @@
 /* profile css시작 */
 
-.img_box {
-  width: 150px;
-  height: 150px;
+.top_banner {
+  width: 100%;
+  background-color: rgb(252, 224, 241);
+  align-items: center;
+  justify-content: space-around;
 }
 
-.img_box img {
-  width: 100%;
+h1 {
+  font-size: 30px;
+}
+
+img {
+  border-radius: 70%;
+  max-width: 200px;
+}
+
+.btn_1 {
+  width: 250px;
+  height: 40px;
+  background-color: coral;
+  box-shadow: 3px 3px 3px rgb(121, 121, 121);
+
+}
+
+.btn_1:hover {
+  background-color: rgb(255, 162, 129);
+
 }
 
 /* profile css시작 */
