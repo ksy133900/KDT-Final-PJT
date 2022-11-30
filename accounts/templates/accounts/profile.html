@@ -65,15 +65,15 @@
              </form>
             {% endif %}
       </div>
-<!-- 팔로잉 및 팔로워 유저 프로필 이미지와 닉네임 표기 (collapse) 시작 -->
-<!-- 팔로잉 및 팔로워 collapse 버튼 -->
+        <!-- 팔로잉 및 팔로워 유저 프로필 이미지와 닉네임 표기 (collapse) 시작 -->
+        <!-- 팔로잉 및 팔로워 collapse 버튼 -->
       <p class="text-primary mb-1">
         <a class="btn btn-primary" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
         팔로잉 <span id="followings-count">{{ user.followings.count }}</span></a>
         <a class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2"></button>
         팔로워 <span id="followers-count">{{ user.followers.count }}</span></button></a>
-<!-- 여기까지 팔로잉 및 팔로워 collapse 버튼 -->
-<!-- 현재 사용자가 팔로잉 한 유저의 프로필 이미지와 닉네임 출력 -->
+  <!-- 여기까지 팔로잉 및 팔로워 collapse 버튼 -->
+  <!-- 현재 사용자가 팔로잉 한 유저의 프로필 이미지와 닉네임 출력 -->
         <div class="collapse multi-collapse" id="multiCollapseExample1">
           <div class="card card-body">
             {% if user.followings.all %}
@@ -154,17 +154,7 @@
               </div>
             </div>
             </div>
-        </div>
-      
-             <!--여기까지 회원 정보 수정 & 팔로우 버튼 및 팔로잉, 팔로워 수  -->
-
-      </div>
-    </div>
-  </div>
-    
-
-</div>
-<hr>
+            <hr>
   <div class="d-flex justify-content-between mb-4">
         
     <div class="mb-3" style="display: flex; flex-direction: row; margin-right: 100px">
@@ -180,6 +170,7 @@
       <div style="margin-right: 30px;"><a id="link_bookmark_articles" data-bs-toggle="collapse" href="#bookmark_articles" role="button" aria-expanded="false" aria-controls="collapseExample">북마크
           <span class="ms-1">{{bookmark_reviews_count}}</span></a></div></div>
         </div>
+    
       {% endif %}
       </div>
       <div class="collapse" id="user_articles">
@@ -227,19 +218,23 @@
         </div>
 
   </div>
-  
+</div>
   {% if request.user == user %}
   <div style="text-align: center;">
   <button class=""><a onclick="return confirm('정말 탈퇴하시겠습니까?');" href="{% url 'accounts:delete' %}" class="list-group-item list-group-item-action text-center ">회원탈퇴</a></button>
   </div>
   {% endif %}
-  
-   
+</div>
+  </div>
+      
+             <!--여기까지 회원 정보 수정 & 팔로우 버튼 및 팔로잉, 팔로워 수  -->
+
+
     
-        </div>
-   <!--작성 글, 좋아요 모아보기 -->
-    </div>
-    <!-- 작성한 글 -->
+
+ 
+
+  
 
   <!--여기까지 작성 글, 좋아요 모아보기(구현예정) -->
 {% endblock content %}
