@@ -28,11 +28,6 @@
   <!-- nav font-->
   <title> 독토 </title>
   <script defer src="{% static 'js/indexjs.js'%}"></script>
-<<<<<<< review_
-=======
-
->>>>>>> master
-
 <style>
 
   .navi_profile_box {
@@ -60,7 +55,7 @@
         aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav" style="font-family: 'Black And White Picture', sans-serif; font-size: x-large;">
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{% url 'review:index' %}">독토</a>
@@ -75,7 +70,7 @@
               <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'review:matching' %}">매칭서비스</a>
+            <a class="nav-link" href="#">매칭서비스</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">전체 후기</a>
@@ -86,9 +81,9 @@
         <div class="search-box">
           <form action="" method="post">
             {% csrf_token %}
-            <input class="search-txt" id="search" type="search" placeholder="도서 검색" size="15" name="q" value="{{q}}"
+            <input class="search-txt" type="search" placeholder="도서 검색" size="15" name="q" value="{{q}}"
               style="vertical-align: top;">
-            <button class="search-btn" id="searchBtn" type="submit" maxlength="50" style="height: 27px;width:32px;">
+            <button class="search-btn" type="submit" maxlength="50" style="height: 27px;width:32px;">
               <img src="{% static 'images/book2.jpg' %}" alt="" class="jb-b" style="width:120%; margin-right:5px;">
               <img src="{% static 'images/book.gif' %}" alt="" class="jb-c"
                 style="width: 10%; margin-top: 2px; margin-right: 5px;">
@@ -96,10 +91,8 @@
           </form>
         </div>
         <!--search_box-->
-
       </div>
 
-        <!--회원가입,로그인 버튼-->
       <div class="navbar-nav" style="font-family: 'Single Day', cursive;">
         {% if request.user.is_authenticated %}
 
@@ -121,25 +114,25 @@
           {% endif %}
         </a>
         </div>
-          <div class="navbar-nav fw-bold">
-            <a class="nav-link" aria-current="page" href="{% url 'accounts:logout' %}">
-              로그아웃</a>
-          </div>
-          {% else %}
-          <div class="navbar-nav fw-bold">
-            <a class="nav-link nav-style" aria-current="page" href="{% url 'accounts:signup' %}">회원 가입</a>
-          </div>
-          <div class="navbar-nav fw-bold">
-            <a class="nav-link nav-style" aria-current="page" href="{% url 'accounts:login' %}">로그인</a>
-          </div>
-          {% endif %}
+        <div class="navbar-nav fw-bold" style="padding-left: 10px;">
+          <a class="nav-link" aria-current="page" href="{% url 'accounts:logout' %}">
+            로그아웃</a>
+        </div>
+        {% else %}
+        <div class="navbar-nav fw-bold">
+          <a class="nav-link nav-style" aria-current="page" href="{% url 'accounts:signup' %}">회원 가입</a>
+        </div>
+        <div class="navbar-nav fw-bold" style="padding-left: 10px;">
+          <a class="nav-link nav-style" aria-current="page" href="{% url 'accounts:login' %}">로그인</a>
+        </div>
+        {% endif %}
       </div>
     </div>
   </nav>
   <!--내비바 끝-->
   <header></header>
   {% block content%}
-
+ 
   {% endblock content %}
 
   <!--검색창 클릭 효과 시작-->
@@ -184,16 +177,10 @@
   <!-- Bootstrap JS -->
 
   <!-- JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
   <!-- JQuery -->
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <!-- Axios -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <!-- Moment.js -->
