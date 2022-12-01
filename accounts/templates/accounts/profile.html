@@ -71,7 +71,7 @@
         <a class="btn btn-primary" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
         팔로잉 <span id="followings-count">{{ user.followings.count }}</span></a>
         <a class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2"></button>
-        팔로워 <span id="followers-count">{{ user.followers.count }}</span></button></a>
+        팔로워 <span id="followers-count">{{ user.followers.count }}</span></button></a></p>
   <!-- 여기까지 팔로잉 및 팔로워 collapse 버튼 -->
   <!-- 현재 사용자가 팔로잉 한 유저의 프로필 이미지와 닉네임 출력 -->
         <div class="collapse multi-collapse" id="multiCollapseExample1">
@@ -108,12 +108,12 @@
                 {% endfor %}
                 
               {% else %}
-                <div class="text-center">텅텅...
+                <div class="text-center">다른 사람을 팔로우 하지 않았어요!
                 {% endif %}
               </div>
          
          
-       </div>
+       
         </div>
         </div>
  <!-- 팔로워 유저 프로필 이미지와 닉네임 표기 (collapse) -->      
@@ -149,11 +149,13 @@
                   </a>
                   {% endfor %}
                 {% else %}
-                  <div class="text-center">텅텅..</div>
+                  <div class="text-center">팔로우 눌러준 유저가 없어요!</div>
                 {% endif %}
+              </div>
               </div>
             </div>
             </div>
+        
             <hr>
   <div class="d-flex justify-content-between mb-4">
         
@@ -282,4 +284,6 @@
       })
     }
   </script>
+  <!-- 팔로우, 팔로잉 유저 표시 자바스크립트 -->
+  <script type="text/javascript" src="{% static 'js/followers,folloings collapse.js' %}"></script>
 {% endblock script %}
