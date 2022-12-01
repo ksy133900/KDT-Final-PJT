@@ -1,7 +1,7 @@
 {% load django_bootstrap5 %}
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
   <meta charset="UTF-8">
@@ -100,7 +100,9 @@
               <div class="navi_profile_box">
                 {% if request.user.profile.image %}
                 <img src="{{ request.user.profile.image.url }}" class="navi_profile_img">
-                {% endif %}
+                {% else %}
+                <img src="{% static 'images/no-profile.jpg' %}" class="navi_profile_img">
+              {% endif %}
               </div>
               {% if request.user.profile.nickname != null %}
               {{ request.user.profile.nickname }}
@@ -132,35 +134,7 @@
   {% endblock content %}
   <script src="/static/js/script.js"></script>
   <!--검색창 클릭 효과 시작-->
-  <script>
-    var div2 = document.getElementsByClassName("search-txt");
 
-    function handleClick(event) {
-      console.log(event.target);
-      // console.log(this);
-      // 콘솔창을 보면 둘다 동일한 값이 나온다
-
-      console.log(event.target.classList);
-
-      if (event.target.classList[1] === "clicked") {
-        event.target.classList.remove("clicked");
-      } else {
-        for (var i = 0; i < div2.length; i++) {
-          div2[i].classList.remove("clicked");
-        }
-
-        event.target.classList.add("clicked");
-      }
-    }
-
-    function init() {
-      for (var i = 0; i < div2.length; i++) {
-        div2[i].addEventListener("click", handleClick);
-      }
-    }
-
-    init();
-  </script>
   <!--검색창 클릭 효과 끝-->
 
 

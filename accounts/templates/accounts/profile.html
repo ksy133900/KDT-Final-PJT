@@ -55,8 +55,8 @@
               <input type="submit" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #4b3a88; color: white;" value="프로필 수정">
             </a>
             {% elif request.user.is_authenticated %}
-            <form id="follow-form" data-user-id="{{ user.pk }}">
             {% csrf_token %}
+            <form id="follow-form" data-user-id="{{ user.pk }}">
             {% if request.user in user.followers.all %}
               <input id="follow-btn" type="submit" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #262564; color: white;" value="언팔로우">
             {% else %}
@@ -64,15 +64,28 @@
             {% endif %}
              </form>
             {% endif %}
+            
       </div>
+      <!-- 가입날짜 표시 시간까지 세세하게 표현하고 싶다면  h:i:s 추가-->
+      <p> 가입일 : {{ user.date_joined | date:'Y년-m월-d일 h:i:s' }} </p>
+
         <!-- 팔로잉 및 팔로워 유저 프로필 이미지와 닉네임 표기 (collapse) 시작 -->
         <!-- 팔로잉 및 팔로워 collapse 버튼 -->
       <p class="text-primary mb-1">
+        
         <a class="btn btn-primary" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
         팔로잉 <span id="followings-count">{{ user.followings.count }}</span></a>
         <a class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2"></button>
-        팔로워 <span id="followers-count">{{ user.followers.count }}</span></button></a>
+        팔로워 <span id="followers-count">{{ user.followers.count }}</span></button></a></p>
   <!-- 여기까지 팔로잉 및 팔로워 collapse 버튼 -->
+
+  <!-- 프로필 소개글 출력 -->
+    {% if user.profile.intro != blank %}
+    <div> 소개글 : {{ user.profile.intro | linebreaksbr }} </div>
+    {% else %}
+    <div> 아직 소개글을 작성하지 않았습니다. </div>
+    {% endif %}
+
   <!-- 현재 사용자가 팔로잉 한 유저의 프로필 이미지와 닉네임 출력 -->
         <div class="collapse multi-collapse" id="multiCollapseExample1">
           <div class="card card-body">
@@ -108,12 +121,12 @@
                 {% endfor %}
                 
               {% else %}
-                <div class="text-center">텅텅...
+                <div class="text-center">다른 사람을 팔로우 하지 않았어요!
                 {% endif %}
               </div>
          
          
-       </div>
+       
         </div>
         </div>
  <!-- 팔로워 유저 프로필 이미지와 닉네임 표기 (collapse) -->      
@@ -149,11 +162,13 @@
                   </a>
                   {% endfor %}
                 {% else %}
-                  <div class="text-center">텅텅..</div>
+                  <div class="text-center">팔로우 눌러준 유저가 없어요!</div>
                 {% endif %}
+              </div>
               </div>
             </div>
             </div>
+        
             <hr>
   <div class="d-flex justify-content-between mb-4">
         
@@ -282,4 +297,6 @@
       })
     }
   </script>
+  <!-- 팔로우, 팔로잉 유저 표시 자바스크립트 -->
+  <script type="text/javascript" src="{% static 'js/followers,folloings collapse.js' %}"></script>
 {% endblock script %}

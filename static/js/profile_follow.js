@@ -13,7 +13,6 @@ if (form) {
       }
     })
     .then((response) => {
-      console.log('우헤헿')
       const followersCount = response.data.followers_count
       const followingsCount = response.data.followings_count
       const isFollowed = response.data.is_followed

@@ -27,7 +27,7 @@
 
 .search-txt {
   vertical-align: text-top;
-  height: 29px;
+  height: 27px;
   padding-inline-start: 10px;
   background: none;
   border: none;
@@ -35,6 +35,7 @@
   color: #000000;
   font-size: 20px;
   margin-inline-end: 6px;
+  margin-bottom: 2px;
 }
 
 .jb-c {
@@ -66,7 +67,6 @@
 
 ul {
   list-style-type: none;
-  list-style: none;
 }
 
 input,
@@ -74,27 +74,95 @@ button {
   padding: 5px 10px;
 }
 
+/*매칭 */
+
 #list {
-  border: 1px solid #ccc;
   padding: 20px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
 }
 
 #list>li {
   margin-bottom: 20px;
-  flex-basis: 10%;
+  margin-left: 10px;
+  margin-right: 10px;
+  border: 1px solid black;
 }
 
-#list>li>img {
-  width: 80%;
+
+#list>li>card {
+  display: flex;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  padding-right: 10px;
 }
+
+
+
+#list>li>card>img {
+  width: 100%;
+}
+
+P {
+  display: flex;
+  justify-content: center;
+  padding-left: 10px;
+  margin-bottom: 0px;
+}
+
+@keyframes ring {
+  0% {
+    width: 30px;
+    height: 30px;
+    opacity: 1;
+  }
+
+  100% {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+  }
+}
+
+.w-btn-neon2 {
+  position: relative;
+  border: none;
+  min-width: 200px;
+  min-height: 50px;
+  background: linear-gradient(90deg,
+      rgb(153, 245, 232) 0%,
+      rgba(153, 245, 232, 1) 100%);
+  border-radius: 10px;
+  color: darkslategray;
+  cursor: pointer;
+  box-shadow: 1px 1px 10px rgb(79 209 197 / 64%);
+  font-weight: 700;
+  transition: 0.3s;
+}
+
+.w-btn-neon2:hover {
+  transform: scale(1.2);
+}
+
+.w-btn-neon2:hover::after {
+  content: "";
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  border: 6px solid #00ffcb;
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: ring 1.5s infinite;
+}
+
 
 /* 검색창 끝 */
 /* nav바 */
 .nav-style {
-
   background-color: rgb(255, 121, 40);
   border-radius: 19px;
   border: 1px solid rgb(255, 121, 40);
@@ -102,3 +170,9 @@ button {
 }
 
 /* nav바 */
+.container>li {
+  background-color: whitesmoke;
+  box-shadow: #30950e 0px 1px 0 2px;
+  margin-left: 8px;
+  margin-right: 8px;
+}

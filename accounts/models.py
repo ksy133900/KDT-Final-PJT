@@ -12,13 +12,14 @@ class User(AbstractUser):
     followings = models.ManyToManyField(
         "self", symmetrical=False, related_name="followers"
     )
+    address = models.CharField(max_length=50, null=True)
 
 
 class Profile(models.Model):
     nickname = models.CharField(max_length=20, unique=True, null=True)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     # genre = models.OneToOneField(User, related_name="genre", on_delete=models.CASCADE)
-    intro = models.TextField(blank=True)  # 소개글
+    intro = models.TextField(null=True, blank=True)  # 소개글
     image = ProcessedImageField(
         blank=True,
         upload_to="profile/",
@@ -54,6 +55,17 @@ class Profile(models.Model):
         ("저녁", "저녁 : 18:00 ~ 23:59 사이"),
     ]
     time = models.CharField(max_length=20, choices=times, default="시간")  # 선호 시간
+    age_select = [
+        ("선택해주세요", "선택해주세요"),
+        ("20대", "20대"),
+        ("30대", "30대"),
+        ("40대", "40대"),
+        ("50대", "50대"),
+    ]
+    ages = models.CharField(
+        max_length=20, default="선택해주세요", choices=age_select
+    )  # 선호 장르
+    location = models.CharField(max_length=20, null=True)
 
     def __str__(self):
         return self.user.email
