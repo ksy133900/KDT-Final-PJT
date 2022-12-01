@@ -19,7 +19,7 @@ class Profile(models.Model):
     nickname = models.CharField(max_length=20, unique=True, null=True)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     # genre = models.OneToOneField(User, related_name="genre", on_delete=models.CASCADE)
-    intro = models.TextField(blank=True)  # 소개글
+    intro = models.TextField(null=True, blank=True)  # 소개글
     image = ProcessedImageField(
         blank=True,
         upload_to="profile/",

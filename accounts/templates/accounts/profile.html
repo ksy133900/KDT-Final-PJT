@@ -80,7 +80,11 @@
   <!-- 여기까지 팔로잉 및 팔로워 collapse 버튼 -->
 
   <!-- 프로필 소개글 출력 -->
+    {% if user.profile.intro != blank %}
     <div> 소개글 : {{ user.profile.intro | linebreaksbr }} </div>
+    {% else %}
+    <div> 아직 소개글을 작성하지 않았습니다. </div>
+    {% endif %}
 
   <!-- 현재 사용자가 팔로잉 한 유저의 프로필 이미지와 닉네임 출력 -->
         <div class="collapse multi-collapse" id="multiCollapseExample1">
