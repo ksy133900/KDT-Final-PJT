@@ -86,32 +86,34 @@
               <img src="{% static 'images/book.gif' %}" alt="" class="jb-c"
                 style="width: 10%; margin-top: 2px; margin-right: 5px;">
             </button>
-            <section class="container" style="list-style: none;"></section>
+            <section class="container" style="list-style: none;">
+
+            </section>
           </form>
         </div>
         <!--search_box-->
-        </div>
+      </div>
 
       <div class="navbar-nav" style="font-family: 'Single Day', cursive;">
         {% if request.user.is_authenticated %}
 
         <div class="navbar-nav fw-bold">
           <div style="display: flex;">
-          
-          <a class="nav-link" aria-current="page" href="{% url 'accounts:profile' request.user.pk %}">
-            <div class="navi_profile_box">
-              {% if request.user.profile.image %}
-              <img src="{{ request.user.profile.image.url }}" class="navi_profile_img">
-            {% endif %}
-            </div>
+
+            <a class="nav-link" aria-current="page" href="{% url 'accounts:profile' request.user.pk %}">
+              <div class="navi_profile_box">
+                {% if request.user.profile.image %}
+                <img src="{{ request.user.profile.image.url }}" class="navi_profile_img">
+                {% endif %}
+              </div>
           </div>
           {% if request.user.profile.nickname != null %}
-            {{ request.user.profile.nickname }}
+          {{ request.user.profile.nickname }}
           {% else %}
           {{request.user.username}}
           {% endif %}
-        </a>
-        
+          </a>
+
         </div>
         <div class="navbar-nav fw-bold" style="padding-left: 10px;">
           <a class="nav-link" aria-current="page" href="{% url 'accounts:logout' %}">
@@ -135,35 +137,7 @@
   {% endblock content %}
   <script src="/static/js/script.js"></script>
   <!--검색창 클릭 효과 시작-->
-  <script>
-    var div2 = document.getElementsByClassName("search-txt");
 
-    function handleClick(event) {
-      console.log(event.target);
-      // console.log(this);
-      // 콘솔창을 보면 둘다 동일한 값이 나온다
-
-      console.log(event.target.classList);
-
-      if (event.target.classList[1] === "clicked") {
-        event.target.classList.remove("clicked");
-      } else {
-        for (var i = 0; i < div2.length; i++) {
-          div2[i].classList.remove("clicked");
-        }
-
-        event.target.classList.add("clicked");
-      }
-    }
-
-    function init() {
-      for (var i = 0; i < div2.length; i++) {
-        div2[i].addEventListener("click", handleClick);
-      }
-    }
-
-    init();
-  </script>
   <!--검색창 클릭 효과 끝-->
 
 
