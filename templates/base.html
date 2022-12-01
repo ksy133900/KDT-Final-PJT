@@ -1,7 +1,7 @@
 {% load django_bootstrap5 %}
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
   <meta charset="UTF-8">
@@ -73,6 +73,9 @@
           <li class="nav-item">
             <a class="nav-link" href="#">전체 후기</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'review:create' %}">책 리뷰</a>
+          </li>
           </li>
         </ul>
         <!--search_box-->
@@ -100,12 +103,16 @@
         <div class="navbar-nav fw-bold">
           <div style="display: flex;">
 
-            <a class="nav-link" aria-current="page" href="{% url 'accounts:profile' request.user.pk %}">
-              <div class="navi_profile_box">
-                {% if request.user.profile.image %}
-                <img src="{{ request.user.profile.image.url }}" class="navi_profile_img">
-                {% endif %}
-              </div>
+          
+          <a class="nav-link" aria-current="page" href="{% url 'accounts:profile' request.user.pk %}">
+            <div class="navi_profile_box">
+              {% if request.user.profile.image %}
+              <img src="{{ request.user.profile.image.url }}" class="navi_profile_img">
+              {% else %}
+              <img src="{% static 'images/no-profile.jpg' %}" class="navi_profile_img">
+            {% endif %}
+            </div>
+
           </div>
           {% if request.user.profile.nickname != null %}
           {{ request.user.profile.nickname }}
