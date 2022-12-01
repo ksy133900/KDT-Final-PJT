@@ -36,4 +36,8 @@
   width: 100%;
 }
 
+.content_box {
+  max-height: 100px;
+}
+
 /* review/detail css시작 */

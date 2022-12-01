@@ -76,5 +76,9 @@ def create(request):
 
 
 def detail(request):
+    reviews = Review.objects.order_by("-pk")
 
-    return render(request, "review/detail.html")
+    context = {
+        "reviews": reviews
+    }
+    return render(request, "review/detail.html", context)
