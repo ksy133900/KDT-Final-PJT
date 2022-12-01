@@ -76,12 +76,12 @@ searchBtn.addEventListener('click', (e) => {
   console.log(val);
   showList(val);
 })
-const form = document.getElementsByClassName('container')[0];
+const form_ = document.getElementsByClassName('container')[0];
 
 searchInput.addEventListener('focusin', (event) => {
-  form.style.display = 'initial';
+  form_.style.display = 'initial';
 });
 
 searchInput.addEventListener('focusout', (event) => {
-  form.style.display = 'none';
+  form_.style.display = 'none';
 });
