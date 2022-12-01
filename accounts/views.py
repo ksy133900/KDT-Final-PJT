@@ -56,8 +56,10 @@ def logout(request):
     auth_logout(request)
     return redirect("review:index")
 
-def open_profile(request,pk):
+
+def open_profile(request, pk):
     user = get_object_or_404(get_user_model(), pk=pk)
+
 
 def open_profile(request, pk):
     profile = Profile.objects.order_by("-pk")
@@ -65,13 +67,17 @@ def open_profile(request, pk):
     user = get_object_or_404(get_user_model(), pk=pk)
     reviews = user.review_set.all()
     reviews_count = len(reviews)
-
+    address_split = user.address.split(" ")
+    address1 = address_split[0]
+    address2 = address_split[1]
     context = {
         "profile": profile,
         "review": review,
         "user": user,
         "reviews": reviews,
         "reviews_count": reviews_count,
+        "address1": address1,
+        "address2": address2,
     }
     return render(request, "accounts/open_profile.html", context)
 
@@ -79,8 +85,6 @@ def open_profile(request, pk):
 def update(request):
     return render(request, "accounts/update.html")
 
-
-    return render(request, "accounts/open_profile.html", context)
 
 def profile(request, pk):
     profile = Profile.objects.order_by("-pk")
