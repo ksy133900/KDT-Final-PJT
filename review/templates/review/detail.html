@@ -51,6 +51,7 @@
       </div>
       <!--책 정보 종료-->
     </div>
+
     <!--상단부 종료-->
 
     <!--하단 리뷰카드,리뷰작성버튼 시작-->
@@ -105,11 +106,12 @@
             <div class="d-grid d-md-flex justify-content-md-between">
         
               <a href="#">독토요청하기</a>
-              <p>리뷰 작성일</p>
+              <p> <p>작성일: {{review.created_at|date:'Y-m-d'}}</p></p>
             </div>
           </div>
         </div>
       {% endfor %}
+
     </div>
   </section>
 
