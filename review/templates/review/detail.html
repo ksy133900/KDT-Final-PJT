@@ -105,8 +105,11 @@
               </div>
             <div class="d-grid d-md-flex justify-content-md-between">
         
-              <a href="#">독토요청하기</a>
-              <p> <p>작성일: {{review.created_at|date:'Y-m-d'}}</p></p>
+              <a href="#" class="btn btn-dark">독토요청하기</a>
+              <p> </p>
+              <p>작성일: {{review.created_at|date:'Y-m-d'}}</p>
+              <a href="{% url 'review:update' review.pk %}" class="btn btn-dark"> 글 수정</a>
+              <a href="{% url 'review:delete' review.pk %}" class="btn btn-dark"> 글 삭제</a>
             </div>
           </div>
         </div>
