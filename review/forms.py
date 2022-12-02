@@ -1,6 +1,7 @@
 from django import forms
 from .models import *
 from django.forms import ClearableFileInput
+from .widgets import starWidget
 
 
 class ReviewForm(forms.ModelForm):
@@ -9,9 +10,16 @@ class ReviewForm(forms.ModelForm):
         fields = [
             "title",
             "content",
-            "genre"
+            "genre",
+            "rating"
             # 날짜??? 넣어야하려나..,
         ]
+        labels = {
+            "rating": "별점을 남겨주세요",
+        }
+        widgets = {
+            "rating": starWidget,
+        }
 
 
 class PhotoForm(forms.ModelForm):
