@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from taggit.managers import TaggableManager
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
 class Review(models.Model):
@@ -16,6 +17,10 @@ class Review(models.Model):
     ]
     genre = models.CharField(max_length=20, choices=genre_choice, null=True)
     age = models.IntegerField(null=True)
+    rating = models.IntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)], null=True, default=1
+    )
+
     # 조회수
     view_count = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
