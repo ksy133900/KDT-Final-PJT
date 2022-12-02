@@ -49,6 +49,7 @@ def create(request):
 
         if review_form.is_valid() and photo_form.is_valid():
             review = review_form.save(commit=False)
+            photo = photo_form.save()
             review.user = request.user
 
             if len(images):
@@ -64,7 +65,7 @@ def create(request):
                     review.tags.add(tag)
                     review.save()
 
-            return redirect("review:index")
+            return redirect("review:detail")
     else:
         review_form = ReviewForm()
         photo_form = PhotoForm()
@@ -72,13 +73,42 @@ def create(request):
         "review_form": review_form,
         "photo_form": photo_form,
     }
-    return render(request, "review/create.html", context)
+    return render(request, "review/create.html", context=context)
 
+# 글 수정 시작
+@login_required
+def update(request, pk):
+    review = Review.objects.get(pk=pk) # 수정하기 위해서 이전 글을 불러와야 하므로
+    if request.method == "POST":
+        # POST : input 값 가져와서 검증하고 DB에 저장
+        # 기존에 있는 값을 수정하므로 그 기존값을 받아와야 한다. 없으면 수정이 아니라 글을 생성함
+        review_form = ReviewForm(request.POST, request.FILES, instance=review)
+        photo_form = PhotoForm(request.POST, request.FILES, instance=review)
+        if review_form.is_valid() and photo_form.is_valid():
+            review_form.save()
+            photo_form.save()
+            # 유효성 검사 통과하면 상세보기 페이지로
+            return redirect('review:detail')
+            # 유효성 검사 통과하지 않으면 => context 부터해서 오류메시지 담긴 article_form을 랜더링
+    else:        
+        # GET : forms을 제공
+        review_form = ReviewForm(instance=review)
+        photo_form = PhotoForm(instance=review)
+    context = {
+        'review_form' : review_form,
+        'photo_form' : photo_form,
+    }
+    return render(request, 'review/create.html', context)
+# 글 수정 끝
+
+#글 삭제 시작
+def delete(request, pk):
+    Review.objects.get(id=pk).delete()
+    return redirect('review:detail')
+#글 삭제 끝
 
 def detail(request):
     reviews = Review.objects.order_by("-pk")
 
-    context = {
-        "reviews": reviews
-    }
+    context = {"reviews": reviews}
     return render(request, "review/detail.html", context)

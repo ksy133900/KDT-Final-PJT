@@ -2,88 +2,120 @@
 {% load static %}
 
 {% block css %}
-<link rel="stylesheet" href="{% static 'css/detail.css' %}">
+  <link rel="stylesheet" href="{% static 'css/detail.css' %}">
 {% endblock css %}
 
 {% block content %}
 
-<section class="container mt-3 mb-5">
-  <!--상단부 시작-->
-  <div class="top_banner row d-flex align-items-center justify-content-around">
-    <!--책 이미지-->
-    <div class="book_img col-auto">
-      <img src="{% static 'images/book.gif' %}" alt="">
-    </div>
-    <!--책 정보 시작-->
-    <div class="col-auto">
-      <table class="table" style="width: 600px;">
-        <!--테이블 비율-->
-        <colgroup>
-          <col width="20%" /><!--No.-->
-          <col width="80%" /><!--도서명-->
-        </colgroup>
-        <tbody>
-          <tr>
-            <th scope="row">제목</th>
-            <td>책이름</td>
-          </tr>
-          <tr>
-            <th scope="row">장르</th>
-            <td>스릴러?</td>
-          </tr>
-          <tr>
-            <th scope="row">가격</th>
-            <td>10,000원</td>
-          </tr>
-          <tr>
-            <th scope="row">줄거리</th>
-            <td>생략표시로 처리예정</td>
-          </tr>
-          <tr>
-            <th scope="row">매칭수</th>
-            <td>해당도서로 매칭된 횟수</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!--책 정보 종료-->
-  </div>
-  <!--상단부 종료-->
-
-  <!--하단 리뷰카드,리뷰작성버튼 시작-->
-  <div class="row justify-content-center">
-    <!--리뷰작성 버튼-->
-    <div class="d-grid justify-content-center mt-3 mb-5">
-      <a href="{% url 'review:create' %}" class="btn btn_1">리뷰작성</a>
-    </div>
-    <!--리뷰카드 시작-->
-    {% for review in reviews %}
-    <div class="review_card row border rounded-3 p-3 mt-3 mb-3">
-      <div>
-        <div>
-          <h3>별점</h3>
-          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <a href="#">좋아요</a>
-            <a href="#">싫어요</a>
-          </div>
-        </div>
-        <div class="row justify-content-around">
-          <div class="profile_img col-auto col-md-4">
-            <img src="{{ review.user.profile.image.url }}" alt="프로필이미지">
-            <p>{{review.user.profile.nickname}}</p>
-          </div>
-          <div class="overflow-auto content_box border bg-warning bg-opacity-10 rounded-3 col-auto col-md-8">
-            <p>{{review.content}}</p>
-          </div>
-        </div>
-        <div class="d-grid d-md-flex justify-content-md-between">
-          <a href="#">독토요청하기</a>
-          <p>리뷰 작성일</p>
-        </div>
+  <section class="container mt-3 mb-5">
+    <!--상단부 시작-->
+    <div class="top_banner row d-flex align-items-center justify-content-around">
+      <!--책 이미지-->
+      <div class="book_img col-auto">
+        <img src="{% static 'images/book.gif' %}" alt="">
       </div>
+      <!--책 정보 시작-->
+      <div class="col-auto">
+        <table class="table" style="width: 600px;">
+
+          <!--테이블 비율-->
+          <colgroup>
+            <col width="20%"/>
+            <!--No.-->
+            <col width="80%"/>
+            <!--도서명-->
+          </colgroup>
+          <tbody>
+            <tr>
+              <th scope="row">제목</th>
+              <td>책이름</td>
+            </tr>
+            <tr>
+              <th scope="row">장르</th>
+              <td>스릴러?</td>
+            </tr>
+            <tr>
+              <th scope="row">가격</th>
+              <td>10,000원</td>
+            </tr>
+            <tr>
+              <th scope="row">줄거리</th>
+              <td>생략표시로 처리예정</td>
+            </tr>
+            <tr>
+              <th scope="row">매칭수</th>
+              <td>해당도서로 매칭된 횟수</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!--책 정보 종료-->
     </div>
-    {% endfor %}
-  </div>
-</section>
+
+    <!--상단부 종료-->
+
+    <!--하단 리뷰카드,리뷰작성버튼 시작-->
+    <div class="row justify-content-center">
+      <!--리뷰작성 버튼-->
+      <div class="d-grid justify-content-center mt-3 mb-5">
+        <a href="{% url 'review:create' %}" class="btn btn_1">리뷰작성</a>
+      </div>
+      <!--리뷰카드 시작-->
+      {% for review in reviews %}
+        <div class="review_card row border rounded-3 p-3 mt-3 mb-3">
+          <div>
+            <div>
+           
+              {% if review.rating == 5 %}
+                <h5>⭐⭐⭐⭐⭐</h5>
+              {% elif review.rating == 4 %}
+                <h5>⭐⭐⭐⭐</h5>
+              {% elif review.rating == 3 %}
+                <h5>⭐⭐⭐</h5>
+              {% elif review.rating == 2 %}
+                <h5>⭐⭐</h5>
+              {% elif review.rating == 1 %}
+                <h5>⭐</h5>
+       
+              <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="#">좋아요</a>
+                <a href="#">싫어요</a>
+        
+            </div>
+            {% endif %}
+    
+            <div class="row justify-content-around">
+              <div class="profile_img col-auto col-md-4">
+                {% if review.user.profile.image %}
+                <img src="{{ review.user.profile.image.url }}" alt="프로필이미지">
+                {% else %}
+                <img src="{% static 'images/no-profile.jpg' %}">
+                {% endif %}
+                {% if review.user.profile.nickname %}
+                <p>{{review.user.profile.nickname}}</p>
+                {% else %}
+                <p>{{review.user.username}}</p>
+                {% endif %}
+              </div>
+              <div class="overflow-auto content_box border bg-warning bg-opacity-10 rounded-3 col-auto col-md-9">
+                <p>{{review.content}}</p>
+              </div>
+            </div>
+
+              </div>
+            <div class="d-grid d-md-flex justify-content-md-between">
+        
+              <a href="#" class="btn btn-dark">독토요청하기</a>
+              <p> </p>
+              <p>작성일: {{review.created_at|date:'Y-m-d'}}</p>
+              <a href="{% url 'review:update' review.pk %}" class="btn btn-dark"> 글 수정</a>
+              <a href="{% url 'review:delete' review.pk %}" class="btn btn-dark"> 글 삭제</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+
+    </div>
+  </section>
 
 {% endblock content %}
