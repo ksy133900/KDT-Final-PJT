@@ -69,16 +69,20 @@
         </div>
         <div class="row justify-content-around">
           <div class="profile_img col-auto col-md-4">
-            <img src="{{ review.user.profile.image.url }}" alt="프로필이미지">
-            <p>{{review.user.profile.nickname}}</p>
+            {% if review.user.profile.image %}
+            <img src="{{ review.user.profile.image.url }}" alt="{{ review.user.username }}이미지">
+            {% else %}
+            <img src="{% static 'images/dummy-image-square.jpg' %}" alt="기본이미지">
+            {% endif %}
+            <p class="text-center">{{ review.user.profile.nickname }}</p>
           </div>
           <div class="overflow-auto content_box border bg-warning bg-opacity-10 rounded-3 col-auto col-md-8">
-            <p>{{review.content}}</p>
+            <p>{{ review.content }}</p>
           </div>
         </div>
         <div class="d-grid d-md-flex justify-content-md-between">
           <a href="#">독토요청하기</a>
-          <p>리뷰 작성일</p>
+          <p>작성일: {{review.created_at|date:'Y-m-d'}}</p>
         </div>
       </div>
     </div>
