@@ -64,7 +64,7 @@ def create(request):
                     review.tags.add(tag)
                     review.save()
 
-            return redirect("review:index")
+            return redirect("review:detail")
     else:
         review_form = ReviewForm()
         photo_form = PhotoForm()
@@ -78,7 +78,5 @@ def create(request):
 def detail(request):
     reviews = Review.objects.order_by("-pk")
 
-    context = {
-        "reviews": reviews
-    }
+    context = {"reviews": reviews}
     return render(request, "review/detail.html", context)

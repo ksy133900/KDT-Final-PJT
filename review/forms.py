@@ -15,6 +15,9 @@ class ReviewForm(forms.ModelForm):
             # 날짜??? 넣어야하려나..,
         ]
         labels = {
+            "title": "제목",
+            "content": "내용",
+            "genre": "장르",
             "rating": "별점을 남겨주세요",
         }
         widgets = {
