@@ -104,12 +104,6 @@ button {
   width: 100%;
 }
 
-P {
-  display: flex;
-  justify-content: center;
-  padding-left: 10px;
-  margin-bottom: 0px;
-}
 
 @keyframes ring {
   0% {
