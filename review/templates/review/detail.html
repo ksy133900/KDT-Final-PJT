@@ -63,55 +63,63 @@
       <!--리뷰카드 시작-->
       {% for review in reviews %}
         <div class="review_card row border rounded-3 p-3 mt-3 mb-3">
-          <div>
-            <div>
-           
+          <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+            <!--리뷰별점-->
+            <div class="row flex-nowrap">
               {% if review.rating == 5 %}
-                <h5>⭐⭐⭐⭐⭐</h5>
+              <h6>⭐⭐⭐⭐⭐</h6>
               {% elif review.rating == 4 %}
-                <h5>⭐⭐⭐⭐</h5>
+              <h6>⭐⭐⭐⭐</h6>
               {% elif review.rating == 3 %}
-                <h5>⭐⭐⭐</h5>
+              <h6>⭐⭐⭐</h6>
               {% elif review.rating == 2 %}
-                <h5>⭐⭐</h5>
+              <h6>⭐⭐</h6>
               {% elif review.rating == 1 %}
-                <h5>⭐</h5>
-       
-              <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <a href="#">좋아요</a>
-                <a href="#">싫어요</a>
-        
+              <h6>⭐</h6>
+              {% endif %}
+            </div>
+            <!--좋아/싫어 버튼-->
+            <div class="d-flex gap-2">
+              <a href="#">
+                <h5 style="color:red;"><i class="bi bi-emoji-heart-eyes"></i></h5> <!-- <i class="bi bi-hand-thumbs-up"></i> -->
+              </a>
+              <a href="#">
+                <h5 style="color:black;"><i class="bi bi-emoji-angry"></i></h5><!-- <i class="bi bi-hand-thumbs-down"></i> -->
+              </a>
+            </div>
+          </div>
+          <!--프로필이미지-->
+          <div class="row justify-content-around">
+            <div class="profile_img col-auto col-md-4">
+              {% if review.user.profile.image %}
+              <img src="{{ review.user.profile.image.url }}" alt="프로필이미지">
+              {% else %}
+              <img src="{% static 'images/no-profile.jpg' %}">
+              {% endif %}
+              {% if review.user.profile.nickname %}
+              <p>{{review.user.profile.nickname}}</p>
+              {% else %}
+              <p>{{review.user.username}}</p>
+              {% endif %}
+            </div>
+            <!--리뷰내용-->
+            <div class="overflow-auto content_box border bg-warning bg-opacity-10 rounded-3 col-auto col-md-9">
+              <p>{{review.content | linebreaksbr }}</p>
+            </div>
+          </div>
+          <!--독토요청/수정/삭제 버튼, 작성일자-->
+          <div class="d-grid d-md-flex justify-content-md-between">
+            <a href="#">독토요청하기</a>
+            {% if request.user == review.user %}
+            <div class="d-flex gap-2">
+              <a href="#" style="color:black;"><i class="bi bi-pencil-square"></i></a>
+              <a href="#" style="color:black;"><i class="bi bi-trash"></i></a>
             </div>
             {% endif %}
-    
-            <div class="row justify-content-around">
-              <div class="profile_img col-auto col-md-4">
-                {% if review.user.profile.image %}
-                <img src="{{ review.user.profile.image.url }}" alt="프로필이미지">
-                {% else %}
-                <img src="{% static 'images/no-profile.jpg' %}">
-                {% endif %}
-                {% if review.user.profile.nickname %}
-                <p>{{review.user.profile.nickname}}</p>
-                {% else %}
-                <p>{{review.user.username}}</p>
-                {% endif %}
-              </div>
-              <div class="overflow-auto content_box border bg-warning bg-opacity-10 rounded-3 col-auto col-md-9">
-                <p>{{review.content}}</p>
-              </div>
-            </div>
-
-              </div>
-            <div class="d-grid d-md-flex justify-content-md-between">
-        
-              <a href="#">독토요청하기</a>
-              <p> <p>작성일: {{review.created_at|date:'Y-m-d'}}</p></p>
-            </div>
+            <p>작성일: {{review.created_at|date:'Y-m-d'}}</p>
           </div>
         </div>
       {% endfor %}
-
     </div>
   </section>
 
