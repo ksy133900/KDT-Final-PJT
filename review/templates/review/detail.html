@@ -110,7 +110,10 @@
           </div>
           <!--독토요청/수정/삭제 버튼, 작성일자-->
           <div class="d-grid d-md-flex justify-content-md-between">
+            {% if request.user != review.user %}
             <a href="{% url 'notes:mail' %}" class="btn btn-dark">독토요청하기</a>
+            {% endif %}
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
             {% if request.user == review.user %}
             <div class="d-flex gap-2">
               <a href="{% url 'review:update' review.pk %}" style="color:black;"><i class="bi bi-pencil-square"></i></a>
