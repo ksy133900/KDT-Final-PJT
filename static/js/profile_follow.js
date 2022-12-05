@@ -6,7 +6,7 @@ if (form) {
     const userId = event.target.dataset.userId
 
     axios({
-      method: "post",
+      method: "POST",
       url: `/accounts/${userId}/follow/`,
       headers: {
         'X-CSRFToken': csrf_token
