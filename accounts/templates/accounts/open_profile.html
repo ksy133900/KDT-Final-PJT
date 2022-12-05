@@ -33,19 +33,23 @@
           </div>
           <div class="ms-5 w-100">
             <div class="d-flex align-items-center mb-2">
+              
               {% if user.profile.nickname %}
                 <h1 class="mb-0" style="font-size: 30px;">{{ user.profile.nickname }}님의 프로필</h1>
               {% else %}
-
-                <h1 class="mb-0" style="font-size: 30px;">{{ user.username}}</h1>
+                <h1 class="mb-0" style="font-size: 30px;">{{ user.username}}님의 프로필</h1>
 
               {% endif %}
+                
               <!-- 회원 정보 수정 & 팔로우 버튼 및 팔로잉, 팔로워 수 -->
-              {% if request.user == review.user %}
-                <a href="{% url 'accounts:update' user.pk %}">
-                  <input type="submit" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #4b3a88; color: white;" value="프로필 수정">
-                </a>
+             
+              {% if user == request.user %}
+              <a href="{% url 'accounts:update' user.pk %}">
+                <input type="button" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #4b3a88; color: white;" value="프로필 수정">
+              </a> 
               {% elif request.user.is_authenticated %}
+           
+           <div>
                 <form id="follow-form" data-user-id="{{ user.pk }}">
                   {% csrf_token %}
                   {% if request.user in user.followers.all %}
@@ -54,8 +58,10 @@
                     <input id="follow-btn" type="submit" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #13185c; color: white;" value="팔로우">
                   {% endif %}
                 </form>
+              </div>
               {% endif %}
-            </div>
+         
+        </div>
             <!-- 팔로잉 및 팔로워 유저 프로필 이미지와 닉네임 표기 (collapse) 시작 -->
             <!-- 팔로잉 및 팔로워 collapse 버튼 -->
             <p class="text-primary mb-1">

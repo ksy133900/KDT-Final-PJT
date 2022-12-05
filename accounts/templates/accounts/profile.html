@@ -53,10 +53,10 @@
             {% if user == request.user %}
             <div class=" d-flex gap-2">
               <a href="{% url 'accounts:update' user.pk %}">
-                <input type="submit" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #4b3a88; color: white;" value="프로필 수정">
+                <input type="button" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #4b3a88; color: white;" value="프로필 수정">
               </a>
               <a href="{% url 'accounts:open_profile' user.pk %}">
-                <input type="submit" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #4b3a88; color: white;" value="공개프로필 보기">
+                <input type="button" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #4b3a88; color: white;" value="공개프로필 보기">
               </a>
             </div>
             {% elif request.user.is_authenticated %}
