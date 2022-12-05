@@ -107,7 +107,7 @@
         
 
 
-              <a href="#" class="btn btn-dark">독토요청하기</a>
+              <a href="{% url 'notes:mail' %}" class="btn btn-dark">독토요청하기</a>
               <p> </p>
               <p>작성일: {{review.created_at|date:'Y-m-d'}}</p>
               <a href="{% url 'review:update' review.pk %}" class="btn btn-dark"> 글 수정</a>
