@@ -12,7 +12,6 @@ from review.models import Review
 
 # Create your views here.
 def signup(request):
-
     if request.user.is_authenticated:
         return redirect("review:index")
     # 로그인 상태면 회원가입 ㄴㄴ
@@ -21,14 +20,17 @@ def signup(request):
         if signup_form.is_valid():
             user = signup_form.save()
             Profile.objects.create(user=user)
-            return redirect("accounts:login")
+            return render(request, "accounts/login.html")
     else:
         signup_form = CustomUserCreationForm()
 
     context = {
         "signup_form": signup_form,
     }
-
+    if signup_form.errors:
+        context['error']=[]
+        for value in signup_form.errors.values():
+            context['error'].append(value)
     return render(request, "accounts/signup.html", context)
 
 
@@ -36,7 +38,6 @@ def login(request):
     # 로그인 상태면 로그인 ㄴㄴ
     if request.user.is_authenticated:
         return redirect("review:index")
-
     if request.method == "POST":
         login_form = AuthenticationForm(request, data=request.POST)
         if login_form.is_valid():
