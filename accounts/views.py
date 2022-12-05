@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse
 from review.models import Review
+from notes.models import Notes
 
 # Create your views here.
 def signup(request):
@@ -21,7 +22,7 @@ def signup(request):
         if signup_form.is_valid():
             user = signup_form.save()
             Profile.objects.create(user=user)
-            return render(request, "accounts/login.html")
+            return redirect("accounts:login")
     else:
         signup_form = CustomUserCreationForm()
 
@@ -29,14 +30,15 @@ def signup(request):
         "signup_form": signup_form,
     }
     if signup_form.errors:
-        context['error']=[]
+        context["error"] = []
         for value in signup_form.errors.values():
-            context['error'].append(value)
+            context["error"].append(value)
     return render(request, "accounts/signup.html", context)
 
 
 def login(request):
     # 로그인 상태면 로그인 ㄴㄴ
+    notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
     if request.user.is_authenticated:
         return redirect("review:index")
     if request.method == "POST":
@@ -49,13 +51,14 @@ def login(request):
 
     context = {
         "login_form": login_form,
+        " notes_notice": notes_notice,
     }
     return render(request, "accounts/login.html", context)
 
 
 def logout(request):
     auth_logout(request)
-    return redirect("review:index")
+    return redirect("review:pro_index")
 
 
 def open_profile(request, pk):
@@ -71,6 +74,7 @@ def open_profile(request, pk):
     address_split = user.address.split(" ")
     address1 = address_split[0]
     address2 = address_split[1]
+    notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
     context = {
         "profile": profile,
         "review": review,
@@ -79,12 +83,9 @@ def open_profile(request, pk):
         "reviews_count": reviews_count,
         "address1": address1,
         "address2": address2,
+        "notes_notice": notes_notice,
     }
     return render(request, "accounts/open_profile.html", context)
-
-
-def update(request):
-    return render(request, "accounts/update.html")
 
 
 def profile(request, pk):
@@ -93,13 +94,14 @@ def profile(request, pk):
     user = get_object_or_404(get_user_model(), pk=pk)
     reviews = user.review_set.all()
     reviews_count = len(reviews)
-
+    notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
     context = {
         "profile": profile,
         "review": review,
         "user": user,
         "reviews": reviews,
         "reviews_count": reviews_count,
+        "notes_notice": notes_notice,
     }
 
     return render(request, "accounts/profile.html", context)
@@ -146,6 +148,7 @@ def follow(request, pk):
 
 @login_required
 def update(request, pk):
+    notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
     if request.user.pk != pk:
         return redirect("accounts:profile", pk)
 
@@ -162,6 +165,7 @@ def update(request, pk):
     context = {
         "user": user,
         "profile_form": profile_form,
+        "notes_notice ": notes_notice,
     }
 
     return render(request, "accounts/update.html", context)

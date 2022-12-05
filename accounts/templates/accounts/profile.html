@@ -28,9 +28,12 @@
 </style>
 {% endblock css%}
 {% block content %}
+
+
 <div class="container my-5">
   <div class="d-flex justify-content-center align-items-center mb-4">
     <div>
+
       <!-- 유저 프로필 이미지  -->
       {% if user.profile.image %} 
       <img src="{{ user.profile.image.url }}" style="border-radius: 70%; max-width: 100%;" alt="">
@@ -51,19 +54,21 @@
           {% endif %}
        <!-- 회원 정보 수정 & 팔로우 버튼 및 팔로잉, 팔로워 수 -->
             {% if user == request.user %}
-            <a class="me-2" href="{% url 'accounts:update' user.pk %}">
-              <input type="submit" class="btn ms-3 me-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #4b3a88; color: white;" value="프로필 수정">
-            </a>
-            <a class="ms-1" href="{% url 'accounts:open_profile' user.pk %}">
-              <input type="submit" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #4b3a88; color: white;" value="공개프로필 보기">
-            </a>
+            <div class=" d-flex gap-2">
+              <a href="{% url 'accounts:update' user.pk %}">
+                <input type="button" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #4b3a88; color: white;" value="프로필 수정">
+              </a>
+              <a href="{% url 'accounts:open_profile' user.pk %}">
+                <input type="button" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #4b3a88; color: white;" value="공개프로필 보기">
+              </a>
+            </div>
             {% elif request.user.is_authenticated %}
             {% csrf_token %}
             <form id="follow-form" data-user-id="{{ user.pk }}">
             {% if request.user in user.followers.all %}
-              <input id="follow-btn" type="submit" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #262564; color: white;" value="언팔로우">
+              <input id="follow-btn" type="button" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #262564; color: white;" value="언팔로우">
             {% else %}
-              <input id="follow-btn" type="submit" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #13185c; color: white;" value="팔로우">
+              <input id="follow-btn" type="button" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #13185c; color: white;" value="팔로우">
             {% endif %}
              </form>
             {% endif %}
@@ -84,7 +89,7 @@
 
   <!-- 프로필 소개글 출력 -->
     {% if user.profile.intro != blank %}
-    <div> 소개글 : {{ user.profile.intro | linebreaksbr }} </div>
+    <div> {{ user.profile.intro | linebreaksbr }} </div>
     {% else %}
     <div> 아직 소개글을 작성하지 않았습니다. </div>
     {% endif %}
@@ -95,42 +100,32 @@
             {% if user.followings.all %}
             {% for following in user.followings.all %}
             <div class="feed_name" style="justify-content: space-between;">
-             <div style="display: flex; align-items: center; flex-direction: row;">
-     
-                   <a href="{% url 'accounts:profile' following.pk %}"  style="color: black; text-decoration: none;">
-                    <!-- 프로필 이미지가 있으면 -->
-                     {% if following.profile.image %}
-            
-                     <div class="navi_profile_box mx-auto">
-                       <img class="navi_profile_img" src="{{ following.profile.image.url }}">
-                       </div>
-                     {% else %}
-                     <div class="navi_profile_box mx-auto">
-                       <img class="navi_profile_img" src="{% static 'images/dummy-image-square.jpg' %}">
-                     </div>
-                   
-                     {% endif %}
-                     
-                    <!-- 이름이 있으면 이름, 없으면 아이디 -->
-                 {% if following.profile.nickname != null %}
-                      <span class="name_content_txt text-center"> {{following.profile.nickname}}</span>
-                 {% else %}  
-                      <span class="name_content_txt text-center"> {{following.username}}</span>
-                {% endif %}
-          
-           
-     
+              <div style="display: flex; align-items: center; flex-direction: row;">
+                <a href="{% url 'accounts:profile' following.pk %}"  style="color: black; text-decoration: none;">
+                  <!-- 프로필 이미지가 있으면 -->
+                  {% if following.profile.image %}
+                  <div class="navi_profile_box mx-auto">
+                   <img class="navi_profile_img" src="{{ following.profile.image.url }}">
+                  </div>
+                  {% else %}
+                  <div class="navi_profile_box mx-auto">
+                    <img class="navi_profile_img" src="{% static 'images/dummy-image-square.jpg' %}">
+                  </div>
+                  {% endif %}
+                  <!-- 이름이 있으면 이름, 없으면 아이디 -->
+                  {% if following.profile.nickname != null %}
+                  <span class="name_content_txt text-center"> {{following.profile.nickname}}</span>
+                  {% else %}  
+                  <span class="name_content_txt text-center"> {{following.username}}</span>
+                  {% endif %}
                 </a>
-                {% endfor %}
-                
-              {% else %}
-                <div class="text-center">다른 사람을 팔로우 하지 않았어요!
-                {% endif %}
               </div>
-         
-         
-       
-        </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="text-center">다른 사람을 팔로우 하지 않았어요!</div>     
+            {% endif %}
+          </div>
         </div>
  <!-- 팔로워 유저 프로필 이미지와 닉네임 표기 (collapse) -->      
           <div class="collapse multi-collapse" id="multiCollapseExample2">
@@ -138,41 +133,36 @@
               {% if user.followers.all %}
               {% for follower in user.followers.all %}
               <div class="feed_name" style="justify-content: space-between;">
-               <div style="display: flex; align-items: center; flex-direction: row;;">
-       
-                     <a href="{% url 'accounts:profile' follower.pk %}" class="modal-followers" style="color: black; text-decoration: none;">
-                      <!-- 프로필 이미지가 있으면 -->
-                       {% if follower.profile.image %}
-              
-                       <div class="navi_profile_box mx-auto">
-                         <img class="navi_profile_img" src="{{ follower.profile.image.url }}">
-                         </div>
-                       {% else %}
-                       <div class="navi_profile_box mx-auto">
-                         <img class="navi_profile_img" src="{% static 'images/dummy-image-square.jpg' %}">
-                       </div>
-                       {% endif %}
-                       
-                      <!-- 이름이 있으면 이름, 없으면 아이디 -->
-                   {% if follower.profile.nickname != null %}
-                        <span class="name_content_txt text-center"> {{follower.profile.nickname}}</span>
-                   {% else %}  
-                        <span class="name_content_txt text-center"> {{follower.username}}</span>
-                  {% endif %}
-            
-             
-       
+                <div style="display: flex; align-items: center; flex-direction: row;;">
+                  <a href="{% url 'accounts:profile' follower.pk %}" class="modal-followers" style="color: black; text-decoration: none;">
+                    <!-- 프로필 이미지가 있으면 -->
+                    {% if follower.profile.image %}
+                    <div class="navi_profile_box mx-auto">
+                      <img class="navi_profile_img" src="{{ follower.profile.image.url }}">
+                    </div>
+                    {% else %}
+                    <div class="navi_profile_box mx-auto">
+                      <img class="navi_profile_img" src="{% static 'images/dummy-image-square.jpg' %}">
+                    </div>
+                    {% endif %}
+                    
+                    <!-- 이름이 있으면 이름, 없으면 아이디 -->
+                    {% if follower.profile.nickname != null %}
+                    <span class="name_content_txt text-center"> {{follower.profile.nickname}}</span>
+                    {% else %}  
+                    <span class="name_content_txt text-center"> {{follower.username}}</span>
+                    {% endif %}
                   </a>
-                  {% endfor %}
-                {% else %}
-                  <div class="text-center">팔로우 눌러준 유저가 없어요!</div>
-                {% endif %}
+                </div>
               </div>
-              </div>
+              {% endfor %}
+              {% else %}
+              <div class="text-center">팔로우 눌러준 유저가 없어요!</div>
+              {% endif %}
             </div>
-            </div>
+          </div>
         
-            <hr>
+          <hr>
   <div class="d-flex justify-content-between mb-4">
         
     <div class="mb-3" style="display: flex; flex-direction: row; margin-right: 100px">
