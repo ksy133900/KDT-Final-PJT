@@ -28,9 +28,12 @@
 </style>
 {% endblock css%}
 {% block content %}
+
+
 <div class="container my-5">
   <div class="d-flex justify-content-center align-items-center mb-4">
     <div>
+
       <!-- 유저 프로필 이미지  -->
       {% if user.profile.image %} 
       <img src="{{ user.profile.image.url }}" style="border-radius: 70%; max-width: 100%;" alt="">
@@ -63,9 +66,9 @@
             {% csrf_token %}
             <form id="follow-form" data-user-id="{{ user.pk }}">
             {% if request.user in user.followers.all %}
-              <input id="follow-btn" type="submit" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #262564; color: white;" value="언팔로우">
+              <input id="follow-btn" type="button" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #262564; color: white;" value="언팔로우">
             {% else %}
-              <input id="follow-btn" type="submit" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #13185c; color: white;" value="팔로우">
+              <input id="follow-btn" type="button" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #13185c; color: white;" value="팔로우">
             {% endif %}
              </form>
             {% endif %}
@@ -86,7 +89,7 @@
 
   <!-- 프로필 소개글 출력 -->
     {% if user.profile.intro != blank %}
-    <div> 소개글 : {{ user.profile.intro | linebreaksbr }} </div>
+    <div> {{ user.profile.intro | linebreaksbr }} </div>
     {% else %}
     <div> 아직 소개글을 작성하지 않았습니다. </div>
     {% endif %}
