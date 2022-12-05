@@ -20,6 +20,7 @@ def signup(request):
         if signup_form.is_valid():
             user = signup_form.save()
             Profile.objects.create(user=user)
+            return render(request, "accounts/login.html")
     else:
         signup_form = CustomUserCreationForm()
 
