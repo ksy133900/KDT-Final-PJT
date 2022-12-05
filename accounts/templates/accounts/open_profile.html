@@ -43,15 +43,15 @@
               <!-- 회원 정보 수정 & 팔로우 버튼 및 팔로잉, 팔로워 수 -->
               {% if request.user == review.user %}
                 <a href="{% url 'accounts:update' user.pk %}">
-                  <input type="submit" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #4b3a88; color: white;" value="프로필 수정">
+                  <input type="button" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #4b3a88; color: white;" value="프로필 수정">
                 </a>
               {% elif request.user.is_authenticated %}
                 <form id="follow-form" data-user-id="{{ user.pk }}">
                   {% csrf_token %}
                   {% if request.user in user.followers.all %}
-                    <input id="follow-btn" type="submit" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #262564; color: white;" value="언팔로우">
+                    <input id="follow-btn" type="submit" formmethod="POST" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #262564; color: white;" value="언팔로우">
                   {% else %}
-                    <input id="follow-btn" type="submit" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #13185c; color: white;" value="팔로우">
+                    <input id="follow-btn" type="submit" formmethod="POST" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #13185c; color: white;" value="팔로우">
                   {% endif %}
                 </form>
               {% endif %}
