@@ -102,6 +102,7 @@
               <p>{{review.user.username}}</p>
               {% endif %}
             </div>
+
             <!--리뷰내용-->
             <div class="overflow-auto content_box border bg-warning bg-opacity-10 rounded-3 col-auto col-md-9">
               <p>{{review.content | linebreaksbr }}</p>
@@ -109,11 +110,11 @@
           </div>
           <!--독토요청/수정/삭제 버튼, 작성일자-->
           <div class="d-grid d-md-flex justify-content-md-between">
-            <a href="#">독토요청하기</a>
+            <a href="{% url 'notes:mail' %}" class="btn btn-dark">독토요청하기</a>
             {% if request.user == review.user %}
             <div class="d-flex gap-2">
-              <a href="#" style="color:black;"><i class="bi bi-pencil-square"></i></a>
-              <a href="#" style="color:black;"><i class="bi bi-trash"></i></a>
+              <a href="{% url 'review:update' review.pk %}" style="color:black;"><i class="bi bi-pencil-square"></i></a>
+              <a href="{% url 'review:delete' review.pk %}" style="color:black;"><i class="bi bi-trash"></i></a>
             </div>
             {% endif %}
             <p>작성일: {{review.created_at|date:'Y-m-d'}}</p>
