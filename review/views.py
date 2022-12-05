@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import *
 from .forms import *
+from notes.models import Notes
 from accounts.models import Profile
 from django.contrib.auth.decorators import login_required
 
@@ -13,13 +14,14 @@ def pro_index(request):
 
 def index(request):
     reviews = Review.objects.order_by("-pk")
-
+    notes = request.user.user_to.order_by("-created_at")
     profile = Profile.objects.order_by("-pk")
     context = {
         "reviews": reviews,
         "profile": profile,
+        "notes": notes,
     }
-
+    print(notes)
     return render(request, "review/index.html", context)
 
 

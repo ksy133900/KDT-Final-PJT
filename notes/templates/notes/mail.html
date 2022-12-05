@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block content%}
+
+  <div class="container d-flex justify-content-center p-5">
+    <div class="container class=" style="margin: auto;">
+      <div class="row" style="justify-content: center;">
+        <div class="col-1">
+          <div class="btn-group">
+            <button type="button" class="btn btn-success dropdown-toggle" style="width: 100px; margin-right:100px;" data-bs-toggle="dropdown" aria-expanded="false">
+              메뉴
+            </button>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" href="{% url 'notes:mail' %}">메일 보내기</a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'notes:index' %}">받은 메일함</a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'notes:sent' %}">보낸 메일함</a>
+              </th>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-8" style="max-width: 450px;">
+        <h1 class="text-center mb-3">메일 쓰기</h1>
+        <form action="{% url 'notes:mail' %}" method="POST">
+          {% csrf_token %}
+          {% bootstrap_form form %}
+          <div class="d-flex justify-content-center">
+            <input type="submit" class="btn btn-success" value="보내기">
+          </div>
+        </form>
+      </div>
+    </div>
+
+  {% endblock %}
