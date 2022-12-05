@@ -46,10 +46,10 @@ def create(request):
         images = request.FILES.getlist("image")
         tags = request.POST.get("tags", "").split(",")
 
-        if request.POST.get("tags", "") != "":
-            tags = request.POST.get("tags", "").split(",")
-        else:
-            tags = None
+        # if request.POST.get("tags", "") != "":
+        #     tags = request.POST.get("tags", "").split(",")
+        # else:
+        #     tags = None
 
         if review_form.is_valid() and photo_form.is_valid():
             review = review_form.save(commit=False)
