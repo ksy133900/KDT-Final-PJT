@@ -12,6 +12,8 @@ class User(AbstractUser):
     followings = models.ManyToManyField(
         "self", symmetrical=False, related_name="followers"
     )
+    notice_note = models.BooleanField(default=True)
+    note_notice = models.BooleanField(default=True)  # 메일 여부
     address = models.CharField(max_length=50, null=True)
 
 
