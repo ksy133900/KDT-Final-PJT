@@ -10,4 +10,5 @@ urlpatterns = [
     path("create/", views.create, name="create"),
     path("detail/", views.detail, name="detail"),
     path("matching/", views.matching, name="matching"),
+    path("like_users/", views.like_users, name="like_users"),
 ]

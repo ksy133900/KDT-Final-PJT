@@ -3,6 +3,8 @@ from .models import *
 from .forms import *
 from accounts.models import Profile
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.db.models import Count
 
 # Create your views here.
 
@@ -82,3 +84,23 @@ def detail(request):
         "reviews": reviews
     }
     return render(request, "review/detail.html", context)
+
+# 리뷰카드 좋아/싫어
+def like_users(request,):
+    print("====>>>>>>", request)
+    review = Review.objects.get(pk=4)
+    print("====>>>>>>", review.id)
+    if request.user in review.like_users.all():
+        review.like_users.remove(request.user)
+        existed_user = False
+    else:
+        review.like_users.add(request.user)
+        existed_user = True
+    likeCount = review.like_users.count()
+
+    context = {
+        "existed_user": existed_user,
+        "likeCount": likeCount,
+    }
+
+    return JsonResponse(context)
