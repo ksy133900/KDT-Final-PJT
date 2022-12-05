@@ -20,7 +20,7 @@ def signup(request):
         if signup_form.is_valid():
             user = signup_form.save()
             Profile.objects.create(user=user)
-            return render(request, "accounts/login.html")
+            return redirect("accounts:login")
     else:
         signup_form = CustomUserCreationForm()
 
@@ -55,7 +55,7 @@ def login(request):
 
 def logout(request):
     auth_logout(request)
-    return redirect("review:index")
+    return redirect("review:pro_index")
 
 
 def open_profile(request, pk):
