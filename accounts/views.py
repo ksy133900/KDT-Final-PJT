@@ -13,6 +13,7 @@ from notes.models import Notes
 
 # Create your views here.
 def signup(request):
+    context = {}
     if request.user.is_authenticated:
         return redirect("review:index")
     # 로그인 상태면 회원가입 ㄴㄴ
@@ -52,7 +53,6 @@ def login(request):
         "login_form": login_form,
         " notes_notice": notes_notice,
     }
-
     return render(request, "accounts/login.html", context)
 
 
