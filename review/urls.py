@@ -14,4 +14,6 @@ urlpatterns = [
     path("update/<int:pk>", views.update, name="update"),
     # 글 삭제
     path("delete/<int:pk>", views.delete, name="delete"),
+    # 리뷰카드 좋아/싫어 버튼
+    path("like_users/", views.like_users, name="like_users"),
 ]

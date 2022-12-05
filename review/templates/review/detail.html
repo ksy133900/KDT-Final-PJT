@@ -63,62 +63,71 @@
       <!--리뷰카드 시작-->
       {% for review in reviews %}
         <div class="review_card row border rounded-3 p-3 mt-3 mb-3">
-          <div>
-            <div>
-           
+          <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+            <!--리뷰별점-->
+            <div class="row flex-nowrap">
               {% if review.rating == 5 %}
-                <h5>⭐⭐⭐⭐⭐</h5>
+              <h6>⭐⭐⭐⭐⭐</h6>
               {% elif review.rating == 4 %}
-                <h5>⭐⭐⭐⭐</h5>
+              <h6>⭐⭐⭐⭐</h6>
               {% elif review.rating == 3 %}
-                <h5>⭐⭐⭐</h5>
+              <h6>⭐⭐⭐</h6>
               {% elif review.rating == 2 %}
-                <h5>⭐⭐</h5>
+              <h6>⭐⭐</h6>
               {% elif review.rating == 1 %}
-                <h5>⭐</h5>
-       
-              <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <a href="#">좋아요</a>
-                <a href="#">싫어요</a>
-        
+              <h6>⭐</h6>
+              {% endif %}
+            </div>
+            <!--좋아/싫어 버튼-->
+            <h5 style="color:red;">
+              {% if request.user in review.like_users.all %}
+              <i class="bi bi-hand-thumbs-up" id="likeupBtn" data-review-id="{{ review.pk }}"></i>
+              {% else %}
+              <i class="bi bi-hand-thumbs-down" id="likeupBtn" data-review-id="{{ review.pk }}"></i>
+              {% endif %}
+              <span id="like-count">{{ review.like_users.count}}</span>
+            </h5>
+          </div>
+          <!--프로필이미지-->
+          <div class="row justify-content-around">
+            <div class="profile_img col-auto col-md-4">
+              {% if review.user.profile.image %}
+              <img src="{{ review.user.profile.image.url }}" alt="프로필이미지">
+              {% else %}
+              <img src="{% static 'images/no-profile.jpg' %}">
+              {% endif %}
+              {% if review.user.profile.nickname %}
+              <p>{{review.user.profile.nickname}}</p>
+              {% else %}
+              <p>{{review.user.username}}</p>
+              {% endif %}
+            </div>
+
+            <!--리뷰내용-->
+            <div class="overflow-auto content_box border bg-warning bg-opacity-10 rounded-3 col-auto col-md-9">
+              <p>{{review.content | linebreaksbr }}</p>
+            </div>
+          </div>
+          <!--독토요청/수정/삭제 버튼, 작성일자-->
+          <div class="d-grid d-md-flex justify-content-md-between">
+            <a href="{% url 'notes:mail' %}" class="btn btn-dark">독토요청하기</a>
+            {% if request.user == review.user %}
+            <div class="d-flex gap-2">
+              <a href="{% url 'review:update' review.pk %}" style="color:black;"><i class="bi bi-pencil-square"></i></a>
+              <a href="{% url 'review:delete' review.pk %}" style="color:black;"><i class="bi bi-trash"></i></a>
             </div>
             {% endif %}
-    
-            <div class="row justify-content-around">
-              <div class="profile_img col-auto col-md-4">
-                {% if review.user.profile.image %}
-                <img src="{{ review.user.profile.image.url }}" alt="프로필이미지">
-                {% else %}
-                <img src="{% static 'images/no-profile.jpg' %}">
-                {% endif %}
-                {% if review.user.profile.nickname %}
-                <p>{{review.user.profile.nickname}}</p>
-                {% else %}
-                <p>{{review.user.username}}</p>
-                {% endif %}
-              </div>
-              <div class="overflow-auto content_box border bg-warning bg-opacity-10 rounded-3 col-auto col-md-9">
-                <p>{{review.content}}</p>
-              </div>
-            </div>
-
-              </div>
-            <div class="d-grid d-md-flex justify-content-md-between">
-        
-
-
-              <a href="{% url 'notes:mail' %}" class="btn btn-dark">독토요청하기</a>
-              <p> </p>
-              <p>작성일: {{review.created_at|date:'Y-m-d'}}</p>
-              <a href="{% url 'review:update' review.pk %}" class="btn btn-dark"> 글 수정</a>
-              <a href="{% url 'review:delete' review.pk %}" class="btn btn-dark"> 글 삭제</a>
-
-            </div>
+            <p>작성일: {{review.created_at|date:'Y-m-d'}}</p>
           </div>
         </div>
       {% endfor %}
-
     </div>
   </section>
 
 {% endblock content %}
+{% block script %}
+    <!-- 좋아/싫어 비동기 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/review_likes.js' %}"></script>
+
+{% endblock script %}
