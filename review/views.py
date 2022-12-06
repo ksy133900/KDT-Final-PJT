@@ -6,6 +6,7 @@ from accounts.models import Profile
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.db.models import Count
+from django.views.decorators.http import require_POST
 
 # Create your views here.
 
@@ -78,7 +79,6 @@ def create(request):
                     review.save()
 
             return redirect("review:detail")
-           
 
     else:
         review_form = ReviewForm()
@@ -139,23 +139,40 @@ def detail(request):
 
 
 # 리뷰카드 좋아/싫어
-def like_users(
-    request,
-):
-    print("====>>>>>>", request)
-    review = Review.objects.get(pk=4)
-    print("====>>>>>>", review.id)
-    if request.user in review.like_users.all():
-        review.like_users.remove(request.user)
-        existed_user = False
-    else:
-        review.like_users.add(request.user)
-        existed_user = True
-    likeCount = review.like_users.count()
+# def like_users(
+#     request,
+# ):
+#     print("====>>>>>>", request)
+#     review = Review.objects.get(pk=4)
+#     print("====>>>>>>", review.id)
+#     if request.user in review.like_users.all():
+#         review.like_users.remove(request.user)
+#         existed_user = False
+#     else:
+#         review.like_users.add(request.user)
+#         existed_user = True
+#     likeCount = review.like_users.count()
 
-    context = {
-        "existed_user": existed_user,
-        "likeCount": likeCount,
-    }
+#     context = {
+#         "existed_user": existed_user,
+#         "likeCount": likeCount,
+#     }
 
-    return JsonResponse(context)
+#     return JsonResponse(context)
+
+
+@require_POST
+def like(request, pk):
+    if request.user.is_authenticated:
+        review = Review.objects.get(pk=pk)
+        if review.like.filter(pk=request.user.pk).exists():
+            review.like.remove(request.user)
+            is_liked = False
+        else:
+            review.like.add(request.user)
+            is_liked = True
+        data = {
+            "is_liked": is_liked,
+        }
+        return JsonResponse(data)
+    return redirect("accounts:login")

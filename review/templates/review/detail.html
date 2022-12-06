@@ -105,16 +105,43 @@
                 </div>
               </div>
 
-              <h5 style="color:red;">
+              <!-- <h5 style="color:red;">
                 {% if request.user in review.like_users.all %}
                 <i class="bi bi-hand-thumbs-up" id="likeupBtn" data-review-id="{{ review.pk }}"></i>
                 {% else %}
                 <i class="bi bi-hand-thumbs-down" id="likeupBtn" data-review-id="{{ review.pk }}"></i>
                 {% endif %}
-                <span id="like-count">{{ review.like_users.count}}</span>
-              </h5>
-            </div> 
+                <span id="like-count">{{ review.like_users.count}}</span> -->
+                <!-- <div>
+                  {% if request.user.is_authenticated %}
+                    {% if request.user in review.like_users.all %}
+                      <i id="btn-review-like" data-review-id="{{ review.pk }}" class="bi bi-heart-fill text-danger"></i>
+                    {% else %}
+                      <i id="btn-review-like" data-review-id="{{ review.pk }}" class="bi bi-heart text-dark"></i>
+                    {% endif %}
+                  {% else %}
+                    <a href="{% url 'accounts:login' %}">
+                      <i class="bi bi-heart"></i>
+                    </a>
+                  {% endif %}
+                  <span id="review-like-count">{{ review.like_users.count }}</span>
+                </div>
+                </div>
+                </div> -->
+                <div class='bt_wrap d-flex justify-content-center pb-5'>
+                  <form class="like-forms" data-review-id="{{ review.pk }}" method="POST">
+                    {% csrf_token %}
+                    {% if request.user in review.like.all %}
+                      <input type="submit" value="좋아요취소" id="like-{{ review.pk }}">
+                    {% else %}
+                      <input type="submit" value="좋아요" id="like-{{ review.pk }}">
+                    {% endif %}
+                  </form>
+                </div>
           </div>
+          </div>
+          
+            
           <!--프로필이미지-->
           <div class="row justify-content-around">
             <div class="profile_img col-auto col-md-4 text-center">
@@ -132,7 +159,7 @@
 
             <!--리뷰내용-->
             <div class="overflow-auto content_box border bg-success bg-opacity-10 border-0 rounded-3 col-auto col-md-9">
-              <p>{{review.content | linebreaksbr }}</p>
+             <p>{{review.content | linebreaksbr }}</p>
             </div>
           </div>
           <!--독토요청/수정/삭제 버튼, 작성일자-->
@@ -158,6 +185,44 @@
 {% block script %}
     <!-- 좋아/싫어 비동기 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.min.js"></script>
-    <script type="text/javascript" src="{% static 'js/review_likes.js' %}"></script>
-
+    <!-- <script type="text/javascript" src="{% static 'js/review_likes.js' %}"></script> -->
+    <script>
+      const form = document.querySelector('.like-forms')
+      const csrftoken = document
+        .querySelector('[name=csrfmiddlewaretoken]')
+        .value
+        form
+        .addEventListener('submit', function (event) {
+          event.preventDefault()
+          const reviewId = event
+            .target
+            .dataset
+            .reviewId
+            console
+            .log(form)
+          axios({
+            
+            method: 'post',
+            url:`/like/${reviewId}/`,
+            headers: {
+              'X-CSRFToken': csrftoken
+            }
+            
+          })
+            .then((response) => {
+              const isLiked = response.data.is_liked
+              const likeBtn = document.querySelector(`#like-${reviewId}`)
+              if (isLiked === true) {
+                likeBtn.value = "좋아요취소"
+              } else {
+                likeBtn.value = "좋아요"
+              }
+            })
+            .catch((error) => {
+              console.log(error.response)
+              console.log("다왔어")
+            })
+          })
+  
+      </script>
 {% endblock script %}
