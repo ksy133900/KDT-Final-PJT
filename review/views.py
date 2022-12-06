@@ -19,35 +19,30 @@ def pro_index(request):
 def index(request):
     reviews = Review.objects.order_by("-pk")
 
-    notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
     profile = Profile.objects.order_by("-pk")
     context = {
         "reviews": reviews,
         "profile": profile,
-        "notes_notice": notes_notice,
     }
-    print(notes_notice)
     return render(request, "review/index.html", context)
 
+def faq(request):
+    return render(request,"review/faq.html")
 
 def matching(request):
-    notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
-    return render(request, "review/matching.html", {"notes_notice": notes_notice})
+    return render(request, "review/matching.html")
 
 
-def genre(request):
+def match_board(request):
     test = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-    notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
     context = {
         "test": test,
-        "notes_notice": notes_notice,
     }
-    return render(request, "review/genre.html", context)
+    return render(request, "review/match_board.html", context)
 
 
 @login_required
 def create(request):
-    notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
 
     if request.method == "POST":
         review_form = ReviewForm(request.POST, request.FILES)
@@ -87,7 +82,6 @@ def create(request):
     context = {
         "review_form": review_form,
         "photo_form": photo_form,
-        "notes_notice ": notes_notice,
     }
     return render(request, "review/create.html", context)
 
@@ -131,11 +125,9 @@ def delete(request, pk):
 
 def detail(request):
     reviews = Review.objects.order_by("-pk")
-    print(reviews)
-    notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
+
     context = {
         "reviews": reviews,
-        "notes_notice": notes_notice,
     }
     return render(request, "review/detail.html", context)
 

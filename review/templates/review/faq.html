@@ -1,1 +1,28 @@
 {% extends 'base.html' %}
+
+{% block content %}
+
+<section class="container border-1 bg-success bg-opacity-10">
+  <h1 class="text-center mt-5">자주 하는 질문</h1>
+  <table class="table">
+    <!--테이블 비율-->
+    <colgroup>
+      <col width="10%" /><!--Q / A-->
+      <col width="28%" /><!--후기 제목-->
+    </colgroup>
+    <thead>
+      <tr>
+        <th scope="row"><h3>Q:</h3></th>
+        <td><h4>독토?</h4></td>
+      </tr>
+      <tr>
+        <th scope="row"><h3>A:</h3></th>
+        <td><h4>독서와 토론을 줄여 독토가 되었습니다.</h4></td>
+      </tr>
+      
+    </thead>
+  </table>
+
+</section>
+
+{% endblock content %}
