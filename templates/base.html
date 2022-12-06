@@ -3,125 +3,118 @@
 <!DOCTYPE html>
 <html lang="ko">
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-  {% bootstrap_css %}
-  {% block css %}{% endblock css %}
-  <!-- Bootstrap icon -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="{% static 'css/main.css' %}">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!--nav font-->
-  <link href="https://fonts.googleapis.com/css2?family=Black+And+White+Picture&display=swap" rel="stylesheet">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Single+Day&display=swap" rel="stylesheet">
-  <!-- nav font-->
-  <title> 독토 </title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    {% bootstrap_css %}
+    {% block css %}{% endblock css %}
+    <!-- Bootstrap icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!--nav font-->
+    <link href="https://fonts.googleapis.com/css2?family=Black+And+White+Picture&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Single+Day&display=swap" rel="stylesheet">
+    <!-- nav font-->
+    <title> 독토 </title>
   
-  <!-- Modal을 위해서 포함시켜야 하는 라이브러리들 (시작)-->
-  <link rel="stylesheet" href="https://htmx.org/docs/" rel="stylesheet">
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"> -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
-  <!-- Modal을 위해서 포함시켜야 하는 라이브러리들 (끝)-->
+    <!-- Modal을 위해서 포함시켜야 하는 라이브러리들 (시작)-->
+    <link rel="stylesheet" href="https://htmx.org/docs/" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"> -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+    <!-- Modal을 위해서 포함시켜야 하는 라이브러리들 (끝)-->
 
-  <script defer src="{% static 'js/indexjs.js'%}"></script>
-  <script defer src="{% static 'js/comments.js'%}"></script>
-  <style>
-    .navi_profile_box {
-      width: 50px;
-      height: 50px;
-      border-radius: 70%;
-      overflow: hidden;
-      cursor: pointer;
-    }
+    <script defer src="{% static 'js/indexjs.js'%}"></script>
+    <script defer src="{% static 'js/comments.js'%}"></script>
+    <style>
+      .navi_profile_box {
+        width: 50px;
+        height: 50px;
+        border-radius: 70%;
+        overflow: hidden;
+        cursor: pointer;
+      }
 
-    .navi_profile_img {
-      width: 100%;
-      height: 100%;
-      object-fit: fill;
-    }
-    /* singup.html에서 유효성 검사 실패시 */
-    .errorlist {
-      display: flex;
-      display: inline-block;
-      font-size: 1rem;
-      line-height: 16px;
-      letter-spacing: -.5px;
-      color: #ff003e;
-      vertical-align: middle;
-    }
-    ul {
-      list-style-type: circle;
-    }
-  </style>
-</head>
+      .navi_profile_img {
+        width: 100%;
+        height: 100%;
+        object-fit: fill;
+      }
+      /* singup.html에서 유효성 검사 실패시 */
+      .errorlist {
+        display: flex;
+        display: inline-block;
+        font-size: 1rem;
+        line-height: 16px;
+        letter-spacing: -.5px;
+        color: #ff003e;
+        vertical-align: middle;
+      }
+      ul {
+        list-style-type: circle;
+      }
+    </style>
+  </head>
 
-<body>
-  <!--내비바 시작-->
-  <nav class="navbar navbar-expand-lg bg-light" style="padding: 0px; box-shadow: 0.1em 0.1em 5px 0.5px #bfbfbf;">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="{% url 'review:pro_index' %}"> <img
-          src="https://cdn-icons-png.flaticon.com/512/3296/3296160.png" style="width: 52px;"></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
-        <ul class="navbar-nav" style="font-family: 'Black And White Picture', sans-serif; font-size: x-large;">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'review:index' %}">독토</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              장르
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">공란</a></li>
-              <li><a class="dropdown-item" href="{% url 'review:detail' %}">도서디테일(임시)</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'review:matching' %}">유저목록</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'review:match_board' %}">매칭후기</a>
-          </li>
-        </ul>
+  <body>
+    <!--내비바 시작-->
+    <nav class="navbar navbar-expand-lg bg-light" style="padding: 0px; box-shadow: 0.1em 0.1em 5px 0.5px #bfbfbf;">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'review:pro_index' %}"> 
+          <img src="https://cdn-icons-png.flaticon.com/512/3296/3296160.png" style="width: 52px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
+          <ul class="navbar-nav" style="font-family: 'Black And White Picture', sans-serif; font-size: x-large;">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'review:index' %}">독토</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                장르
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">공란</a></li>
+                <li><a class="dropdown-item" href="{% url 'review:detail' %}">도서디테일(임시)</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'review:matching' %}">유저목록</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'review:match_board' %}">매칭후기</a>
+            </li>
+          </ul>
+        </div>
         <!--search_box-->
         <div class="search-box">
           <form action="" method="POST">
             {% csrf_token %}
-            <input class="search-txt" type="search" placeholder="도서 검색" size="15" name="q" value="{{q}}"
-              style="vertical-align: top;">
+            <input class="search-txt" type="search" placeholder="도서 검색" size="15" name="q" value="{{q}}" style="vertical-align: top;">
             <button class="search-btn" type="submit" maxlength="50" style="height: 27px;width:32px;">
               <img src="{% static 'images/book2.jpg' %}" alt="" class="jb-b" style="width:190%; margin-right:5px;">
-              <img src="{% static 'images/book.gif' %}" alt="" class="jb-c"
-                style="width: 10%; margin-top: 2px; margin-right: 5px;">
+              <img src="{% static 'images/book.gif' %}" alt="" class="jb-c" style="width: 10%; margin-top: 2px; margin-right: 5px;">
             </button>
           </form>
         </div>
-        
-        <!--search_box-->
+      
         <!--우측 로그인/회원가입 & 프로필/로그아웃-->
         <div class="navbar-nav gap-3 d-flex align-items-center flex-row" style="font-family: 'Single Day', cursive;">
           {% if request.user.is_authenticated %}
-
           <div class="nav-item fw-bold">
-
-            <a class="nav-link d-flex align-items-center gap-2" aria-current="page"
-              href="{% url 'accounts:profile' request.user.pk %}">
-
+            <a class="nav-link d-flex align-items-center gap-2" aria-current="page" href="{% url 'accounts:profile' request.user.pk %}">
               <div class="navi_profile_box">
                 {% if request.user.profile.image %}
                 <img src="{{ request.user.profile.image.url }}" class="navi_profile_img">
@@ -141,13 +134,15 @@
               <img src="https://cdn.icon-icons.com/icons2/1097/PNG/512/1485477030-mail_78575.png" style="width: 40px">
               {% if read_count != 0 %}
               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                {{read_count}}</span>
+                {{read_count}}
+              </span>
               {% endif %}
             </a>
           </div>
           <div class="nav-item fw-bold">
             <a class="nav-link" aria-current="page" href="{% url 'accounts:logout' %}">
-              로그아웃</a>
+              로그아웃
+            </a>
           </div>
           {% else %}
           <div class="nav-item fw-bold">
@@ -159,44 +154,30 @@
           {% endif %}
         </div>
       </div>
-    </div>
-  </nav>
-  <!--내비바 끝-->
-  <header></header>
+    </nav>
+    <!--내비바 끝-->
+    {% block content%}{% endblock content %}
+    <script src="/static/js/script.js"></script>
+    <!--검색창 클릭 효과 시작-->
 
-  {% block content%}
-  {% endblock content %}
-  <script src="/static/js/script.js"></script>
-  <!--검색창 클릭 효과 시작-->
+    <!--검색창 클릭 효과 끝-->
 
-  <!--검색창 클릭 효과 끝-->
+    <!--footer 시작-->
+    <footer class="fixed-bottom text-center bg-white">© 2022 Docto, 독서 토론 매칭 by 2조</footer>
+    <!--footer 끝-->
+    <!-- Bootstrap JS -->
 
-
-
-  <!--footer 시작-->
-  <footer class="fixed-bottom text-center bg-white">© 2022 Docto, 독서 토론 매칭 by 2조</footer>
-  </div>
-  </footer>
-  <!--footer 끝-->
-  <!-- Bootstrap JS -->
-
-  <!-- JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-    crossorigin="anonymous"></script>
-  <!-- JQuery -->
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-    crossorigin="anonymous"></script>
-  <!-- Axios -->
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <!-- Moment.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-  <!-- Scripts -->
-  {% block script %}{% endblock script %}
-</body>
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Moment.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <!-- Scripts -->
+    {% block script %}{% endblock script %}
+  </body>
 
 </html>
