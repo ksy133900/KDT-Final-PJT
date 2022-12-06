@@ -10,6 +10,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 from review.models import Review
 from notes.models import Notes
+from django.db.models import Q
 
 # Create your views here.
 def signup(request):
@@ -116,6 +117,39 @@ def delete(request):
 
     return redirect("review:index")
 
+# 검색기능
+def get_queryset(self):
+    search_keyword = self.request.GET.get('q', '')
+    search_type = self.request.GET.get('type', '')
+    notice_list = Notice.objects.order_by('-id') 
+    
+    if search_keyword :
+        if len(search_keyword) > 0 :
+            if search_type == 'all':
+                search_notice_list = notice_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword) | Q (writer__user_id__icontains=search_keyword))
+            elif search_type == 'title_content':
+                search_notice_list = notice_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword))
+            elif search_type == 'title':
+                search_notice_list = notice_list.filter(title__icontains=search_keyword)    
+            elif search_type == 'content':
+                search_notice_list = notice_list.filter(content__icontains=search_keyword)    
+            elif search_type == 'writer':
+                search_notice_list = notice_list.filter(writer__user_id__icontains=search_keyword)
+
+            return search_notice_list
+        else:
+            messages.error(self.request, '검색어는 1글자 이상 입력해주세요.')
+    return notice_list
+
+def get_context_data(self, **kwargs):
+    search_keyword = self.request.GET.get('q', '')
+    search_type = self.request.GET.get('type', '')
+
+    if len(search_keyword) > 1 :
+        context['q'] = search_keyword
+    context['type'] = search_type
+
+    return context
 
 @require_POST
 @login_required
