@@ -79,14 +79,41 @@
               {% endif %}
             </div>
             <!--좋아/싫어 버튼-->
-            <h5 style="color:red;">
-              {% if request.user in review.like_users.all %}
-              <i class="bi bi-hand-thumbs-up" id="likeupBtn" data-review-id="{{ review.pk }}"></i>
-              {% else %}
-              <i class="bi bi-hand-thumbs-down" id="likeupBtn" data-review-id="{{ review.pk }}"></i>
-              {% endif %}
-              <span id="like-count">{{ review.like_users.count}}</span>
-            </h5>
+            <div class="d-flex">
+              <!-- <button hx-get="{% url 'comments:comments' review.pk %}" class="btn btn-dark"hx-target="#dialog" onclick="openModal()">댓글</button> -->
+              <!-- Button trigger modal -->
+              <button type="button" class="btn btn-dark btn-lg" data-toggle="modal" data-target="#myModal">
+                댓글
+              </button>
+              
+              <!-- Modal -->
+              <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                      <h4 class="modal-title" id="myModalLabel">글쓴이: {{review.user.username}}</h4>
+                    </div>
+                    <div class="modal-body">
+                      
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-dark">Save changes</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <h5 style="color:red;">
+                {% if request.user in review.like_users.all %}
+                <i class="bi bi-hand-thumbs-up" id="likeupBtn" data-review-id="{{ review.pk }}"></i>
+                {% else %}
+                <i class="bi bi-hand-thumbs-down" id="likeupBtn" data-review-id="{{ review.pk }}"></i>
+                {% endif %}
+                <span id="like-count">{{ review.like_users.count}}</span>
+              </h5>
+            </div> 
           </div>
           <!--프로필이미지-->
           <div class="row justify-content-around">
@@ -113,7 +140,7 @@
             {% if request.user != review.user %}
             <a href="{% url 'notes:mail' %}" class="btn btn-dark">독토요청하기</a>
             {% endif %}
-            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
             {% if request.user == review.user %}
             <div class="d-flex gap-2">
               <a href="{% url 'review:update' review.pk %}" style="color:black;"><i class="bi bi-pencil-square"></i></a>
