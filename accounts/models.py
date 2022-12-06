@@ -4,6 +4,7 @@ from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 from django.conf import settings
 
+
 # Create your models here.
 class User(AbstractUser):
     # username = models.CharField(max_length=16, unique=True)

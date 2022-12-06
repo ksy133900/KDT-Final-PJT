@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.contrib.auth import get_user_model
 from .forms import *
 from django.contrib.auth.forms import AuthenticationForm
@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse
 from review.models import Review
-from notes.models import Notes
+import json
 
 # Create your views here.
 def signup(request):
@@ -38,7 +38,6 @@ def signup(request):
 
 def login(request):
     # 로그인 상태면 로그인 ㄴㄴ
-    notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
     if request.user.is_authenticated:
         return redirect("review:index")
     if request.method == "POST":
@@ -51,7 +50,6 @@ def login(request):
 
     context = {
         "login_form": login_form,
-        " notes_notice": notes_notice,
     }
     return render(request, "accounts/login.html", context)
 
@@ -74,7 +72,6 @@ def open_profile(request, pk):
     address_split = user.address.split(" ")
     address1 = address_split[0]
     address2 = address_split[1]
-    notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
     context = {
         "profile": profile,
         "review": review,
@@ -83,7 +80,6 @@ def open_profile(request, pk):
         "reviews_count": reviews_count,
         "address1": address1,
         "address2": address2,
-        "notes_notice": notes_notice,
     }
     return render(request, "accounts/open_profile.html", context)
 
@@ -94,14 +90,12 @@ def profile(request, pk):
     user = get_object_or_404(get_user_model(), pk=pk)
     reviews = user.review_set.all()
     reviews_count = len(reviews)
-    notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
     context = {
         "profile": profile,
         "review": review,
         "user": user,
         "reviews": reviews,
         "reviews_count": reviews_count,
-        "notes_notice": notes_notice,
     }
 
     return render(request, "accounts/profile.html", context)
@@ -148,7 +142,17 @@ def follow(request, pk):
 
 @login_required
 def update(request, pk):
-    notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
+    tab1 = []
+    tab2 = []
+    tab3 = []
+    for i in range(1,22):
+        if i < 8:
+            tab1.append(i)
+        elif 8 <= i < 15:
+            tab2.append(i)
+        else:
+            tab3.append(i)
+
     if request.user.pk != pk:
         return redirect("accounts:profile", pk)
 
@@ -156,6 +160,8 @@ def update(request, pk):
 
     if request.method == "POST":
         profile_form = ProfileForm(request.POST, request.FILES, instance=user.profile)
+        daytime = json.dumps(request.POST.getlist('daytime'))
+        print(daytime)
         if profile_form.is_valid():
             profile_form.save()
             return redirect("accounts:profile", pk)
@@ -165,7 +171,9 @@ def update(request, pk):
     context = {
         "user": user,
         "profile_form": profile_form,
-        "notes_notice ": notes_notice,
+        "tab1": tab1,
+        "tab2": tab2,
+        "tab3": tab3,
     }
 
     return render(request, "accounts/update.html", context)
