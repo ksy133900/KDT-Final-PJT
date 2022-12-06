@@ -19,6 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    path("chat/",include('chat.urls', namespace='chat')),
     path("comments/", include("comments.urls")),
     path("admin/", admin.site.urls),
     path("accounts/", include("accounts.urls")),
