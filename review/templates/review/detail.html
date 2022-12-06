@@ -118,16 +118,18 @@
           <!--프로필이미지-->
           <div class="row justify-content-around">
             <div class="profile_img col-auto col-md-4 text-center">
-              {% if review.user.profile.image %}
-              <img src="{{ review.user.profile.image.url }}" class="rounded-circle" alt="프로필이미지">
-              {% else %}
-              <img src="{% static 'images/no-profile.jpg' %}" class="rounded-circle">
-              {% endif %}
-              {% if review.user.profile.nickname %}
-              <p>{{review.user.profile.nickname}}</p>
-              {% else %}
-              <p>{{review.user.username}}</p>
-              {% endif %}
+              <a href="{% url 'accounts:open_profile' review.user.pk %}">
+                {% if review.user.profile.image %}
+                <img src="{{ review.user.profile.image.url }}" class="rounded-circle" alt="프로필이미지">
+                {% else %}
+                <img src="{% static 'images/no-profile.jpg' %}" class="rounded-circle">
+                {% endif %}
+                {% if review.user.profile.nickname %}
+                <p>{{review.user.profile.nickname}}</p>
+                {% else %}
+                <p>{{review.user.username}}</p>
+                {% endif %}
+              </a>
             </div>
 
             <!--리뷰내용-->
