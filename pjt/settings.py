@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "notes",
     "taggit.apps.TaggitAppConfig",
     "taggit_templatetags2",
+    'comments',
 ]
 # Channels
 ASGI_APPLICATION = "pjt.asgi.application"
