@@ -111,37 +111,26 @@
                 {% else %}
                 <i class="bi bi-hand-thumbs-down" id="likeupBtn" data-review-id="{{ review.pk }}"></i>
                 {% endif %}
-                <span id="like-count">{{ review.like_users.count}}</span> -->
-                <!-- <div>
-                  {% if request.user.is_authenticated %}
-                    {% if request.user in review.like_users.all %}
-                      <i id="btn-review-like" data-review-id="{{ review.pk }}" class="bi bi-heart-fill text-danger"></i>
-                    {% else %}
-                      <i id="btn-review-like" data-review-id="{{ review.pk }}" class="bi bi-heart text-dark"></i>
-                    {% endif %}
-                  {% else %}
-                    <a href="{% url 'accounts:login' %}">
-                      <i class="bi bi-heart"></i>
-                    </a>
-                  {% endif %}
-                  <span id="review-like-count">{{ review.like_users.count }}</span>
-                </div>
-                </div>
-                </div> -->
-                <div class='bt_wrap d-flex justify-content-center pb-5'>
-                  <form class="like-forms" data-review-id="{{ review.pk }}" method="POST">
-                    {% csrf_token %}
-                    {% if request.user in review.like.all %}
-                      <input type="submit" value="좋아요취소" id="like-{{ review.pk }}">
-                    {% else %}
-                      <input type="submit" value="좋아요" id="like-{{ review.pk }}">
-                    {% endif %}
-                  </form>
-                </div>
-          </div>
-          </div>
+                <span id="like-count">{{ review.like_users.count}}</span>
+             <div> -->
+                
+  
+           {% if request.user.is_authenticated %}
+           <form class="like-forms d-inline" data-review-id="{{ review.pk }}">
+             {% csrf_token %}
+             {% if request.user in review.like_users.all %}
+             <input type="submit" value="좋아요취소" id="like-{{ review.pk }}">
+             {% else %}
+             <input type="submit" value="좋아요" id="like-{{ review.pk }}">
+             {% endif %}
+           </form>
           
-            
+         {% endif %}
+
+  
+         </div>
+       </div>
+        
           <!--프로필이미지-->
           <div class="row justify-content-around">
             <div class="profile_img col-auto col-md-4 text-center">
@@ -187,42 +176,34 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.min.js"></script>
     <!-- <script type="text/javascript" src="{% static 'js/review_likes.js' %}"></script> -->
     <script>
-      const form = document.querySelector('.like-forms')
-      const csrftoken = document
-        .querySelector('[name=csrfmiddlewaretoken]')
-        .value
-        form
-        .addEventListener('submit', function (event) {
+      const likeForms = document.querySelectorAll('.like-forms')
+      const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value
+      likeForms.forEach(form => {
+        form.addEventListener('submit', event => {
           event.preventDefault()
-          const reviewId = event
-            .target
-            .dataset
-            .reviewId
-            console
-            .log(form)
+          const reviewId = event.target.dataset.reviewId
+  
           axios({
-            
             method: 'post',
-            url:`/like/${reviewId}/`,
-            headers: {
-              'X-CSRFToken': csrftoken
+            url: `/detail/like/${reviewId}/`,
+            headers: {'X-CSRFToken': csrfToken},
+          })
+          .then(response => {
+            const isLiked = response.data.isLiked
+            const likeBtn = document.querySelector(`#like-${reviewId}`)
+        
+            if (isLiked === true) {
+              likeBtn.value = "좋아요취소"
+            } else {
+              likeBtn.value = "좋아요"
             }
-            
+            console.log(likeBtn)
           })
-            .then((response) => {
-              const isLiked = response.data.is_liked
-              const likeBtn = document.querySelector(`#like-${reviewId}`)
-              if (isLiked === true) {
-                likeBtn.value = "좋아요취소"
-              } else {
-                likeBtn.value = "좋아요"
-              }
-            })
-            .catch((error) => {
-              console.log(error.response)
-              console.log("다왔어")
-            })
+          .catch(error => {
+            console.log(error)
           })
+        })
+      })
   
       </script>
 {% endblock script %}

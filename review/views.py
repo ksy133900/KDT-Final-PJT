@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from .forms import *
 from notes.models import Notes
 from accounts.models import Profile
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 from django.db.models import Count
 from django.views.decorators.http import require_POST
@@ -161,18 +162,15 @@ def detail(request):
 #     return JsonResponse(context)
 
 
-@require_POST
 def like(request, pk):
-    if request.user.is_authenticated:
-        review = Review.objects.get(pk=pk)
-        if review.like.filter(pk=request.user.pk).exists():
-            review.like.remove(request.user)
-            is_liked = False
-        else:
-            review.like.add(request.user)
-            is_liked = True
-        data = {
-            "is_liked": is_liked,
-        }
-        return JsonResponse(data)
-    return redirect("accounts:login")
+    review = Review.objects.get(pk=pk)
+    if review.like_users.filter(pk=request.user.pk).exists():
+        review.like_users.remove(request.user)
+        is_liked = False
+    else:
+        review.like_users.add(request.user)
+        is_liked = True
+    data = {
+        "is_liked": is_liked,
+    }
+    return JsonResponse(data)
