@@ -130,6 +130,7 @@ def delete(request, pk):
 
 def detail(request):
     reviews = Review.objects.order_by("-pk")
+    print(reviews)
     notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
     context = {
         "reviews": reviews,
