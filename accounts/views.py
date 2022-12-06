@@ -72,6 +72,19 @@ def open_profile(request, pk):
     address_split = user.address.split(" ")
     address1 = address_split[0]
     address2 = address_split[1]
+    tab1 = []
+    tab2 = []
+    tab3 = []
+    for i in range(1,22):
+        if i < 8:
+            tab1.append(i)
+        elif 8 <= i < 15:
+            tab2.append(i)
+        else:
+            tab3.append(i)
+    #테스트용
+    daytime = [1,3,5,9,12,16,17,20,21]
+
     context = {
         "profile": profile,
         "review": review,
@@ -80,6 +93,10 @@ def open_profile(request, pk):
         "reviews_count": reviews_count,
         "address1": address1,
         "address2": address2,
+        "tab1": tab1,
+        "tab2": tab2,
+        "tab3": tab3,
+        "daytime": daytime
     }
     return render(request, "accounts/open_profile.html", context)
 
@@ -160,8 +177,9 @@ def update(request, pk):
 
     if request.method == "POST":
         profile_form = ProfileForm(request.POST, request.FILES, instance=user.profile)
-        daytime = request.POST.getlist('daytime')
-        print(daytime)
+        #profile DB 모델에 저장해야 함 
+        daytime = json.dumps(request.POST.getlist('daytime'))
+        print("============>>>>>>>>", daytime)
         if profile_form.is_valid():
             profile_form.save()
             return redirect("accounts:profile", pk)
