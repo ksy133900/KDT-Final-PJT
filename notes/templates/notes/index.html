@@ -17,28 +17,30 @@ a{
           <button type="button" class="btn btn-success dropdown-toggle" style="width: 100px; margin-right:50px;" data-bs-toggle="dropdown" aria-expanded="false">
             메뉴
           </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{% url 'notes:mail' %}">메일 보내기</a></li>
+          <ul class="dropdown-menu" style="--bs-dropdown-min-width: 8rem;">
+            <li><a class="dropdown-item text-center" href="{% url 'notes:mail' %}">메일 보내기</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="{% url 'notes:index' %}">받은 메일함</a></li>
+            <li><a class="dropdown-item text-center" href="{% url 'notes:index' %}">받은 메일함</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="{% url 'notes:sent' %}">보낸 메일함</a></th></li>
-
-
-
-
+            <li><a class="dropdown-item text-center" href="{% url 'notes:sent' %}">보낸 메일함</a></li>
           </ul>
         </div>
       </div>
       {% if request.resolver_match.url_name == 'index' %}
       <div class="col-9 ms-5 me-3">
         <table class="table bg-white">
+          <!--테이블 비율-->
+          <colgroup>
+            <col width="20%" /><!--보낸사람.-->
+            <col width="35%" /><!--제목-->
+            <col width="10%" /><!--읽음-->
+            <col width="10%" /><!--삭제-->
+            <col width="25%" /><!--받은시간-->
+          </colgroup>
+          <!--테이블 헤드-->
           <thead>
-            <div style="margin: bottom 30px;">
-            <h2 class="fw-bold" style="margin-bottom: 30px"> 받은 메일함</h2>
-          </div>
+            <h2 class="fw-bold mb-5"> 받은 메일함</h2>
             <tr class="table-success mt-3">
-        
               <th scope="col">보낸 사람</th>
               <th scope="col">제목</th>
               <th scope="col">읽음</th>
@@ -64,7 +66,6 @@ a{
                 <td>안읽음</td>
                 {% endif %}
                 <td>
-                  
                   <a href="{% url 'notes:delete' note.pk %}"><img src="https://cdn-icons-png.flaticon.com/512/8056/8056372.png" width="25" height="25"></a>
                 </td>
                 <td>{{ note.created_at|date:'o.m.d H:i' }}</td>
@@ -97,17 +98,25 @@ a{
       {% elif request.resolver_match.url_name == 'sent' %}
       <div class="col-9 ms-5 me-3">
         <table class="table bg-white">
+          <!--테이블 비율-->
+          <colgroup>
+            <col width="20%" /><!--받는사람.-->
+            <col width="35%" /><!--제목-->
+            <col width="10%" /><!--읽음-->
+            <col width="10%" /><!--삭제-->
+            <col width="25%" /><!--보낸시간-->
+          </colgroup>
+          <!--테이블 헤드-->
           <thead>
             <div style="margin: bottom 30px;">
             <h2 class="fw-bold" style="margin-bottom: 30px"> 보낸 메일함</h2>
           </div>
             <tr class="table-success mt-3">
-        
-              <th scope="col">보낸 사람</th>
+              <th scope="col">받는 사람</th>
               <th scope="col">제목</th>
               <th scope="col">읽음</th>
               <th scope="col">삭제</th>
-              <th scope="col">받은 시간</th>
+              <th scope="col">보낸 시간</th>
             </tr>
         
           <tbody>
