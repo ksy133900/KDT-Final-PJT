@@ -160,7 +160,7 @@ def update(request, pk):
 
     if request.method == "POST":
         profile_form = ProfileForm(request.POST, request.FILES, instance=user.profile)
-        daytime = json.dumps(request.POST.getlist('daytime'))
+        daytime = request.POST.getlist('daytime')
         print(daytime)
         if profile_form.is_valid():
             profile_form.save()
