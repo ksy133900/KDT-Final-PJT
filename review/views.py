@@ -40,15 +40,6 @@ def matching(request):
     }
     return render(request, "review/matching.html", context)
 
-
-def match_board(request):
-    test = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-    context = {
-        "test": test,
-    }
-    return render(request, "review/match_board.html", context)
-
-
 @login_required
 def create(request):
 
@@ -178,3 +169,26 @@ def like(request, pk):
     }
 
     return JsonResponse(data)
+
+def match_board(request):
+    test = Match_review.objects.all()
+    context = {
+        "test": test,
+    }
+    return render(request, "review/match_board.html", context)
+
+def match_create(request):
+    if request.method == "POST":
+        match_review_form = Match_reviewForm(request.POST)
+        if match_review_form.is_valid():
+            match_review = match_review_form.save(commit=False)
+            match_review.user = request.user
+            match_review.save()
+            return redirect("review:match_board")
+    else:
+        match_review_form = Match_reviewForm()
+    
+    context = {
+        "match_review_form": match_review_form,
+    }
+    return render(request, "review/match_create.html", context)

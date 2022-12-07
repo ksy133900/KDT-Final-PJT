@@ -1,8 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/match_create.css' %}">
+{% endblock css %}
 
 {% block content %}
 <section class="container">
   <h1 class="text-center mt-5 mb-5">매칭후기 게시판</h1>
+  <div class="text-center mt-5 mb-5">
+    <a href="{% url 'review:match_create' %}" class="btn btn_1">후기작성</a>
+  </div>
   <!--테이블 시작-->
   <table class="table text-center">
     <!--테이블 비율-->
@@ -27,11 +35,11 @@
     <tbody>
       {% for i in test %}
       <tr>
-        <th scope="row">{{ i }}</th>
-        <td>{{ i }}</td>
-        <td>{{ i }}</td>
-        <td>{{ i }}</td>
-        <td>{{ i }}</td>
+        <th scope="row">{{ i.id }}</th>
+        <td>{{ i.title }}</td>
+        <td>{{ i.match_user }}</td>
+        <td>{{ i.user.profile.nickname }}</td>
+        <td>{{ i.created_at }}</td>
       </tr>
       {% endfor %}
     </tbody>
