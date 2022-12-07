@@ -61,13 +61,8 @@ def logout(request):
     auth_logout(request)
     return redirect("review:pro_index")
 
-
 def open_profile(request, pk):
-    user = get_object_or_404(get_user_model(), pk=pk)
-
-
-def open_profile(request, pk):
-    profile = Profile.objects.order_by("-pk")
+    profile = Profile.objects.get(pk=pk)
     review = Review.objects.order_by("-pk")
     user = get_object_or_404(get_user_model(), pk=pk)
     reviews = user.review_set.all()
@@ -85,8 +80,9 @@ def open_profile(request, pk):
             tab2.append(i)
         else:
             tab3.append(i)
-    #테스트용
-    daytime = [1,3,5,9,12,16,17,20,21]
+    # 선호 시간용
+    dt_json = json.loads(profile.daytime)#list로 받았으나 내부값이 str이라 바로 사용 못함
+    daytime = list(map(int, dt_json))#오랜만에 사용하는 map(int)로 타입 변경하여 list로 변수 지정
 
     context = {
         "profile": profile,
@@ -99,7 +95,7 @@ def open_profile(request, pk):
         "tab1": tab1,
         "tab2": tab2,
         "tab3": tab3,
-        "daytime": daytime
+        "daytime": daytime,
     }
     return render(request, "accounts/open_profile.html", context)
 
@@ -213,9 +209,11 @@ def update(request, pk):
 
     if request.method == "POST":
         profile_form = ProfileForm(request.POST, request.FILES, instance=user.profile)
-        #profile DB 모델에 저장해야 함 
-        daytime = json.dumps(request.POST.getlist('daytime'))
-        print("============>>>>>>>>", daytime)
+        #profile DB 저장 완료 
+        test = profile_form.save(commit=False)
+        test.daytime = json.dumps(request.POST.getlist('daytime'))
+        # print("============>>>>>>>>", test.daytime, type(test.daytime)) list 타입 저장 확인
+        test.save()
         if profile_form.is_valid():
             profile_form.save()
             return redirect("accounts:profile", pk)
