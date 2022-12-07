@@ -3,12 +3,14 @@
 	width: 100%;
 }
 
+
 /* comments.html에만 적용되는 것 (시작)*/
 .new {
 	width: 50%
 }
 
 /* comments.html에만 적용되는 것 (끝)*/
+
 .book_img {
 	width: 450px;
 }
@@ -24,6 +26,8 @@
 	box-shadow: 3px 3px 3px rgb(121, 121, 121);
 
 }
+
+
 
 .btn_1:hover {
 	background-color: rgb(255, 162, 129);
@@ -45,6 +49,14 @@
 .content_box {
 	max-height: 100px;
 }
+
+
+  .btn-none {
+    border: 0;
+    padding: 0;
+    background-color: white;
+  }
+
 
 /* review/detail css시작 */
 /* chat 시작 */
@@ -104,3 +116,4 @@ body {
 }
 
 /* chat 끝 */
+
