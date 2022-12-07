@@ -17,7 +17,7 @@ class Book(models.Model):
     title=models.CharField(max_length=50)
 
     #장르
-    genre=models.ForeignKey(book_genre,max_length=10, blank=True,)
+    genre=models.ForeignKey(book_genre,max_length=10, blank=True, on_delete=models.PROTECT)
 
     #가격
     price=models.PositiveIntegerField()
