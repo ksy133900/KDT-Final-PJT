@@ -5,7 +5,7 @@
 {% endblock css %}
 {% block content %}
 
-  <section class="container mt-5 mb-5 p-3 bg-dark bg-opacity-25 rounded-2">
+  <section class="container mt-5 mb-5 p-3 bg-dark bg-opacity-25 rounded-2" style="width:60%;">
     <!--상단 타이틀-->
     {% if user.profile.nickname != null %}
     <h1 class="text-center">{{ user.profile.nickname }}님의 프로필</h1>
@@ -41,9 +41,9 @@
               <form id="follow-form" data-user-id="{{ user.pk }}">
                 {% csrf_token %}
                 {% if request.user in user.followers.all %}
-                <input id="follow-btn" type="submit" formmethod="POST" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #262564; color: white;" value="언팔로우">
+                <input id="follow-btn" type="submit" formmethod="POST" class="btn btn-secondary ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; color: white;" value="언팔로우">
                 {% else %}
-                <input id="follow-btn" type="submit" formmethod="POST" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #13185c; color: white;" value="팔로우">
+                <input id="follow-btn" type="submit" formmethod="POST" class="btn btn-primary ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; color: white;" value="팔로우">
                 {% endif %}
               </form>
             </div>
@@ -148,7 +148,6 @@
       </div>
     </div>
     <!--활동지역-->
-    <!--활동지역-->
     <div class="border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
       <h4>활동 지역</h4>
       <p></p>
@@ -159,7 +158,6 @@
           <span>{{address1}}</span>&nbsp;<span>{{address2}}</span></p>
       {% endif %}
     </div>
-    <!--선호시간-->
     <!--선호시간-->
     <div class="border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
       <h4>선호시간</h4>
@@ -231,12 +229,12 @@
     </div>
     <!--하고 싶은 말-->
     <div class="border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
-      <h4>하고 싶은 말</h4>
+      <h4>소개글</h4>
       <!-- 프로필 소개글 출력 -->
       {% if user.profile.intro != blank %}
-      <div> {{ user.profile.intro | linebreaksbr }} </div>
+      <h6> {{ user.profile.intro | linebreaksbr }} </h6>
       {% else %}
-      <div> 아직 소개글을 작성하지 않았습니다. </div>
+      <h6> 아직 소개글을 작성하지 않았습니다. </h6>
       {% endif %}
   </div>
   </section>
