@@ -49,3 +49,17 @@ class CommentForm(forms.ModelForm):
         fields = [
             "content",
         ]
+
+class Match_reviewForm(forms.ModelForm):
+    class Meta:
+        model = Match_review
+        fields = [
+            "title",
+            "match_user",
+            "content",
+        ]
+        labels = {
+            "title": "제목",
+            "match_user": "어느 분과 매칭하셨나요",
+            "content": "후기내용",
+        }
