@@ -8,11 +8,14 @@ from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 from django.db.models import Count
 from django.views.decorators.http import require_POST
+from django.contrib.auth import logout as auth_logout
+
 
 # Create your views here.
 
 
 def pro_index(request):
+    auth_logout(request)
     return render(request, "review/pro_index.html")
 
 

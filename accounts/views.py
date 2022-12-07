@@ -160,7 +160,7 @@ def get_context_data(self, **kwargs):
 
     if len(search_keyword) > 1 :
         context['q'] = search_keyword
-    context['type'] = search_type
+        context['type'] = search_type
 
     return context
 
