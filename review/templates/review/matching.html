@@ -27,7 +27,34 @@
 
 <div class="container">
   <div id="list" class="row row-cols-2">
-    <!-- 여기는 자바스크립트에서 데이터를 추가-->
+    {% for profile_ in profile %}
+    <a>
+      <div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0"
+          style="background: linear-gradient(-45deg, #33ccff 0%, #ff99cc 100%);color: black;border: 2px solid black; cursor: pointer;">
+          <div class="col-md-5" style="width: 42.3%; height: 227px;">
+            <img src='{{ request.user.profile.image.url }}' alt='${book.name}' style="width: 100%;
+      max-width: 180px;
+      margin: 30px;">
+            <p style="font-weight: bolder; text-align: center; font-size: 25px; margin-left: 20px; margin-top: -10px;">
+              {{profile_.nickname}}
+          </div>
+          <div class="col-md-7" style="width: 100%; max-width: 300px;">
+            <div class="card-body" style="margin-top: 20px; font-weight: bold">
+              <p class="card-text"></p>
+              <p class="card-text">선호 나이 </p>
+              <p class="card-text">활동 지역<br>
+                <small class="text-muted">(정보불러오는곳)</small>
+              </p>
+              <p class="card-text">팔로워or매너지수<small class="text-muted">(수치 불러오는곳)</small></p>
+              <button class="w-btn-neon2" style="z-index: 1; margin-left: 15%;" type="button"
+                href="">리뷰 보기 </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
   </div>
 </div>
 

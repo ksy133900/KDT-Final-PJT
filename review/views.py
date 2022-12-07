@@ -32,7 +32,13 @@ def faq(request):
 
 
 def matching(request):
-    return render(request, "review/matching.html")
+    profile = Profile.objects.all()
+    notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
+    context = {
+        "profile": profile,
+        "notes_notice": notes_notice,
+    }
+    return render(request, "review/matching.html", context)
 
 
 def match_board(request):
