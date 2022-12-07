@@ -10,21 +10,21 @@
             <button type="button" class="btn btn-success dropdown-toggle" style="width: 100px; margin-right:100px;" data-bs-toggle="dropdown" aria-expanded="false">
               메뉴
             </button>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu" style="--bs-dropdown-min-width: 8rem;">
               <li>
-                <a class="dropdown-item" href="{% url 'notes:mail' %}">메일 보내기</a>
+                <a class="dropdown-item text-center" href="{% url 'notes:mail' %}">메일 보내기</a>
               </li>
               <li>
                 <hr class="dropdown-divider">
               </li>
               <li>
-                <a class="dropdown-item" href="{% url 'notes:index' %}">받은 메일함</a>
+                <a class="dropdown-item text-center" href="{% url 'notes:index' %}">받은 메일함</a>
               </li>
               <li>
                 <hr class="dropdown-divider">
               </li>
               <li>
-                <a class="dropdown-item" href="{% url 'notes:sent' %}">보낸 메일함</a>
+                <a class="dropdown-item text-center" href="{% url 'notes:sent' %}">보낸 메일함</a>
               </th>
             </li>
 

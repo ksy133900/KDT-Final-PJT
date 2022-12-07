@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from .forms import *
 from notes.models import Notes
 from accounts.models import Profile
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 from django.db.models import Count
 from django.views.decorators.http import require_POST
@@ -18,15 +19,16 @@ def pro_index(request):
 def index(request):
     reviews = Review.objects.order_by("-pk")
 
-    notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
     profile = Profile.objects.order_by("-pk")
     context = {
         "reviews": reviews,
         "profile": profile,
-        "notes_notice": notes_notice,
     }
-    print(notes_notice)
     return render(request, "review/index.html", context)
+
+
+def faq(request):
+    return render(request, "review/faq.html")
 
 
 def matching(request):
@@ -39,19 +41,16 @@ def matching(request):
     return render(request, "review/matching.html", context)
 
 
-def genre(request):
+def match_board(request):
     test = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-    notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
     context = {
         "test": test,
-        "notes_notice": notes_notice,
     }
-    return render(request, "review/genre.html", context)
+    return render(request, "review/match_board.html", context)
 
 
 @login_required
 def create(request):
-    notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
 
     if request.method == "POST":
         review_form = ReviewForm(request.POST, request.FILES)
@@ -91,7 +90,6 @@ def create(request):
     context = {
         "review_form": review_form,
         "photo_form": photo_form,
-        "notes_notice ": notes_notice,
     }
     return render(request, "review/create.html", context)
 
@@ -135,10 +133,9 @@ def delete(request, pk):
 
 def detail(request):
     reviews = Review.objects.order_by("-pk")
-    notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
+
     context = {
         "reviews": reviews,
-        "notes_notice": notes_notice,
     }
     return render(request, "review/detail.html", context)
 
@@ -166,18 +163,18 @@ def detail(request):
 #     return JsonResponse(context)
 
 
-@require_POST
 def like(request, pk):
-    if request.user.is_authenticated:
-        review = Review.objects.get(pk=pk)
-        if review.like.filter(pk=request.user.pk).exists():
-            review.like.remove(request.user)
-            is_liked = False
-        else:
-            review.like.add(request.user)
-            is_liked = True
-        data = {
-            "is_liked": is_liked,
-        }
-        return JsonResponse(data)
-    return redirect("accounts:login")
+    review = Review.objects.get(pk=pk)
+
+    if review.like_users.filter(pk=request.user.pk).exists():
+        review.like_users.remove(request.user)
+        is_liked = False
+    else:
+        review.like_users.add(request.user)
+        is_liked = True
+
+    data = {
+        "isLiked": is_liked,
+    }
+
+    return JsonResponse(data)

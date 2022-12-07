@@ -11,10 +11,8 @@ from django.http import JsonResponse
 @login_required
 def index(request):
     notes = request.user.user_to.order_by("-created_at")
-    notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
     context = {
         "notes": notes,
-        "notes_notice": notes_notice,
     }
     return render(request, "notes/index.html", context)
 
@@ -22,14 +20,14 @@ def index(request):
 @login_required
 def sent(request):
     to_notes = request.user.user_from.order_by("-created_at")
-    notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
-    context = {"to_notes": to_notes, "notes_notice": notes_notice}
+    context = {
+        "to_notes": to_notes,
+        }
     return render(request, "notes/index.html", context)
 
 
 @login_required
 def mail(request):
-    notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
     form = NotesForm(request.POST or None)
     if form.is_valid():
         temp = form.save(commit=False)
@@ -42,14 +40,12 @@ def mail(request):
 
     context = {
         "form": form,
-        "notes_notice": notes_notice,
     }
     return render(request, "notes/mail.html", context)
 
 
 @login_required
 def detail(request, pk):
-    notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
 
     note = get_object_or_404(Notes, pk=pk)
     if request.user == note.to_user:
@@ -60,11 +56,11 @@ def detail(request, pk):
             request.user.notice_note = True
             request.user.save()
         return render(
-            request, "notes/detail.html", {"note": note, "notes_notice": notes_notice}
+            request, "notes/detail.html", {"note": note}
         )
     elif request.user == note.from_user:
         return render(
-            request, "notes/detail.html", {"note": note, "notes_notice": notes_notice}
+            request, "notes/detail.html", {"note": note}
         )
     else:
         return redirect("notes:index")

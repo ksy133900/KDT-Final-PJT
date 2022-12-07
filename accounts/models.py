@@ -4,6 +4,7 @@ from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 from django.conf import settings
 
+
 # Create your models here.
 class User(AbstractUser):
     # username = models.CharField(max_length=16, unique=True)
@@ -68,6 +69,8 @@ class Profile(models.Model):
         max_length=20, default="선택해주세요", choices=age_select
     )  # 선호 장르
     location = models.CharField(max_length=20, null=True)
+    #선호시간
+    daytime = models.TextField(blank=True)
 
     def __str__(self):
         return self.user.email
