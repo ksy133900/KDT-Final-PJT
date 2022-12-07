@@ -30,8 +30,13 @@ def index(request):
 
 
 def matching(request):
+    profile = Profile.objects.all()
     notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
-    return render(request, "review/matching.html", {"notes_notice": notes_notice})
+    context = {
+        "profile": profile,
+        "notes_notice": notes_notice,
+    }
+    return render(request, "review/matching.html", context)
 
 
 def genre(request):
