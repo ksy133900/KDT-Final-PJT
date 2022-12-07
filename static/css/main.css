@@ -1,3 +1,13 @@
+/*전체 영향 css*/
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+}
+
 /* 메인 검색창 시작*/
 .search-box {
   position: absolute;
@@ -118,13 +128,6 @@
 
 /* matching검색창 끝 */
 
-
-
-ul {
-  list-style-type: none;
-}
-
-
 /*매칭 */
 
 @keyframes ring {
@@ -223,8 +226,4 @@ ul {
   letter-spacing: -.5px;
   color: #ff003e;
   vertical-align: middle;
-}
-
-ul {
-  list-style-type: circle;
 }

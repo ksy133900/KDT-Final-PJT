@@ -27,8 +27,6 @@
 
 }
 
-
-
 .btn_1:hover {
 	background-color: rgb(255, 162, 129);
 
@@ -51,14 +49,28 @@
 }
 
 
-  .btn-none {
-    border: 0;
-    padding: 0;
-    background-color: white;
-  }
+.btn-none {
+	border: 0;
+	padding: 0;
+	background-color: unset;
+}
 
+.btn_docto {
+	background-color: rgba(245, 140, 178, 0.7);
+	box-shadow: 3px 3px 3px rgb(121, 121, 121);
 
-/* review/detail css시작 */
+}
+
+.btn_docto:hover {
+	background-color: rgba(245, 170, 180, 0.7);
+	border: rgb(172, 156, 124) solid 2px;
+}
+
+.btn_docto:focus,
+.btn_docto:active {
+	background-color: rgba(245, 170, 180, 0.7);
+}
+
 /* chat 시작 */
 body {
 	background: #E5DDD5 url("https://www.toptal.com/designers/subtlepatterns/patterns/sports.png") fixed;
@@ -116,4 +128,3 @@ body {
 }
 
 /* chat 끝 */
-
