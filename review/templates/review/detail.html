@@ -121,15 +121,14 @@
                 {% endif %}
                 <span id="like-count">{{ review.like_users.count}}</span>
              <div> -->
-                
   
            {% if request.user.is_authenticated %}
            <form class="like-forms d-inline" data-review-id="{{ review.pk }}">
              {% csrf_token %}
              {% if request.user in review.like_users.all %}
-             <input type="submit" value="좋아요취소" id="like-{{ review.pk }}">
+             <button type="submit" id="btn-like-{{ review.pk }}" class="btn-none bi bi-hand-thumbs-up"></button>
              {% else %}
-             <input type="submit" value="좋아요" id="like-{{ review.pk }}">
+             <button type="submit" id="btn-like-{{ review.pk }}" class="btn-none bi bi-hand-thumbs-down"></button>
              {% endif %}
            </form>
           
@@ -188,8 +187,8 @@
     <script>
       const likeForms = document.querySelectorAll('.like-forms')
       const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value
-      likeForms.forEach(form => {
-        form.addEventListener('submit', event => {
+      likeForms.forEach((form) => {
+        form.addEventListener('submit', function (event) {
           event.preventDefault()
           const reviewId = event.target.dataset.reviewId
   
@@ -200,20 +199,31 @@
           })
           .then(response => {
             const isLiked = response.data.isLiked
-            const likeBtn = document.querySelector(`#like-${reviewId}`)
-        
-            if (isLiked === true) {
-              likeBtn.value = "좋아요취소"
-            } else {
-              likeBtn.value = "좋아요"
-            }
+            const likeBtn = document.querySelector(`#btn-like-${reviewId}`)
+            console.log(response.data)
+           
+            console.log(isLiked)
+
             console.log(likeBtn)
+            if (isLiked === true) {
+              console.log('호호')
+              likeBtn.classList.add('bi-hand-thumbs-up')
+              likeBtn.classList.remove('bi-hand-thumbs-down')
+              
+            } else {
+              likeBtn.classList.add('bi-hand-thumbs-down')
+              likeBtn.classList.remove('bi-hand-thumbs-up')
+        
+            }
+            
           })
           .catch(error => {
             console.log(error)
           })
         })
       })
+      
+    
   
       </script>
 {% endblock script %}

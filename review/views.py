@@ -26,8 +26,10 @@ def index(request):
     }
     return render(request, "review/index.html", context)
 
+
 def faq(request):
-    return render(request,"review/faq.html")
+    return render(request, "review/faq.html")
+
 
 def matching(request):
     return render(request, "review/matching.html")
@@ -157,13 +159,16 @@ def detail(request):
 
 def like(request, pk):
     review = Review.objects.get(pk=pk)
+
     if review.like_users.filter(pk=request.user.pk).exists():
         review.like_users.remove(request.user)
         is_liked = False
     else:
         review.like_users.add(request.user)
         is_liked = True
+
     data = {
-        "is_liked": is_liked,
+        "isLiked": is_liked,
     }
+
     return JsonResponse(data)
