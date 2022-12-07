@@ -34,6 +34,21 @@
 
 }
 
+.btn_2 {
+  width: 180px;
+  height: 40px;
+  background-color: rgb(173, 171, 171);
+  box-shadow: 3px 3px 3px rgb(121, 121, 121);
+
+}
+
+.btn_2:hover,
+.btn_2:focus,
+.btn_2:active {
+  background-color: rgb(199, 197, 197);
+
+}
+
 .mid_banner {
   width: 100%;
 }
