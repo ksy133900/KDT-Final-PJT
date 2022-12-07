@@ -63,7 +63,7 @@ def main():
     for item in json_response["items"]:
         print("제목:" + item["title"])
         print("설명:" + item["description"])
-        print("가격:" + item["price"])
+        print("가격:" + item["price"], end="")
         print("(" + item["discount"] + ")")
         print("url:" + item["link"])
         print("================\n")
