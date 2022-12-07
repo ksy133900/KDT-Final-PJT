@@ -6,8 +6,6 @@ app_name = "review"
 urlpatterns = [
     path("", views.pro_index, name="pro_index"),
     path("index/", views.index, name="index"),
-    #매칭후기 게시판
-    path("match_board/", views.match_board, name="match_board"),
     #도서 리뷰 작성
     path("create/", views.create, name="create"),
     #도서 디테일 화면 - 도서정보 + 리뷰목록
@@ -22,5 +20,10 @@ urlpatterns = [
     path("detail/like/<int:pk>/", views.like, name="like"),
     #FAQ
     path("faq/", views.faq, name="faq"),
+    #도서 리뷰 작성
+    path("match_create/", views.match_create, name="match_create"),
+    #매칭후기 게시판
+    path("match_board/", views.match_board, name="match_board"),
+
 
 ]
