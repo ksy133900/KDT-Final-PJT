@@ -1,49 +1,88 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <title>Chat Room</title>
-</head>
-<body>
-    <textarea id="chat-log" cols="100" rows="20"></textarea><br>
-    <input id="chat-message-input" type="text" size="100"><br>
-    <input id="chat-message-submit" type="button" value="Send">
-    {{ room_name|json_script:"room-name" }}
-    <script>
-        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static%}
 
-        const chatSocket = new WebSocket(
-            'ws://'
-            + window.location.host
-            + '/ws/chat/'
-            + roomName
-            + '/'
-        );
+{% block content %}
+<div class ="d-flex text-center">
+    <h1 class="d-flex text-black">{{ review.pk }}</h1>
+</div>
 
-        chatSocket.onmessage = function(e) {
-            const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').value += (data.message + '\n');
-        };
+<div class="lg:w-2/4 mx-4 lg:mx-auto p-4 bg-white rounded-xl">
+    <div class="chat-messages d-flex" id="chat-messages">
+        <div class="p-4 bg-gray-200 rounded-xl">
+            <p class="font-bold">{{request.user.username}} 님이 입장했습니다.</p>
 
-        chatSocket.onclose = function(e) {
-            console.error('Chat socket closed unexpectedly');
-        };
+        </div>
+        {% for message in messages %}
+            <div class="d-flex">
+            <p class="font-bold">{{ message.user.username}}</p>
+            <p>{{ message.content }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 
-        document.querySelector('#chat-message-input').focus();
-        document.querySelector('#chat-message-input').onkeyup = function(e) {
-            if (e.keyCode === 13) {  // enter, return
-                document.querySelector('#chat-message-submit').click();
-            }
-        };
+<div class="lg:w-2/4 mx-4 lg:mx-auto p-4 bg-white rounded-xl">
+    <form method="POST" action="" class="flex">
+        <input type="text" name="content" class="flex-1 mr-3" placeholder="메시지 입력하세요" id="chat-message-input">
 
-        document.querySelector('#chat-message-submit').onclick = function(e) {
-            const messageInputDom = document.querySelector('#chat-message-input');
-            const message = messageInputDom.value;
-            chatSocket.send(JSON.stringify({
-                'message': message
-            }));
-            messageInputDom.value = '';
-        };
-    </script>
-</body>
-</html>
+        <button class ="px-3 py-3 rounded-xl text-black bg-teal-600 hover:bg-teal-700" id="chat-message-submit">메시지 입력</button>
+    </form>
+</div>
+{% endblock content %}
+
+{% block script %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+{{ room|json_script:"json-roomname" }}
+{{ request.user.username|json_script:"json-username"}}
+<script type="text/javascript">
+    const roomName = JSON.parse(document.getElementById("json-roomname").textContent);
+    const userName = JSON.parse(document.getElementById("json-username").textContent);
+    const chatSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/chat/'
+        + roomName
+        + '/'
+    );
+
+    chatSocket.onmessage = function(e) {
+        console.log('onmessage')
+
+        /* 서버로부터 데이터 받기 */
+        const data = JSON.parse(e.data);
+
+        if (data.message) {
+            let html = '<div class="d-flex">';
+                html += '<p class="font-bold">' + data.username + '</p>';
+                html += '<p>' + data.message + '</p></div>';
+
+            document.querySelector('#chat-messages').innerHTML += html;
+
+        } else {
+            alert('글을 작성해주세요!')
+        }
+    }
+
+    chatSocket.onmessage = function(e) {
+        console.log('onclose')
+    }
+
+    document.querySelector('#chat-message-submit').onclick = function(e) {
+        e.preventDefault();
+
+        const messageInputDom = document.querySelector('#chat-message-input');
+        const message = messageInputDom.value;
+
+        chatSocket.send(JSON.stringify({
+            'message':message,
+            'username':userName,
+            'room':roomName,
+        }));
+        messageInputDom.value = '';
+
+        return false;
+    }
+</script>
+
+{% endblock script %}

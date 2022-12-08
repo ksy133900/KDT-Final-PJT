@@ -1,19 +1,28 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock css %}
 {% block content %}
 
-<div class="container-fluid" style="padding: 0px; margin: 0px;">
+<div class="container-fluid mt-5 mb-5">
   <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img src="https://dummyimage.com/1920x400/000/fff" class="d-block w-100" alt="...">
+    <div class="carousel-inner bg-dark">
+      <div>
+
       </div>
-      <div class="carousel-item">
-        <img src="https://dummyimage.com/1920x400/000/fff" class="d-block w-100" alt="...">
+      {% for book in books %}
+      <div class="carousel-item {% if book.id == 1 %}active{% endif %}" style="width: 300px;">
+        <a href="{% url 'review:detail' book.pk %}">
+          {% if book.image %}
+          <img src="{{ book.image.url }}" class="{{book.title}}_img">
+          {% else %}
+          <img src="{% static 'images/dummy-image-square.jpg' %}" class="dummy_img">
+          {% endif %}
+        </a>
       </div>
-      <div class="carousel-item">
-        <img src="https://dummyimage.com/1920x400/000/fff" class="d-block w-100" alt="...">
-      </div>
+      {% endfor %}
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -27,7 +36,9 @@
 </div>
 
 <!-- 여기부터 글쓰기 및 유저 정보 페이지 팔로우 확인용 시험 코드라서 디자인 바꾸실거면 자유롭게 바꾸셔도 되는데, 없애진 말고 주석으로 남겨주세요-->
-<a class="active" href="{% url 'review:create' %}">글좀 써보자</a>
+<!--임시로 캐러셀 만들어 도서디테일 연결했습니다.
+  <a class="active" href="{% url 'review:create' %}">글좀 써보자</a>
+-->
 
 {% for review in reviews %}
 

@@ -3,6 +3,7 @@ from .models import *
 from .forms import *
 from notes.models import Notes
 from accounts.models import Profile
+from book.models import Book
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.http import JsonResponse
@@ -21,11 +22,13 @@ def pro_index(request):
 
 def index(request):
     reviews = Review.objects.order_by("-pk")
-
     profile = Profile.objects.order_by("-pk")
+    books = Book.objects.all()
+
     context = {
         "reviews": reviews,
         "profile": profile,
+        "books": books,
     }
     return render(request, "review/index.html", context)
 
@@ -86,7 +89,7 @@ def create(request):
                     review.tags.add(tag)
                     review.save()
 
-            return redirect("review:detail")
+            return redirect("/")
 
     else:
         review_form = ReviewForm()
@@ -122,24 +125,22 @@ def update(request, pk):
         "photo_form": photo_form,
     }
     return render(request, "review/create.html", context)
-
-
 # 글 수정 끝
 
 # 글 삭제 시작
 def delete(request, pk):
     Review.objects.get(id=pk).delete()
     return redirect("review:detail")
-
-
 # 글 삭제 끝
 
 
-def detail(request):
+def detail(request,pk):
     reviews = Review.objects.order_by("-pk")
+    book = Book.objects.get(pk=pk)
 
     context = {
         "reviews": reviews,
+        "book": book,
     }
     return render(request, "review/detail.html", context)
 

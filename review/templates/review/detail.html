@@ -12,7 +12,7 @@
     <div class="top_banner row d-flex align-items-center justify-content-around">
       <!--책 이미지-->
       <div class="book_img col-auto">
-        <img src="{% static 'images/book.gif' %}" alt="">
+        <img src="{{ book.image.url }}" alt="">
       </div>
       <!--책 정보 시작-->
       <div class="col-auto">
@@ -28,23 +28,23 @@
           <tbody>
             <tr>
               <th scope="row">제목</th>
-              <td>책이름</td>
+              <td>{{ book.title }}</td>
             </tr>
             <tr>
               <th scope="row">장르</th>
-              <td>스릴러?</td>
+              <td>{{ book.genre }}</td>
             </tr>
             <tr>
               <th scope="row">가격</th>
-              <td>10,000원</td>
+              <td>{{ book.price }}</td>
             </tr>
             <tr>
               <th scope="row">줄거리</th>
-              <td>생략표시로 처리예정</td>
+              <td>{{ book.summary }}</td>
             </tr>
             <tr>
               <th scope="row">매칭수</th>
-              <td>해당도서로 매칭된 횟수</td>
+              <td>{{ book.matching_count }}</td>
             </tr>
           </tbody>
         </table>
@@ -62,6 +62,7 @@
       </div>
       <!--리뷰카드 시작-->
       {% for review in reviews %}
+
       <div class="review_card row border rounded-4 border-success border-opacity-25 border-3 p-3 mt-3 mb-3">
         <!--별점/댓글버튼/좋아(싫어)버튼-->
         <div class="d-grid gap-2 d-md-flex justify-content-md-between">
@@ -88,6 +89,7 @@
             <a href="{% url 'comments:comments' review.pk %}" class="btn btn-dark btn-sm" style="height: 2rem;">댓글</a>
             <!-- Modal -->
             <!--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">

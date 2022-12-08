@@ -20,7 +20,7 @@ class User(AbstractUser):
 
 class Profile(models.Model):
     nickname = models.CharField(max_length=20, unique=True, null=True)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     # genre = models.OneToOneField(User, related_name="genre", on_delete=models.CASCADE)
     intro = models.TextField(null=True, blank=True)  # 소개글
     image = ProcessedImageField(
@@ -69,8 +69,15 @@ class Profile(models.Model):
         max_length=20, default="선택해주세요", choices=age_select
     )  # 선호 장르
     location = models.CharField(max_length=20, null=True)
-    # 선호시간
-    daytime = models.TextField(blank=True)
+    #선호시간
+    daytime = models.TextField(null=True)
+
 
     def __str__(self):
         return self.user.email
+
+class Notification(models.Model):
+    message = models.CharField(max_length=100)
+    check = models.BooleanField(default=False)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    nid = models.IntegerField(default=0)

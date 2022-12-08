@@ -249,11 +249,13 @@ def update(request, pk):
 
     if request.method == "POST":
         profile_form = ProfileForm(request.POST, request.FILES, instance=user.profile)
+     
         #profile DB 저장 완료 
         test = profile_form.save(commit=False)
         test.daytime = json.dumps(request.POST.getlist('daytime'))
         # print("============>>>>>>>>", test.daytime, type(test.daytime)) list 타입 저장 확인
         test.save()
+
         if profile_form.is_valid():
             profile_form.save()
             return redirect("accounts:profile", pk)
