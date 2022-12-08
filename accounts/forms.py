@@ -14,11 +14,13 @@ class CustomUserCreationForm(UserCreationForm):
             "password2",
             "address",
         ]
+
         def clean_username(self):
-            username = self.cleaned_data['username']
+            username = self.cleaned_data["username"]
             if User.objects.filter(username=username).exists():
-                raise forms.ValidationError('아이디가 이미 사용중입니다')
+                raise forms.ValidationError("아이디가 이미 사용중입니다")
             return username
+
     # OperationalError at /accounts/signup/
     # no such column: accounts_user.nickname
 
@@ -36,6 +38,7 @@ class ProfileForm(forms.ModelForm):
             "ages",
             "day",
             "time",
+            "location",
             "image",
         ]
         labels = {
@@ -47,4 +50,5 @@ class ProfileForm(forms.ModelForm):
             "day": "선호 요일",
             "time": "선호 시간",
             "image": "프로필 사진",
+            "location": "활동 지역",
         }

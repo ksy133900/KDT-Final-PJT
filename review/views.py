@@ -10,7 +10,7 @@ from django.http import JsonResponse
 from django.db.models import Count
 from django.views.decorators.http import require_POST
 from django.contrib.auth import logout as auth_logout
-
+from accounts.models import *
 
 # Create your views here.
 
@@ -38,13 +38,23 @@ def faq(request):
 
 
 def matching(request):
-    profile = Profile.objects.all()
+    user = User.objects.order_by("-pk")
+    user_address = User.objects.values_list("address")
+    # address_split = user.address.split(" ")
+    # address1 = address_split[0]
+    # address2 = address_split[1]
+    profile = Profile.objects.order_by("-pk")
     notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
     context = {
         "profile": profile,
         "notes_notice": notes_notice,
+        "user": user,
+        # "address1": address1,
+        # "address2": address2,
     }
+    print(user_address)
     return render(request, "review/matching.html", context)
+
 
 @login_required
 def create(request):
@@ -174,12 +184,14 @@ def like(request, pk):
 
     return JsonResponse(data)
 
+
 def match_board(request):
     test = Match_review.objects.all()
     context = {
         "test": test,
     }
     return render(request, "review/match_board.html", context)
+
 
 def match_create(request):
     if request.method == "POST":
@@ -191,7 +203,7 @@ def match_create(request):
             return redirect("review:match_board")
     else:
         match_review_form = Match_reviewForm()
-    
+
     context = {
         "match_review_form": match_review_form,
     }

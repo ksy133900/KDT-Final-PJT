@@ -72,6 +72,7 @@ class Profile(models.Model):
     #선호시간
     daytime = models.TextField(null=True)
 
+
     def __str__(self):
         return self.user.email
 
