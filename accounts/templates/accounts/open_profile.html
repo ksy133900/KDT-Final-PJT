@@ -257,11 +257,11 @@
     <div class="border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
       <h4>활동 지역</h4>
       <p></p>
-      {% if user.address == null %}
+      {% if user.profile.location == null %}
         <p>아직 지역 설정을 하지 않았습니다.</p>
       {% else %}
         <p>
-          <span>{{address1}}</span>&nbsp;<span>{{address2}}</span></p>
+          {{user.profile.location}}</p>
       {% endif %}
     </div>
     <!--선호시간-->
