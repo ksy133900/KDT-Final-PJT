@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth import get_user_model
-from .models import Profile, User
-from .models import Profile
+from .models import *
+
 from django import forms
 
 
@@ -12,7 +12,6 @@ class CustomUserCreationForm(UserCreationForm):
             "username",
             "password1",
             "password2",
-            "address",
         ]
 
         def clean_username(self):
@@ -29,7 +28,7 @@ class CustomUserCreationForm(UserCreationForm):
 
 class ProfileForm(forms.ModelForm):
     class Meta:
-        model = Profile()
+        model = Profile
         fields = [
             "intro",
             "nickname",

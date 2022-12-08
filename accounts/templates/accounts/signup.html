@@ -22,70 +22,89 @@
       <div class="d-flex align-items-center">
         <h6 class="my-3" style="width: 123px; color: rgb(51, 51, 51); font-size:14px;">아이디</h6>
         <div class="my-3">
-          <input type="text" style="width: 333px; height: 46px;" name="username" maxlength="150" autofocus="" class="signup-input form-control" placeholder="아이디를 입력해주세요" required="" id="id_username">
+          <input type="text" style="width: 433px; height: 46px;" name="username" maxlength="150" autofocus="" class="signup-input form-control" placeholder="아이디를 입력해주세요" required="" id="id_username">
         </div>
       </div>
 
       <div class="d-flex align-items-center">
         <h6 class="my-3" style="width: 123px; color: rgb(51, 51, 51); font-size: 14px;">비밀번호</h6>
         <div class="my-3">
-          <input type="password" style="width:333px; height: 46px;"  name="password1" autocomplete="new-password" class="signup-input form-control" placeholder="비밀번호를 입력해주세요" required="" id="id_password1">
+          <input type="password" style="width:433px; height: 46px;"  name="password1" autocomplete="new-password" class="signup-input form-control" placeholder="비밀번호를 입력해주세요" required="" id="id_password1">
         </div>
       </div>
       <div class="d-flex align-items-center">
         <h6 class="my-3" style="width: 123px; color: rgb(51, 51, 51); font-size: 14px;">비밀번호 확인</h6>
         <div class="my-3">
-          <input type="password" style="width:333px; height: 46px;" name="password2" autocomplete="new-password" class="signup-input form-control" placeholder="비밀번호를 한 번 더 입력해주세요" required="" id="id_password2">
+          <input type="password" style="width:433px; height: 46px;" name="password2" autocomplete="new-password" class="signup-input form-control" placeholder="비밀번호를 한 번 더 입력해주세요" required="" id="id_password2">
         </div>
       </div>
 
-      <div class="d-flex align-items-center">
+
+      <!-- <div class="d-flex align-items-center">
         <h6 class="my-3" style="width:123px; color: rgb(51, 51, 51); font-size:14px;">주소</h6>
         <div class="my-3">
           <input type="text" style="width:333px; height: 46px;" name="address" class="signup-input form-control"
             placeholder="주소를 입력해주세요" id="sample6_address" required>
-        </div>
-        <div>
+        </div> -->
+        <!-- <div>
           <input class="btn" type="button"
             style="width: 120px; height: 46px; border: 1px solid #2f664c; color: #2f664c; margin-left: 8px; font-weight: 500;"
             value="주소검색" onclick="sample6_execDaumPostcode()">
         </div>
-      </div>
+      </div> -->
+      <!-- <div class="d-flex align-items-center">
+        <h6 class="my-3" style="width: 123px; color: rgb(51, 51, 51); font-size: 14px;">닉네임</h6>
+        <div class="my-3">
+          <input type="nickname" style="width:333px; height: 46px;" name="nickname" autocomplete="off" class="signup-input form-control" placeholder="닉네임을 입력해주세요" required="" id="id_nickname">
+        </div>
+      </div> -->
+      <!-- <div class="d-flex align-items-center">
+        <h6 class="my-3" style="width: 123px; color: rgb(51, 51, 51); font-size: 14px;" for="id_nickname">닉네임</h6>
+        <div class="my-3">
+        <input type="text" autocomplete="off" name="nickname" maxlength="16" style="width:433px; height: 46px;" class="signup-input form-control" placeholder="닉네임" required="" id="id_nickname">
+        </div>
+      </div> -->
+      <div class="d-flex align-items-center">
+        <h6 class="my-3" style="width: 123px; color: rgb(51, 51, 51); font-size: 14px;">닉네임</h6>
+        <div class="my-3">
+      <input type="text" name="nickname" style="width:433px; height: 46px;" maxlength="8" class="form-control" placeholder="닉네임" required="" id="id_nickname">
+    </div>
+  </div>
       <!-- 유효성 검사 실패시 오류 출력 -->
-      <div class="d-flex justify-content-center">
+      <!-- <div class="d-flex justify-content-center">
         {% if error %}
           {% for value in error %}
           {{ value }}
           {% endfor %}
         {% endif %}
-      </div>  
+      </div>   -->
 
 
 
       <div class="d-flex justify-content-center my-3">
-        <input type="submit" class="btn py-1 px-5 fw-bold form-control" style="border-radius:10px; height:60px; background-color: #2f664c; color: white" formmethod="POST" value="가입하기">
+        <input type="submit" class="btn py-1 px-5 fw-bold form-control" style="border-radius:10px; height:60px; background-color: #2f664c; color: white" value="가입하기">
       </div>
     </form>
   </div>
   <hr>
   <div class="d-flex justify-content-center align-items-center">
-    <p class='mb-0' style="color: rgba(194, 200, 204, 1)">이미 회원이라면? <a class="text-decoration-none"
+    <p class='mb-0' style="color: rgba(194, 200, 204, 1)">이미 가입했다면, <a class="text-decoration-none"
         style="color:#366b48" href="{% url 'accounts:login' %}">로그인</a></p>
   </div>
 
-</section>
+<!-- </section>
 <div style="display: none;">
   <input type="text" id="sample6_postcode" placeholder="우편번호">
   <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
   <input type="text" id="sample6_address" placeholder="주소"><br>
   <input type="text" id="sample6_detailAddress" placeholder="상세주소">
   <input type="text" id="sample6_extraAddress" placeholder="참고항목">
-</div>
+</div> -->
 
 {% endblock content %}
 {% block script %}
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
+<!-- <script>
   function sample6_execDaumPostcode() {
     new daum.Postcode({
       oncomplete: function (data) {
@@ -133,5 +152,5 @@
       }
     }).open();
   }
-</script>
+</script> -->
 {% endblock script%}
