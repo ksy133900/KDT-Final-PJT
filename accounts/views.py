@@ -160,7 +160,7 @@ def get_context_data(self, **kwargs):
 
     if len(search_keyword) > 1 :
         context['q'] = search_keyword
-    context['type'] = search_type
+        context['type'] = search_type
 
     return context
 
@@ -213,9 +213,14 @@ def update(request, pk):
 
     if request.method == "POST":
         profile_form = ProfileForm(request.POST, request.FILES, instance=user.profile)
-        #profile DB 모델에 저장해야 함 
-        daytime = json.dumps(request.POST.getlist('daytime'))
+        #profile DB 모델에 저장해야 함
+        print(request.POST) 
+        daytime = request.POST.getlist('daytime')
+        print(type(daytime[0]))
+        profile = Profile()
+        profile.daytime = json.dumps(daytime)
         print("============>>>>>>>>", daytime)
+        profile.save()
         if profile_form.is_valid():
             profile_form.save()
             return redirect("accounts:profile", pk)

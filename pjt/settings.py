@@ -36,8 +36,8 @@ DEBUG = True
 # Application definition
 
 INSTALLED_APPS = [
-    'daphne',
     'channels',
+    'daphne',
     'chat',
     'comments',
     "django.contrib.admin",
@@ -56,6 +56,11 @@ INSTALLED_APPS = [
     "taggit_templatetags2",
 ]
 # Channels
+# # channels.layers.InMemoryChannelLayer??
+#channels_redis.core.RedisChannelLayer
+# "CONFIG": {
+#             "hosts": [("127.0.0.1", 6379)],
+WSGI_APPLICATION = "pjt.wsgi.application"
 ASGI_APPLICATION = "pjt.asgi.application"
 CHANNEL_LAYERS = {
     "default": {
@@ -94,7 +99,6 @@ TEMPLATES = [
         },
     },
 ]
-WSGI_APPLICATION = "pjt.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
