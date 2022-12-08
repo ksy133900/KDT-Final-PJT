@@ -69,7 +69,7 @@ class Profile(models.Model):
         max_length=20, default="선택해주세요", choices=age_select
     )  # 선호 장르
     location = models.CharField(max_length=20, null=True)
-    #선호시간
+    # 선호시간
     daytime = models.TextField(blank=True)
 
     def __str__(self):

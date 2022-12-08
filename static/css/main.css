@@ -78,7 +78,7 @@ a {
   padding: 0px;
   border-radius: 6px;
   background: #ffffff;
-  box-shadow: 0px 0px 0 2px #30950e;
+  box-shadow: 0px 0px 0 2px #33ccff;
   margin-left: 140px;
   width: 100%;
 }
@@ -138,8 +138,8 @@ a {
   }
 
   100% {
-    width: 150px;
-    height: 150px;
+    width: 300px;
+    height: 300px;
     opacity: 0;
   }
 }
@@ -149,13 +149,11 @@ a {
   border: none;
   min-width: 200px;
   min-height: 50px;
-  background: linear-gradient(90deg,
-      rgb(0, 146, 0) 0%,
-      rgb(2, 133, 0) 100%);
+  background: linear-gradient(-45deg, #33ccff 0%, #ff99cc 100%);
   border-radius: 10px;
-  color: rgb(0, 0, 0);
+  color: darkslategray;
   cursor: pointer;
-  box-shadow: 1px 1px 10px rgba(206, 206, 206, 0.64);
+  box-shadow: 1px 1px 10px rgb(255, 255, 255);
   font-weight: 700;
   transition: 0.3s;
 }
@@ -169,9 +167,8 @@ a {
   width: 30px;
   height: 30px;
   border-radius: 100%;
-  border: 6px solid #7933f1;
+  border: 6px solid #dfbdff;
   position: absolute;
-
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
