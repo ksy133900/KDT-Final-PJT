@@ -62,6 +62,7 @@
       </div>
       <!--리뷰카드 시작-->
       {% for review in reviews %}
+
       <div class="review_card row border rounded-4 border-success border-opacity-25 border-3 p-3 mt-3 mb-3">
         <!--별점/댓글버튼/좋아(싫어)버튼-->
         <div class="d-grid gap-2 d-md-flex justify-content-md-between">
@@ -88,6 +89,7 @@
             <a href="{% url 'comments:comments' review.pk %}" class="btn btn-dark btn-sm" style="height: 2rem;">댓글</a>
             <!-- Modal -->
             <!--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
