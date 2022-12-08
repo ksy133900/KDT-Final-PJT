@@ -37,6 +37,7 @@ class ProfileForm(forms.ModelForm):
             "ages",
             "day",
             "time",
+            "location",
             "image",
         ]
         labels = {
@@ -48,4 +49,5 @@ class ProfileForm(forms.ModelForm):
             "day": "선호 요일",
             "time": "선호 시간",
             "image": "프로필 사진",
+            "location": "활동 지역",
         }

@@ -197,6 +197,46 @@ def get_queryset(self):
     return notice_list
 
 
+
+
+
+# 게시글 검색기능
+# def get_queryset(request):
+#     search_keyword = request.request.GET.get("q", "")
+#     search_type = request.request.GET.get("type", "")
+#     review_list = Review.objects.order_by("-pk")
+
+#     if search_keyword:
+#         if search_type == "title":
+#             search_review_list = review_list.filter(title__icontains=search_keyword)
+#         elif search_type == "title_content":
+#             # Q: ORM WHERE에서 or 연산을 수행
+#             search_review_list = review_list.filter(
+#                 Q(titleicontains=search_keyword) | Q(contenticontains=search_keyword)
+#             )
+#         elif search_type == "user":
+#             search_review_list == review_list.filter(
+#                 Q(user__nickname__icontains = search_keyword)
+#             )
+#     context = { 
+#         "search_review_list" : search_review_list,
+#     }
+#     return render(request,'review/matching.html', context)
+    # else:
+    #     messages.error(self.request, "검색어는 1글자 이상 입력해주세요.")
+    # return review_list
+
+
+# def get_context_data(self, **kwargs):
+#     search_keyword = self.request.GET.get("q", "")
+#     search_type = self.request.GET.get("type", "")
+
+#     if len(search_keyword) > 1:
+#             context["q"] = search_keyword
+#         context["type"] = search_type
+
+#     return context
+
 @require_POST
 @login_required
 def follow(request, pk):
@@ -246,11 +286,15 @@ def update(request, pk):
 
     if request.method == "POST":
         profile_form = ProfileForm(request.POST, request.FILES, instance=user.profile)
-        # profile DB 저장 완료
+
+     
+        #profile DB 저장 완료 
+
         test = profile_form.save(commit=False)
         test.daytime = json.dumps(request.POST.getlist("daytime"))
         # print("============>>>>>>>>", test.daytime, type(test.daytime)) list 타입 저장 확인
         test.save()
+
         if profile_form.is_valid():
             profile_form.save()
             return redirect("accounts:profile", pk)

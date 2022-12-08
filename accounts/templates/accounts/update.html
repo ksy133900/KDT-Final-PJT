@@ -2,12 +2,12 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
-  <h1 class="text-center my-5">회원 정보 수정</h1>
-  <div class="container mx-auto mb-5">
+<h1 class="text-center my-5">회원 정보 수정</h1>
+<div class="container mx-auto mb-5" style="width: 640px;">
   <form action="" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {% bootstrap_form profile_form %}
-    
+
     <table class="table col-auto" style="width: 490px;">
       <thead>
         <tr>
@@ -46,5 +46,5 @@
       <input type="submit" class="btn btn-primary" value="완료">
     </div>
   </form>
-  </div>
+</div>
 {% endblock content %}
