@@ -14,7 +14,7 @@ class User(AbstractUser):
     )
     notice_note = models.BooleanField(default=True)
     note_notice = models.BooleanField(default=True)  # 메일 여부
-    # address = models.CharField(max_length=50, null=True)
+    address = models.CharField(max_length=50, null=True, blank=True)
 
 
 class Profile(models.Model):
@@ -76,11 +76,11 @@ class Profile(models.Model):
 
     location = models.CharField(blank=True, max_length=20, null=True)
     # 선호시간
-    daytime = models.TextField(blank=True,null=True)
-
+    daytime = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.user.email
+
 
 class Notification(models.Model):
     message = models.CharField(max_length=100)
