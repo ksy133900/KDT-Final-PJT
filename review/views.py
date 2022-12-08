@@ -3,43 +3,48 @@ from .models import *
 from .forms import *
 from notes.models import Notes
 from accounts.models import Profile
+from book.models import Book
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 from django.db.models import Count
 from django.views.decorators.http import require_POST
+from django.contrib.auth import logout as auth_logout
+
 
 # Create your views here.
 
 
 def pro_index(request):
+    auth_logout(request)
     return render(request, "review/pro_index.html")
 
 
 def index(request):
     reviews = Review.objects.order_by("-pk")
-
     profile = Profile.objects.order_by("-pk")
+    books = Book.objects.all()
+
     context = {
         "reviews": reviews,
         "profile": profile,
+        "books": books,
     }
     return render(request, "review/index.html", context)
 
+
 def faq(request):
-    return render(request,"review/faq.html")
+    return render(request, "review/faq.html")
+
 
 def matching(request):
-    return render(request, "review/matching.html")
-
-
-def match_board(request):
-    test = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    profile = Profile.objects.all()
+    notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
     context = {
-        "test": test,
+        "profile": profile,
+        "notes_notice": notes_notice,
     }
-    return render(request, "review/match_board.html", context)
-
+    return render(request, "review/matching.html", context)
 
 @login_required
 def create(request):
@@ -74,7 +79,7 @@ def create(request):
                     review.tags.add(tag)
                     review.save()
 
-            return redirect("review:detail")
+            return redirect("/")
 
     else:
         review_form = ReviewForm()
@@ -110,24 +115,22 @@ def update(request, pk):
         "photo_form": photo_form,
     }
     return render(request, "review/create.html", context)
-
-
 # 글 수정 끝
 
 # 글 삭제 시작
 def delete(request, pk):
     Review.objects.get(id=pk).delete()
     return redirect("review:detail")
-
-
 # 글 삭제 끝
 
 
-def detail(request):
+def detail(request,pk):
     reviews = Review.objects.order_by("-pk")
+    book = Book.objects.get(pk=pk)
 
     context = {
         "reviews": reviews,
+        "book": book,
     }
     return render(request, "review/detail.html", context)
 
@@ -157,13 +160,39 @@ def detail(request):
 
 def like(request, pk):
     review = Review.objects.get(pk=pk)
+
     if review.like_users.filter(pk=request.user.pk).exists():
         review.like_users.remove(request.user)
         is_liked = False
     else:
         review.like_users.add(request.user)
         is_liked = True
+
     data = {
-        "is_liked": is_liked,
+        "isLiked": is_liked,
     }
+
     return JsonResponse(data)
+
+def match_board(request):
+    test = Match_review.objects.all()
+    context = {
+        "test": test,
+    }
+    return render(request, "review/match_board.html", context)
+
+def match_create(request):
+    if request.method == "POST":
+        match_review_form = Match_reviewForm(request.POST)
+        if match_review_form.is_valid():
+            match_review = match_review_form.save(commit=False)
+            match_review.user = request.user
+            match_review.save()
+            return redirect("review:match_board")
+    else:
+        match_review_form = Match_reviewForm()
+    
+    context = {
+        "match_review_form": match_review_form,
+    }
+    return render(request, "review/match_create.html", context)

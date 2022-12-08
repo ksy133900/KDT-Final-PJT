@@ -1,63 +1,90 @@
 /* review/detail css시작 */
 .top_banner {
-  width: 100%;
+	width: 100%;
 }
+
+
 /* comments.html에만 적용되는 것 (시작)*/
 .new {
-  width: 50%
+	width: 50%
 }
+
 /* comments.html에만 적용되는 것 (끝)*/
+
 .book_img {
-  width: 450px;
+	width: 450px;
 }
 
 .book_img img {
-  width: 100%;
+	width: 100%;
 }
 
 .btn_1 {
-  width: 150px;
-  height: 40px;
-  background-color: coral;
-  box-shadow: 3px 3px 3px rgb(121, 121, 121);
+	width: 150px;
+	height: 40px;
+	background-color: coral;
+	box-shadow: 3px 3px 3px rgb(121, 121, 121);
 
 }
 
 .btn_1:hover {
-  background-color: rgb(255, 162, 129);
+	background-color: rgb(255, 162, 129);
 
 }
 
 .review_card {
-  width: 80%;
+	width: 80%;
 }
 
 .profile_img {
-  width: 100px;
+	width: 100px;
 }
 
 .profile_img img {
-  width: 100%;
+	width: 100%;
 }
 
 .content_box {
-  max-height: 100px;
+	max-height: 100px;
 }
 
-/* review/detail css시작 */
+
+.btn-none {
+	border: 0;
+	padding: 0;
+	background-color: unset;
+}
+
+.btn_docto {
+	background-color: rgba(245, 140, 178, 0.7);
+	box-shadow: 3px 3px 3px rgb(121, 121, 121);
+
+}
+
+.btn_docto:hover {
+	background-color: rgba(245, 170, 180, 0.7);
+	border: rgb(172, 156, 124) solid 2px;
+}
+
+.btn_docto:focus,
+.btn_docto:active {
+	background-color: rgba(245, 170, 180, 0.7);
+}
+
 /* chat 시작 */
 body {
 	background: #E5DDD5 url("https://www.toptal.com/designers/subtlepatterns/patterns/sports.png") fixed;
 }
+
 .page-header {
 	background: #006A4E;
 	margin: 0;
-  padding: 20px 0 10px;
+	padding: 20px 0 10px;
 	color: #FFFFFF;
-	position: fixed;
 	width: 100%;
-  z-index: 1
+	z-index: 1
 }
+
 .main {
 	height: 100vh;
 	padding-top: 70px;
@@ -68,6 +95,7 @@ body {
 	height: auto;
 	overflow: auto;
 }
+
 .chat-log__item {
 	background: #fafafa;
 	padding: 10px;
@@ -75,7 +103,7 @@ body {
 	max-width: 80%;
 	float: left;
 	border-radius: 4px;
-	box-shadow: 0 1px 2px rgba(0,0,0,.1);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
 	clear: both;
 }
 
@@ -98,4 +126,5 @@ body {
 	font-size: 14px;
 	font-weight: bold;
 }
+
 /* chat 끝 */

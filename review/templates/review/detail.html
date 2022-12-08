@@ -12,7 +12,7 @@
     <div class="top_banner row d-flex align-items-center justify-content-around">
       <!--책 이미지-->
       <div class="book_img col-auto">
-        <img src="{% static 'images/book.gif' %}" alt="">
+        <img src="{{ book.image.url }}" alt="">
       </div>
       <!--책 정보 시작-->
       <div class="col-auto">
@@ -28,23 +28,23 @@
           <tbody>
             <tr>
               <th scope="row">제목</th>
-              <td>책이름</td>
+              <td>{{ book.title }}</td>
             </tr>
             <tr>
               <th scope="row">장르</th>
-              <td>스릴러?</td>
+              <td>{{ book.genre }}</td>
             </tr>
             <tr>
               <th scope="row">가격</th>
-              <td>10,000원</td>
+              <td>{{ book.price }}</td>
             </tr>
             <tr>
               <th scope="row">줄거리</th>
-              <td>생략표시로 처리예정</td>
+              <td>{{ book.summary }}</td>
             </tr>
             <tr>
               <th scope="row">매칭수</th>
-              <td>해당도서로 매칭된 횟수</td>
+              <td>{{ book.matching_count }}</td>
             </tr>
           </tbody>
         </table>
@@ -62,31 +62,34 @@
       </div>
       <!--리뷰카드 시작-->
       {% for review in reviews %}
-        <div class="review_card row border rounded-4 border-success border-opacity-25 border-3 p-3 mt-3 mb-3">
-          <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-            <!--리뷰별점-->
-            <div class="row flex-nowrap">
-              {% if review.rating == 5 %}
-              <h6>⭐⭐⭐⭐⭐</h6>
-              {% elif review.rating == 4 %}
-              <h6>⭐⭐⭐⭐</h6>
-              {% elif review.rating == 3 %}
-              <h6>⭐⭐⭐</h6>
-              {% elif review.rating == 2 %}
-              <h6>⭐⭐</h6>
-              {% elif review.rating == 1 %}
-              <h6>⭐</h6>
-              {% endif %}
-            </div>
-            <!--좋아/싫어 버튼-->
-            <div class="d-flex">
-              <!-- Button trigger modal -->
-              <!-- <button id="#myBtn" type="button" class="btn btn-dark btn-lg" data-toggle="modal" data-target="#myModal">
-                댓글
-              </button> -->
-              <a href="{% url 'chat:room' review.pk %}" class="btn btn-dark btn-lg">댓글</a>
-              <!-- Modal -->
-             <!--  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+      <div class="review_card row border rounded-4 border-success border-opacity-25 border-3 p-3 mt-3 mb-3">
+        <!--별점/댓글버튼/좋아(싫어)버튼-->
+        <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+          <!--리뷰별점-->
+          <div class="row flex-nowrap">
+            {% if review.rating == 5 %}
+            <h6>⭐⭐⭐⭐⭐</h6>
+            {% elif review.rating == 4 %}
+            <h6>⭐⭐⭐⭐</h6>
+            {% elif review.rating == 3 %}
+            <h6>⭐⭐⭐</h6>
+            {% elif review.rating == 2 %}
+            <h6>⭐⭐</h6>
+            {% elif review.rating == 1 %}
+            <h6>⭐</h6>
+            {% endif %}
+          </div>
+          <!--댓글/좋아/싫어 버튼-->
+          <div class="d-flex gap-3">
+            <!-- Button trigger modal -->
+            <!-- <button id="#myBtn" type="button" class="btn btn-dark btn-lg" data-toggle="modal" data-target="#myModal">
+              댓글
+            </button> -->
+            <a href="{% url 'comments:comments' review.pk %}" class="btn btn-dark btn-sm" style="height: 2rem;">댓글</a>
+            <!-- Modal -->
+            <!--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -120,62 +123,62 @@
                 <i class="bi bi-hand-thumbs-down" id="likeupBtn" data-review-id="{{ review.pk }}"></i>
                 {% endif %}
                 <span id="like-count">{{ review.like_users.count}}</span>
-             <div> -->
-                
-  
-           {% if request.user.is_authenticated %}
-           <form class="like-forms d-inline" data-review-id="{{ review.pk }}">
-             {% csrf_token %}
-             {% if request.user in review.like_users.all %}
-             <input type="submit" value="좋아요취소" id="like-{{ review.pk }}">
-             {% else %}
-             <input type="submit" value="좋아요" id="like-{{ review.pk }}">
-             {% endif %}
-           </form>
-          
-         {% endif %}
-
-  
-         </div>
-       </div>
-        
-          <!--프로필이미지-->
-          <div class="row justify-content-around">
-            <div class="profile_img col-auto col-md-4 text-center">
-              <a href="{% url 'accounts:open_profile' review.user.pk %}">
-                {% if review.user.profile.image %}
-                <img src="{{ review.user.profile.image.url }}" class="rounded-circle" alt="프로필이미지">
+            <div> -->
+            {% if request.user.is_authenticated %}
+            <form class="like-forms d-inline" data-review-id="{{ review.pk }}">
+              {% csrf_token %}
+              <h4>
+                {% if request.user in review.like_users.all %}
+                <button type="submit" id="btn-like-{{ review.pk }}" class="btn-none bi bi-emoji-heart-eyes"></button>
                 {% else %}
-                <img src="{% static 'images/no-profile.jpg' %}" class="rounded-circle">
+                <button type="submit" id="btn-like-{{ review.pk }}" class="btn-none bi bi-emoji-angry"></button>
                 {% endif %}
-                {% if review.user.profile.nickname %}
-                <p>{{review.user.profile.nickname}}</p>
-                {% else %}
-                <p>{{review.user.username}}</p>
-                {% endif %}
-              </a>
-            </div>
-
-            <!--리뷰내용-->
-            <div class="overflow-auto content_box border bg-success bg-opacity-10 border-0 rounded-3 col-auto col-md-9">
-             <p>{{review.content | linebreaksbr }}</p>
-            </div>
-          </div>
-          <!--독토요청/수정/삭제 버튼, 작성일자-->
-          <div class="d-grid d-md-flex justify-content-md-between">
-            {% if request.user != review.user %}
-            <a href="{% url 'notes:mail' %}" class="btn btn-dark">독토요청하기</a>
+              </h4>
+            </form>
             {% endif %}
-            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+          </div>
+        </div>
+        <!--포로필이미지/리뷰내용-->
+        <div class="row justify-content-around">
+          <!--프로필이미지-->
+          <div class="profile_img col-auto col-md-4 text-center">
+            <a href="{% url 'accounts:open_profile' review.user.pk %}">
+              {% if review.user.profile.image %}
+              <img src="{{ review.user.profile.image.url }}" class="rounded-circle" alt="프로필이미지">
+              {% else %}
+              <img src="{% static 'images/no-profile.jpg' %}" class="rounded-circle">
+              {% endif %}
+              {% if review.user.profile.nickname %}
+              <p>{{review.user.profile.nickname}}</p>
+              {% else %}
+              <p>{{review.user.username}}</p>
+              {% endif %}
+            </a>
+          </div>
+
+          <!--리뷰내용-->
+          <div class="overflow-auto content_box border bg-success bg-opacity-10 border-0 rounded-3 col-auto col-md-9">
+           <p>{{review.content | linebreaksbr }}</p>
+          </div>
+        </div>
+        <!--독토요청/수정/삭제 버튼, 작성일자-->
+        <div class="row">
+          <div class="col-auto col-md-2 text-center">
+            {% if request.user != review.user %}
+            <a href="{% url 'notes:mail' %}" class="btn btn_docto btn-sm">독토요청하기</a>
+            {% endif %}
+          </div>
+          <div class="col-auto col-md-7">
+          </div>
+          <div class="col-auto col-md-3 d-flex gap-2 d-md-flex justify-content-md-end">
             {% if request.user == review.user %}
-            <div class="d-flex gap-2">
-              <a href="{% url 'review:update' review.pk %}" style="color:black;"><i class="bi bi-pencil-square"></i></a>
-              <a href="{% url 'review:delete' review.pk %}" style="color:black;"><i class="bi bi-trash"></i></a>
-            </div>
+            <a href="{% url 'review:update' review.pk %}" style="color:black;"><i class="bi bi-pencil-square"></i></a>
+            <a href="{% url 'review:delete' review.pk %}" style="color:black;"><i class="bi bi-trash"></i></a>
             {% endif %}
             <p>작성일: {{review.created_at|date:'Y-m-d'}}</p>
           </div>
         </div>
+      </div>
       {% endfor %}
     </div>
   </section>
@@ -188,8 +191,8 @@
     <script>
       const likeForms = document.querySelectorAll('.like-forms')
       const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value
-      likeForms.forEach(form => {
-        form.addEventListener('submit', event => {
+      likeForms.forEach((form) => {
+        form.addEventListener('submit', function (event) {
           event.preventDefault()
           const reviewId = event.target.dataset.reviewId
   
@@ -200,20 +203,31 @@
           })
           .then(response => {
             const isLiked = response.data.isLiked
-            const likeBtn = document.querySelector(`#like-${reviewId}`)
-        
-            if (isLiked === true) {
-              likeBtn.value = "좋아요취소"
-            } else {
-              likeBtn.value = "좋아요"
-            }
+            const likeBtn = document.querySelector(`#btn-like-${reviewId}`)
+            console.log(response.data)
+           
+            console.log(isLiked)
+
             console.log(likeBtn)
+            if (isLiked === true) {
+              console.log('호호')
+              likeBtn.classList.add('bi-emoji-heart-eyes')
+              likeBtn.classList.remove('bi-emoji-angry')
+              
+            } else {
+              likeBtn.classList.add('bi-emoji-angry')
+              likeBtn.classList.remove('bi-emoji-heart-eyes')
+              
+            }
+            
           })
           .catch(error => {
             console.log(error)
           })
         })
       })
+      
+    
   
       </script>
 {% endblock script %}

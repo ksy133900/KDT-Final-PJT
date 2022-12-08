@@ -1,0 +1,18 @@
+.create_box {
+  width: 70%;
+  background-color: #85d4be;
+}
+
+.btn_1 {
+  width: 180px;
+  height: 40px;
+  background-color: rgb(224, 117, 117);
+  box-shadow: 3px 3px 3px rgb(121, 121, 121);
+
+}
+
+.btn_1:hover,
+.btn_1:focus,
+.btn_1:active {
+  background-color: rgb(230, 178, 178);
+}
