@@ -77,8 +77,11 @@
         </a>
       </div>
       <!-- 소개글 (삭제되었길래 다시 추가했습니다.)-->
-      <p> {{ user.profile.intro|linebreaksbr }} </p>
-
+      {% if user.profile.intro != null %}
+        <p> {{ user.profile.intro|linebreaksbr }} </p>
+      {% else %}
+        <p> 소개글이 없습니다. </p>
+      {% endif %}
       <!-- 팔로잉 collapse 내용 -->
       <div class="collapse multi-collapse" id="multiCollapseExample1">
         <div class="card card-body">
