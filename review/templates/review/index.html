@@ -16,9 +16,9 @@
       <div class="carousel-item {% if book.id == 1 %}active{% endif %}" style="width: 300px;">
         <a href="{% url 'review:detail' book.pk %}">
           {% if book.image %}
-          <img src="{{ book.image.url }}" class="{{book.title}}_img">
+          <img src="{{ book.image.url }}" style="width: 30px; height: 100px;" class="{{book.title}}_img">
           {% else %}
-          <img src="{% static 'images/dummy-image-square.jpg' %}" class="dummy_img">
+          <img src="{% static 'images/dummy-image-square.jpg' %}"  style="width: 400px; height: 400px;" class="dummy_img">
           {% endif %}
         </a>
       </div>
@@ -37,6 +37,7 @@
 
 <!-- 여기부터 글쓰기 및 유저 정보 페이지 팔로우 확인용 시험 코드라서 디자인 바꾸실거면 자유롭게 바꾸셔도 되는데, 없애진 말고 주석으로 남겨주세요-->
 <!--임시로 캐러셀 만들어 도서디테일 연결했습니다.-->
+<a href="{% url 'book:create' %}" class="text-dark">도서 정보 생성</a>
 
 {% for review in reviews %}
 
@@ -49,15 +50,13 @@
             {% if review.user.profile.image %}                        
             <img class="profile_img" src="{{ review.user.profile.image.url }}">
             {% else %}
-            <img src="{% static 'images/dummy-image-square.jpg' %}" alt="" class="rounded-2 border border-1" width="40px">
+            <img src="{% static 'images/no-profile.jpg' %}" alt="" class="rounded-2 border border-1" width="40px">
           {% endif %}
           </a>
         </div>
-        {% if review.user.profile.nickname != NULL %}
+  
         <span class=""> {{ review.user.profile.nickname  }}</span>
-        {% else %}
-        <span class=""> {{ review.user.username  }}</span>
-        {% endif %}
+
        
         {% for tag in review.tags.all %}
          <span>#{{tag.name}}</span>

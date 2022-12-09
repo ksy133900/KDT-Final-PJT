@@ -16,12 +16,13 @@ class book_genre(models.Model):
     #     return reverse('book/book_list.html',args=[self.genre])
     
 class Book(models.Model):
-    #제목
-    title=models.CharField(max_length=50)
-    #장르
-    genre=models.ForeignKey(book_genre,max_length=10, blank=True, on_delete=models.PROTECT)
-    #가격
-    price=models.PositiveIntegerField()
+
+    # 제목
+    title = models.CharField(max_length=50)
+    # 장르
+    genre = models.CharField(max_length=10, unique=True)
+    # 가격
+    price = models.PositiveIntegerField()
     # 줄거리
     summary=models.TextField(max_length=500, blank=True)
     # 매칭수
@@ -38,3 +39,6 @@ class Book(models.Model):
         return self.title   
 
 # Create your models here.
+class Image(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, null=True)
+    image = models.ImageField(upload_to="images/", blank=True, null=True)

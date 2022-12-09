@@ -11,6 +11,7 @@ from django.db.models import Count
 from django.views.decorators.http import require_POST
 from django.contrib.auth import logout as auth_logout
 from accounts.models import *
+from book.models import *
 
 # Create your views here.
 
@@ -127,6 +128,8 @@ def update(request, pk, book_pk):
         "photo_form": photo_form,
     }
     return render(request, "review/create.html", context)
+
+
 # 글 수정 끝
 
 # 글 삭제 시작
@@ -137,9 +140,8 @@ def delete(request, pk, book_pk):
 
 
 def detail(request, book_pk):
-    reviews = Review.objects.filter(book_id = book_pk).order_by("-pk")
+    reviews = Review.objects.filter(book_id=book_pk).order_by("-pk")
     book = Book.objects.get(pk=book_pk)
-
 
     context = {
         "reviews": reviews,
@@ -171,8 +173,9 @@ def detail(request, book_pk):
 #     return JsonResponse(context)
 
 
-def like(request, pk):
-    review = Review.objects.get(pk=pk)
+def like(request, book_pk, review_pk):
+    review = Review.objects.get(pk=review_pk)
+    book = Book.objects.get(pk=book_pk)
 
     if review.like_users.filter(pk=request.user.pk).exists():
         review.like_users.remove(request.user)
