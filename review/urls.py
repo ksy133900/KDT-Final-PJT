@@ -13,9 +13,9 @@ urlpatterns = [
     # 유저목록 - 매칭가능 유저들의 목록
     path("matching/", views.matching, name="matching"),
     # 글 수정
-    path("update/<int:pk>", views.update, name="update"),
+    path("update/<int:pk>,<int:book_pk>", views.update, name="update"),
     # 글 삭제
-    path("delete/<int:pk>", views.delete, name="delete"),
+    path("delete/<int:pk>,<int:book_pk>", views.delete, name="delete"),
     # 리뷰카드 좋아/싫어 버튼
     path("detail/<int:book_pk>/like/<int:review_pk>", views.like, name="like"),
     # FAQ
@@ -24,5 +24,6 @@ urlpatterns = [
     path("match_create/", views.match_create, name="match_create"),
     # 매칭후기 게시판
     path("match_board/", views.match_board, name="match_board"),
+    # 검색 페이지
     path("search/", views.search, name="search"),
 ]
