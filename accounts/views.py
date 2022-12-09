@@ -103,9 +103,6 @@ def open_profile(request, pk):
     user = get_object_or_404(get_user_model(), pk=pk)
     reviews = user.review_set.all()
     reviews_count = len(reviews)
-    address_split = user.address.split(" ")
-    address1 = address_split[0]
-    address2 = address_split[1]
     tab1 = []
     tab2 = []
     tab3 = []
@@ -126,8 +123,6 @@ def open_profile(request, pk):
         "user": user,
         "reviews": reviews,
         "reviews_count": reviews_count,
-        "address1": address1,
-        "address2": address2,
         "tab1": tab1,
         "tab2": tab2,
         "tab3": tab3,
@@ -197,9 +192,6 @@ def get_queryset(self):
     return notice_list
 
 
-
-
-
 # 게시글 검색기능
 # def get_queryset(request):
 #     search_keyword = request.request.GET.get("q", "")
@@ -218,13 +210,13 @@ def get_queryset(self):
 #             search_review_list == review_list.filter(
 #                 Q(user__nickname__icontains = search_keyword)
 #             )
-#     context = { 
+#     context = {
 #         "search_review_list" : search_review_list,
 #     }
 #     return render(request,'review/matching.html', context)
-    # else:
-    #     messages.error(self.request, "검색어는 1글자 이상 입력해주세요.")
-    # return review_list
+# else:
+#     messages.error(self.request, "검색어는 1글자 이상 입력해주세요.")
+# return review_list
 
 
 # def get_context_data(self, **kwargs):
@@ -236,6 +228,7 @@ def get_queryset(self):
 #         context["type"] = search_type
 
 #     return context
+
 
 @require_POST
 @login_required
@@ -287,8 +280,7 @@ def update(request, pk):
     if request.method == "POST":
         profile_form = ProfileForm(request.POST, request.FILES, instance=user.profile)
 
-     
-        #profile DB 저장 완료 
+        # profile DB 저장 완료
 
         test = profile_form.save(commit=False)
         test.daytime = json.dumps(request.POST.getlist("daytime"))
