@@ -58,7 +58,7 @@
     <div class="row justify-content-center">
       <!--리뷰작성 버튼-->
       <div class="d-grid justify-content-center mt-3 mb-5">
-        <a href="{% url 'review:create' %}" class="btn btn_1">리뷰작성</a>
+        <a href="{% url 'review:create' book.pk %}" class="btn btn_1">리뷰작성</a>
       </div>
       <!--리뷰카드 시작-->
       {% for review in reviews %}
@@ -172,8 +172,8 @@
           </div>
           <div class="col-auto col-md-3 d-flex gap-2 d-md-flex justify-content-md-end">
             {% if request.user == review.user %}
-            <a href="{% url 'review:update' review.pk %}" style="color:black;"><i class="bi bi-pencil-square"></i></a>
-            <a href="{% url 'review:delete' review.pk %}" style="color:black;"><i class="bi bi-trash"></i></a>
+            <a href="{% url 'review:update' review.pk book.pk %}" style="color:black;"><i class="bi bi-pencil-square"></i></a>
+            <a href="{% url 'review:delete' review.pk book.pk %}" style="color:black;"><i class="bi bi-trash"></i></a>
             {% endif %}
             <p>작성일: {{review.created_at|date:'Y-m-d'}}</p>
           </div>
@@ -198,7 +198,7 @@
   
           axios({
             method: 'post',
-            url: `/detail/like/${reviewId}/`,
+            url: `/like/${reviewId}/`,
             headers: {'X-CSRFToken': csrfToken},
           })
           .then(response => {

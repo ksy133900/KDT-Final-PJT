@@ -154,87 +154,74 @@
           </div>
        </div>
       </div>
-      
-<!--작성글 collapse 시작-->
-            <div class="collapse" id="user_articles">
-              <div class="row justify-content-center">
-                {% for review in reviews %}
-                <div class="review_card row border rounded-4 border-success border-opacity-25 border-3 p-3 mt-3 mb-3">
-                  <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-                    <div class="row flex-nowrap">
-                      {% if review.rating == 5 %}
-                      <h6>⭐⭐⭐⭐⭐</h6>
-                      {% elif review.rating == 4 %}
-                      <h6>⭐⭐⭐⭐</h6>
-                      {% elif review.rating == 3 %}
-                      <h6>⭐⭐⭐</h6>
-                      {% elif review.rating == 2 %}
-                      <h6>⭐⭐</h6>
-                      {% elif review.rating == 1 %}
-                      <h6>⭐</h6>
-                      {% endif %}
-                    </div>
-                  </div>
-                    
-                    <div class="row justify-content-around">
-                      <div class="profile_img col-auto col-md-4 text-center">
-                        <!-- 유저 -->
-                            {% if review.user.profile.image %}
-                            <img src="{{ review.user.profile.image.url }}" alt="{{ review.user.profile.image }}" class="rounded-2 border border-1" width="40px">
-                            {% else %}
-                            <img src="{% static 'images/no-profile.jpg' %}" alt="" class="rounded-2 border border-1" width="40px">
-                            {% endif %}
-                            {% if review.user.profile.nickname %}
-                            <p>{{ review.user.profile.nickname }}</p>
-                            {% else %}
-                            <p>{{review.user.username}}</p>
-                            {% endif %}
-                      </div>  
-                        
-                      <div class="overflow-auto content_box border bg-success bg-opacity-10 border-0 rounded-3 col-auto col-md-9">
-                          <p>{{review.content | linebreaksbr }}</p>
-                      </div>
-                    </div>
-                       <!--독토요청/수정/삭제 버튼, 작성일자-->
-                       <div class="row">
-                         <div class="col-auto col-md-2 text-center">
-                           {% if request.user != review.user %}
-                           <a href="{% url 'notes:mail' %}" class="btn btn_docto btn-sm">독토요청하기</a>
-                           {% endif %}
-                        </div>
-                         <div class="col-auto col-md-7">
-                       </div>
-                         <div class="col-auto col-md-3 d-flex gap-2 d-md-flex justify-content-md-end">
-                           {% if request.user == review.user %}
-                           <a href="{% url 'review:update' review.pk %}" style="color:black;"><i class="bi bi-pencil-square"></i></a>
-                           <a href="{% url 'review:delete' review.pk %}" style="color:black;"><i class="bi bi-trash"></i></a>
-                           {% endif %}
-                           <p>작성일: {{review.created_at|date:'Y-m-d'}}</p>
-                         </div>
-                      
-                  
-                  
-<!--                
-                            {% for tag in review.tags.all %}
-                              <a href="/search/?search_option=hashtag&amp;search={{ tag.name }}" class="text-decoration-none fs-6">#{{ tag.name }}</a>
-                            {% endfor %} -->
-                     
-              
-               </div>
+      <!--작성글 collapse 시작-->
+      <div class="collapse" id="user_articles">
+        <div class="row justify-content-center">
+          {% for review in reviews %}
+          <div class="review_card row border rounded-4 border-success border-opacity-25 border-3 p-3 mt-3 mb-3">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+              <div class="row flex-nowrap">
+                {% if review.rating == 5 %}
+                <h6>⭐⭐⭐⭐⭐</h6>
+                {% elif review.rating == 4 %}
+                <h6>⭐⭐⭐⭐</h6>
+                {% elif review.rating == 3 %}
+                <h6>⭐⭐⭐</h6>
+                {% elif review.rating == 2 %}
+                <h6>⭐⭐</h6>
+                {% elif review.rating == 1 %}
+                <h6>⭐</h6>
+                {% endif %}
               </div>
             </div>
-            
-               {%endfor%}
-             
+              
+            <div class="row justify-content-around">
+              <div class="profile_img col-auto col-md-4 text-center">
+                <!-- 유저 -->
+                {% if review.user.profile.image %}
+                <img src="{{ review.user.profile.image.url }}" alt="{{ review.user.profile.image }}" class="rounded-2 border border-1" width="40px">
+                {% else %}
+                <img src="{% static 'images/no-profile.jpg' %}" alt="" class="rounded-2 border border-1" width="40px">
+                {% endif %}
+                {% if review.user.profile.nickname %}
+                <p>{{ review.user.profile.nickname }}</p>
+                {% else %}
+                <p>{{review.user.username}}</p>
+                {% endif %}
+              </div>  
+                
+              <div class="overflow-auto content_box border bg-success bg-opacity-10 border-0 rounded-3 col-auto col-md-9">
+                  <p>{{review.content | linebreaksbr }}</p>
+              </div>
             </div>
-            <!--리뷰 갯수(collapse) 내용 종료-->
-          
+            <!--독토요청/수정/삭제 버튼, 작성일자-->
+            <div class="row">
+              <div class="col-auto col-md-2 text-center">
+                  {% if request.user != review.user %}
+                  <a href="{% url 'notes:mail' %}" class="btn btn_docto btn-sm">독토요청하기</a>
+                  {% endif %}
+              </div>
+              <div class="col-auto col-md-7">
+              </div>
+              <div class="col-auto col-md-3 d-flex gap-2 d-md-flex justify-content-md-end">
+                {% if request.user == review.user %}
+                <a href="{% url 'review:update' review.pk %}" style="color:black;"><i class="bi bi-pencil-square"></i></a>
+                <a href="{% url 'review:delete' review.pk %}" style="color:black;"><i class="bi bi-trash"></i></a>
+                {% endif %}
+                <p>작성일: {{review.created_at|date:'Y-m-d'}}</p>
+              </div>
+              <!--                
+                {% for tag in review.tags.all %}
+                <a href="/search/?search_option=hashtag&amp;search={{ tag.name }}" class="text-decoration-none fs-6">#{{ tag.name }}</a>
+                {% endfor %}
+              -->
+            </div>
           </div>
+          {%endfor%}
         </div>
       </div>
+      <!--리뷰 갯수(collapse) 내용 종료-->
     </div>
-  </div>
- <!--리뷰 갯수 표시-->
     <!--선호나이-->
     <div class="border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
       <h4 class="text-center">선호 나이</h4>

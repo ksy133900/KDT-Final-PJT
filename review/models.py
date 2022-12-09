@@ -2,10 +2,11 @@ from django.db import models
 from django.conf import settings
 from taggit.managers import TaggableManager
 from django.core.validators import MinValueValidator, MaxValueValidator
-
+from book.models import *
 # Create your models here.
 class Review(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=20)
     content = models.TextField()
     genre_choice = [
