@@ -98,7 +98,7 @@ def logout(request):
 
 
 def open_profile(request, pk):
-    profile = Profile.objects.get(pk=pk-1)
+    profile = Profile.objects.get(pk=pk)
     review = Review.objects.order_by("-pk")
     user = get_object_or_404(get_user_model(), pk=pk)
     reviews = user.review_set.all()
@@ -158,7 +158,7 @@ def delete(request):
         messages.warning(request, "회원 탈퇴 되었습니다.")
         auth_logout(request)
 
-    return redirect("review:index")
+    return redirect("review:pro_index")
 
 
 def get_queryset(self):
