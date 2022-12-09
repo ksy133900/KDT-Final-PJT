@@ -6,14 +6,14 @@
   </div>
   <div class="col-md-3">
     <div class="search-box-m">
-      <form action="" method="POST">
+      <form action="" method="get">
         {% csrf_token %}
         <input class="search-txt-m" id="search" type="search" placeholder="매칭 상대 검색" size="14" name="q" value="{{q}}"
           style="vertical-align: top;">
         <button class="search-btn-m" id="searchBtn" type="submit" maxlength="50">
-          <img src="{% static 'images/book2.jpg' %}" alt="" class="jb-b-m"
+          <img src="{% static 'images/debate1.png' %}" alt="" class="jb-b-m"
             style="width: 100%; max-width: 23px; margin-right:5px; margin-top: 93px; top: 0px; position:absolute;">
-          <img src="{% static 'images/book.gif' %}" alt="" class="jb-c-m"
+          <img src="{% static 'images/debate2.png' %}" alt="" class="jb-c-m"
             style="width: 100%; max-width: 23px; margin-top: 93px; margin-right: 5px;">
         </button>
         <section class="container_" style="list-style: none;">
@@ -29,7 +29,7 @@
   <div id="list" class="row row-cols-2" style="    --bs-gutter-x: 5rem;
   --bs-gutter-y: 2rem;">
     {% for profile_ in profile %}
-    <a>
+    <b style=" z-index: 4">
       <div class="card mb-3" style="max-width: 540px;">
         <div class="row g-0"
           style="background: linear-gradient(-45deg, #33ccff 0%, #ff99cc 100%);color: black;border: 2px solid black; cursor: pointer; box-shadow: 1px 1px 3px 7px #c3b0ff;">
@@ -42,17 +42,11 @@
             <img src="{% static 'images/no-profile.jpg' %}" alt='${book.name}'
               style="width: 100%; max-width: 180px;  margin: 30px;">
             {% endif %}
-            {% if profile_.nickname == null %}
-            <p
-              style="font-weight: bolder; text-align: center; font-size: 25px; margin-left: 20px; margin-top: -25px; margin-bottom: 0px;">
-              프로필에서 변경필요
-            </p>
-            {% else %}
+
             <p
               style="font-weight: bolder; text-align: center; font-size: 25px; margin-left: 20px; margin-top: -25px; margin-bottom: 0px;">
               {{profile_.nickname}}
             </p>
-            {% endif %}
           </div>
           <div class="col-md-7" style="width: 100%; max-width: 300px;">
             <div class="card-body" style="margin-top: 20px; font-weight: bold">
@@ -86,12 +80,13 @@
                 </b>
                 {% endif %}
               </p>
-              <button class="w-btn-neon2" style="z-index: 1; margin-left: 15%;" type="button" href="">리뷰 보기 </button>
+              <a href="{% url 'accounts:open_profile' profile_.user.pk %}">
+                <button class="w-btn-neon2" style=" margin-left: 15%; z-index: 1" type="button">리뷰 보기 </button></a>
             </div>
           </div>
         </div>
       </div>
-    </a>
+    </b>
     {% endfor %}
   </div>
 </div>

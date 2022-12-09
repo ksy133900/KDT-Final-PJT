@@ -103,9 +103,6 @@ def open_profile(request, pk):
     user = get_object_or_404(get_user_model(), pk=pk)
     reviews = user.review_set.all()
     reviews_count = len(reviews)
-    address_split = user.address.split(" ")
-    address1 = address_split[0]
-    address2 = address_split[1]
     tab1 = []
     tab2 = []
     tab3 = []
@@ -126,8 +123,6 @@ def open_profile(request, pk):
         "user": user,
         "reviews": reviews,
         "reviews_count": reviews_count,
-        "address1": address1,
-        "address2": address2,
         "tab1": tab1,
         "tab2": tab2,
         "tab3": tab3,
