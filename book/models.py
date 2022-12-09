@@ -27,14 +27,7 @@ class Book(models.Model):
     summary=models.TextField(max_length=500, blank=True)
     # 매칭수
     matching_count = models.PositiveIntegerField(blank=True) 
-    # 도서 이미지
-    #image = ProcessedImageField(
-    #    blank=True,
-    #    upload_to="book_image/",
-    #    processors=[ResizeToFill(400, 400)],
-    #    format="JPEG",
-    #    options={"quality": 90},
-    #)
+
     def __str__(self):
         return self.title   
 
