@@ -98,7 +98,7 @@ def logout(request):
 
 
 def open_profile(request, pk):
-    profile = Profile.objects.get(pk=pk-1)
+    profile = Profile.objects.get(pk=pk)
     review = Review.objects.order_by("-pk")
     user = get_object_or_404(get_user_model(), pk=pk)
     reviews = user.review_set.all()
