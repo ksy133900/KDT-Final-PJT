@@ -20,7 +20,7 @@ class Book(models.Model):
     # 제목
     title = models.CharField(max_length=50)
     # 장르
-    genre = models.CharField(max_length=10, unique=True)
+    genre = models.CharField(max_length=10, unique=True, blank=True, null=True)
     # 가격
     price = models.PositiveIntegerField()
     # 줄거리
