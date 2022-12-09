@@ -13,6 +13,7 @@ from django.contrib.auth import logout as auth_logout
 from accounts.models import *
 from django.db.models import Q
 from book.models import *
+from django.db.models import Q
 
 # Create your views here.
 
@@ -25,12 +26,15 @@ def pro_index(request):
 def index(request):
     reviews = Review.objects.order_by("-pk")
     profile = Profile.objects.order_by("-pk")
-    books = Book.objects.all()
+    #books = Book.objects.all()
+    book_image = Image.objects.all()
+    books = Book.objects.order_by("-pk")
 
     context = {
         "reviews": reviews,
         "profile": profile,
         "books": books,
+        "book_image": book_image,
     }
     return render(request, "review/index.html", context)
 
@@ -40,21 +44,18 @@ def faq(request):
 
 
 def matching(request):
-    user = User.objects.order_by("-pk")
-    user_address = User.objects.values_list("address")
+
     # address_split = user.address.split(" ")
     # address1 = address_split[0]
     # address2 = address_split[1]
     profile = Profile.objects.order_by("-pk")
-    notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
+
     context = {
         "profile": profile,
-        "notes_notice": notes_notice,
-        "user": user,
         # "address1": address1,
         # "address2": address2,
     }
-    print(user_address)
+
     return render(request, "review/matching.html", context)
 
 
@@ -92,9 +93,6 @@ def search(request):
     }
 
     return render(request, "review/search.html", context)
-
-
-
 
 
 @login_required
@@ -176,16 +174,21 @@ def update(request, pk, book_pk):
 def delete(request, pk, book_pk):
     Review.objects.get(id=pk).delete()
     return redirect("review:detail", book_pk)
+
+
 # 글 삭제 끝
 
 
 def detail(request, book_pk):
     reviews = Review.objects.filter(book_id=book_pk).order_by("-pk")
     book = Book.objects.get(pk=book_pk)
+    book_image = Image.objects.get(book_id = book_pk)
+
 
     context = {
         "reviews": reviews,
         "book": book,
+        "book_image": book_image,
     }
     return render(request, "review/detail.html", context)
 
@@ -254,3 +257,23 @@ def match_create(request):
         "match_review_form": match_review_form,
     }
     return render(request, "review/match_create.html", context)
+
+
+def search(request):
+    search_keyword = request.GET.get("search", "")
+    search_option = request.GET.get(
+        "search_option", ""
+    )  # title, title_content, hashtag, user
+    profiles = Profile.objects.order_by("-pk")
+    if search_keyword:
+        if search_option == "nickname":
+            # ForeignKey icontains
+            # {Article의 User field}__{User의 nickname field}__icontains
+            search_profiles = profiles.filter(
+                Q(profile__nickname__icontains=search_keyword)
+            )
+    context = {
+        "search_profiles": search_profiles,
+    }
+
+    return render(request, "review/search.html", context)

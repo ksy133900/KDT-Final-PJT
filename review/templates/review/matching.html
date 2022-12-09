@@ -28,6 +28,16 @@
       </form>
     </div>
   </div>
+  <form role="search" action="{% url 'review:search' %}" class="p-1">
+    <div class="d-flex justify-content-center">
+      <select class="form-select w-auto" name="search_option">
+        <option value="nickname">작성자</option>
+      </select>
+  
+      <input class="form-control w-10 mx-2" type="search" placeholder="Search" name="search">
+      <input class="btn btn-success" type="submit" value="검색">
+    </div>
+  </form>
   <div class="col-md-3">
   </div>
 </div>
@@ -37,7 +47,6 @@
   <div id="list" class="row row-cols-2" style="    --bs-gutter-x: 5rem;
   --bs-gutter-y: 2rem;">
     {% for profile_ in profile %}
-    {% if request.user != user %}
     <b style=" z-index: 4">
       <div class="card mb-3" style="max-width: 540px;">
         <div class="row g-0"
@@ -88,6 +97,7 @@
                   &nbsp&nbsp&nbsp&nbsp&nbsp{{profile_.location}}
                 </b>
                 {% endif %}
+                {{profile_.user.pk}}
               </p>
               <a href="{% url 'accounts:open_profile' profile_.user.pk %}">
                 <button class="w-btn-neon2" style=" margin-left: 15%; z-index: 1" type="button">리뷰 보기 </button></a>
@@ -96,7 +106,6 @@
         </div>
       </div>
     </b>
-    {% endif %}
     {% endfor %}
   </div>
 </div>
