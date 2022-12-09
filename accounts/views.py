@@ -98,7 +98,7 @@ def logout(request):
 
 
 def open_profile(request, pk):
-    profile = Profile.objects.get(pk=pk)
+    profile = Profile.objects.get(pk=pk-1)
     review = Review.objects.order_by("-pk")
     user = get_object_or_404(get_user_model(), pk=pk)
     reviews = user.review_set.all()
@@ -114,8 +114,11 @@ def open_profile(request, pk):
         else:
             tab3.append(i)
     # 선호 시간용
-    dt_json = json.loads(profile.daytime)  # list로 받았으나 내부값이 str이라 바로 사용 못함
-    daytime = list(map(int, dt_json))  # 오랜만에 사용하는 map(int)로 타입 변경하여 list로 변수 지정
+    if profile.daytime:
+        dt_json = json.loads(profile.daytime)  # list로 받았으나 내부값이 str이라 바로 사용 못함
+        daytime = list(map(int, dt_json))  # 오랜만에 사용하는 map(int)로 타입 변경하여 list로 변수 지정
+    else:
+        daytime = [0]
 
     context = {
         "profile": profile,

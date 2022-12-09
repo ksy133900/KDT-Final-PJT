@@ -106,7 +106,7 @@ def create(request, book_pk):
 
 # 글 수정 시작
 @login_required
-def update(request, pk):
+def update(request, pk, book_pk):
     review = Review.objects.get(pk=pk)  # 수정하기 위해서 이전 글을 불러와야 하므로
     if request.method == "POST":
         # POST : input 값 가져와서 검증하고 DB에 저장
@@ -117,7 +117,7 @@ def update(request, pk):
             review_form.save()
             photo_form.save()
             # 유효성 검사 통과하면 상세보기 페이지로
-            return redirect("review:detail")
+            return redirect("review:detail", book_pk)
             # 유효성 검사 통과하지 않으면 => context 부터해서 오류메시지 담긴 article_form을 랜더링
     else:
         # GET : forms을 제공
@@ -133,11 +133,9 @@ def update(request, pk):
 # 글 수정 끝
 
 # 글 삭제 시작
-def delete(request, book_pk):
-    Review.objects.get(id=book_pk).delete()
-    return redirect("review:detail")
-
-
+def delete(request, pk, book_pk):
+    Review.objects.get(id=pk).delete()
+    return redirect("review:detail", book_pk)
 # 글 삭제 끝
 
 
