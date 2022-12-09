@@ -98,7 +98,7 @@ def logout(request):
 
 
 def open_profile(request, pk):
-    profile = Profile.objects.get(pk=pk)
+    profile = Profile.objects.get(pk=pk-1)
     review = Review.objects.order_by("-pk")
     user = get_object_or_404(get_user_model(), pk=pk)
     reviews = user.review_set.all()
@@ -114,8 +114,11 @@ def open_profile(request, pk):
         else:
             tab3.append(i)
     # 선호 시간용
-    dt_json = json.loads(profile.daytime)  # list로 받았으나 내부값이 str이라 바로 사용 못함
-    daytime = list(map(int, dt_json))  # 오랜만에 사용하는 map(int)로 타입 변경하여 list로 변수 지정
+    if profile.daytime:
+        dt_json = json.loads(profile.daytime)  # list로 받았으나 내부값이 str이라 바로 사용 못함
+        daytime = list(map(int, dt_json))  # 오랜만에 사용하는 map(int)로 타입 변경하여 list로 변수 지정
+    else:
+        daytime = [0]
 
     context = {
         "profile": profile,
@@ -192,9 +195,6 @@ def get_queryset(self):
     return notice_list
 
 
-
-
-
 # 게시글 검색기능
 # def get_queryset(request):
 #     search_keyword = request.request.GET.get("q", "")
@@ -213,13 +213,13 @@ def get_queryset(self):
 #             search_review_list == review_list.filter(
 #                 Q(user__nickname__icontains = search_keyword)
 #             )
-#     context = { 
+#     context = {
 #         "search_review_list" : search_review_list,
 #     }
 #     return render(request,'review/matching.html', context)
-    # else:
-    #     messages.error(self.request, "검색어는 1글자 이상 입력해주세요.")
-    # return review_list
+# else:
+#     messages.error(self.request, "검색어는 1글자 이상 입력해주세요.")
+# return review_list
 
 
 # def get_context_data(self, **kwargs):
@@ -231,6 +231,7 @@ def get_queryset(self):
 #         context["type"] = search_type
 
 #     return context
+
 
 @require_POST
 @login_required
@@ -282,8 +283,7 @@ def update(request, pk):
     if request.method == "POST":
         profile_form = ProfileForm(request.POST, request.FILES, instance=user.profile)
 
-     
-        #profile DB 저장 완료 
+        # profile DB 저장 완료
 
         test = profile_form.save(commit=False)
         test.daytime = json.dumps(request.POST.getlist("daytime"))

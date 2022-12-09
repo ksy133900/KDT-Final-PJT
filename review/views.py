@@ -12,6 +12,7 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth import logout as auth_logout
 from accounts.models import *
 from django.db.models import Q
+from book.models import *
 
 # Create your views here.
 
@@ -97,11 +98,12 @@ def search(request):
 
 
 @login_required
-def create(request):
+def create(request, book_pk):
 
     if request.method == "POST":
         review_form = ReviewForm(request.POST, request.FILES)
         photo_form = PhotoForm(request.POST, request.FILES)
+        book = Book.objects.get(pk=book_pk)
 
         images = request.FILES.getlist("image")
         tags = request.POST.get("tags", "").split(",")
@@ -115,6 +117,7 @@ def create(request):
             review = review_form.save(commit=False)
             photo = photo_form.save()
             review.user = request.user
+            review.book = book
 
             if len(images):
                 for image in images:
@@ -129,7 +132,7 @@ def create(request):
                     review.tags.add(tag)
                     review.save()
 
-            return redirect("/")
+            return redirect("review:index")
 
     else:
         review_form = ReviewForm()
@@ -143,7 +146,7 @@ def create(request):
 
 # 글 수정 시작
 @login_required
-def update(request, pk):
+def update(request, pk, book_pk):
     review = Review.objects.get(pk=pk)  # 수정하기 위해서 이전 글을 불러와야 하므로
     if request.method == "POST":
         # POST : input 값 가져와서 검증하고 DB에 저장
@@ -154,7 +157,7 @@ def update(request, pk):
             review_form.save()
             photo_form.save()
             # 유효성 검사 통과하면 상세보기 페이지로
-            return redirect("review:detail")
+            return redirect("review:detail", book_pk)
             # 유효성 검사 통과하지 않으면 => context 부터해서 오류메시지 담긴 article_form을 랜더링
     else:
         # GET : forms을 제공
@@ -165,18 +168,20 @@ def update(request, pk):
         "photo_form": photo_form,
     }
     return render(request, "review/create.html", context)
+
+
 # 글 수정 끝
 
 # 글 삭제 시작
-def delete(request, pk):
+def delete(request, pk, book_pk):
     Review.objects.get(id=pk).delete()
-    return redirect("review:detail")
+    return redirect("review:detail", book_pk)
 # 글 삭제 끝
 
 
-def detail(request,pk):
-    reviews = Review.objects.order_by("-pk")
-    book = Book.objects.get(pk=pk)
+def detail(request, book_pk):
+    reviews = Review.objects.filter(book_id=book_pk).order_by("-pk")
+    book = Book.objects.get(pk=book_pk)
 
     context = {
         "reviews": reviews,
@@ -208,8 +213,9 @@ def detail(request,pk):
 #     return JsonResponse(context)
 
 
-def like(request, pk):
-    review = Review.objects.get(pk=pk)
+def like(request, book_pk, review_pk):
+    review = Review.objects.get(pk=review_pk)
+    book = Book.objects.get(pk=book_pk)
 
     if review.like_users.filter(pk=request.user.pk).exists():
         review.like_users.remove(request.user)
