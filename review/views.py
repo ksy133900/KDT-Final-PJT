@@ -12,6 +12,7 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth import logout as auth_logout
 from accounts.models import *
 from book.models import *
+from django.db.models import Q
 
 # Create your views here.
 
@@ -24,7 +25,7 @@ def pro_index(request):
 def index(request):
     reviews = Review.objects.order_by("-pk")
     profile = Profile.objects.order_by("-pk")
-    books = Book.objects.all()
+    books = Book.objects.order_by("-pk")
 
     context = {
         "reviews": reviews,
@@ -216,3 +217,39 @@ def match_create(request):
         "match_review_form": match_review_form,
     }
     return render(request, "review/match_create.html", context)
+
+
+def search(request):
+    search_keyword = request.GET.get("search", "")
+    search_option = request.GET.get(
+        "search_option", ""
+    )  # title, title_content, hashtag, user
+    reviews = Review.objects.order_by("-pk")
+
+    if search_keyword:
+        if search_option == "title":
+            search_reviews = reviews.filter(title__icontains=search_keyword)
+
+        elif search_option == "title_content":
+            # Q: ORM WHERE에서 or 연산을 수행
+            search_reviews = reviews.filter(
+                Q(title__icontains=search_keyword)
+                | Q(content__icontains=search_keyword)
+            )
+        elif search_option == "hashtag":
+            # distinct(): 중복 제거
+            # 만약 해시태그가 #1, #11, #111인 글이 하나 있고, 1을 검색하면
+            # 같은 글이 3개가 보여짐.
+            search_reviews = reviews.filter(
+                tags__name__icontains=search_keyword
+            ).distinct()
+        elif search_option == "user":
+            # ForeignKey icontains
+            # {Article의 User field}__{User의 nickname field}__icontains
+            search_reviews = reviews.filter(Q(user__nickname__icontains=search_keyword))
+
+    context = {
+        "search_reviews": search_reviews,
+    }
+
+    return render(request, "review/search.html", context)

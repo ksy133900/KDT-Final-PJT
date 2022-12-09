@@ -15,10 +15,10 @@
       {% for book in books %}
       <div class="carousel-item {% if book.id == 1 %}active{% endif %}" style="width: 300px;">
         <a href="{% url 'review:detail' book.pk %}">
-          {% if book.image %}
-          <img src="{{ book.image.url }}" style="width: 30px; height: 100px;" class="{{book.title}}_img">
+          {% if book.image_set.all.0.image %}
+          <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
           {% else %}
-          <img src="{% static 'images/dummy-image-square.jpg' %}"  style="width: 400px; height: 400px;" class="dummy_img">
+          <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
           {% endif %}
         </a>
       </div>
@@ -37,10 +37,24 @@
 
 <!-- 여기부터 글쓰기 및 유저 정보 페이지 팔로우 확인용 시험 코드라서 디자인 바꾸실거면 자유롭게 바꾸셔도 되는데, 없애진 말고 주석으로 남겨주세요-->
 <!--임시로 캐러셀 만들어 도서디테일 연결했습니다.-->
- 
+<a href="{% url 'book:create' %}" class="text-dark">도서 정보 생성</a>
 
+<form role="search" action="{% url 'review:search' %}" class="p-1">
+  <div class="d-flex justify-content-center">
+    <select class="form-select w-auto" name="search_option">
+      <option value="title">제목</option>
+      <option value="title_content">제목+내용</option>
+      <option value="hashtag">해시태그</option>
+      <option value="user">작성자</option>
+    </select>
+
+    <input class="form-control w-10 mx-2" type="search" placeholder="Search" name="search">
+    <input class="btn btn-success" type="submit" value="검색">
+  </div>
+</form>
 {% for review in reviews %}
 
+<img class="feed_img" src="{{ article.photo_set.all.0.image.url }}">
         <div class="profile_box">
           {% if request.user != review.user %}
             <a href="{% url 'accounts:open_profile' review.user.pk %}" class="text-dark">
