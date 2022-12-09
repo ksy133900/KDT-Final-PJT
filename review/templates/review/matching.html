@@ -6,18 +6,25 @@
   </div>
   <div class="col-md-3">
     <div class="search-box-m">
-      <form action="" method="get">
-        {% csrf_token %}
-        <input class="search-txt-m" id="search" type="search" placeholder="매칭 상대 검색" size="14" name="q" value="{{q}}"
+      <form role="search" action="{% url 'review:search' %}">
+        <input class="search-txt-m" type="search" placeholder="매칭 상대 검색" size="14" name="search"
           style="vertical-align: top;">
-        <button class="search-btn-m" id="searchBtn" type="submit" maxlength="50">
-          <img src="{% static 'images/debate1.png' %}" alt="" class="jb-b-m"
-            style="width: 100%; max-width: 23px; margin-right:5px; margin-top: 93px; top: 0px; position:absolute;">
-          <img src="{% static 'images/debate2.png' %}" alt="" class="jb-c-m"
-            style="width: 100%; max-width: 23px; margin-top: 93px; margin-right: 5px;">
-        </button>
-        <section class="container_" style="list-style: none;">
-        </section>
+        <select class="form-select w-auto" name="search_option" style="
+        transform: translate(-140px, -34px);
+        max-width: 130px;">
+          <option value="title">제목</option>
+          <option value="title_content">제목+내용</option>
+          <option value="hashtag">해시태그</option>
+          <option value="user">작성자</option>
+        </select>
+        <div>
+          <button class="search-btn-m" id="searchBtn" type="submit" maxlength="50" style="margin-top: -67.4px;">
+            <img src="{% static 'images/debate1.png' %}" alt="" class="jb-b-m"
+              style="width: 100%; max-width: 23px; margin-right:5px; margin-top: 93px; top: 0px; position:absolute;">
+            <img src="{% static 'images/debate2.png' %}" alt="" class="jb-c-m"
+              style="width: 100%; max-width: 23px; margin-top: 93px; margin-right: 5px;">
+          </button>
+        </div>
       </form>
     </div>
   </div>
@@ -34,6 +41,7 @@
   <div class="col-md-3">
   </div>
 </div>
+
 
 <div class="container">
   <div id="list" class="row row-cols-2" style="    --bs-gutter-x: 5rem;
@@ -98,7 +106,6 @@
         </div>
       </div>
     </b>
-    
     {% endfor %}
   </div>
 </div>

@@ -7,6 +7,7 @@ from imagekit.processors import ResizeToFill
 
 # User = get_user_model()
 
+
 # class book_genre(models.Model):
 #     genre=models.CharField(max_length=10, unique=True)
 
