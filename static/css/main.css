@@ -81,6 +81,7 @@ a {
   box-shadow: 0px 0px 0 2px #33ccff;
   margin-left: 140px;
   width: 100%;
+  max-height: 30px;
 }
 
 .search-btn-m {
@@ -95,7 +96,6 @@ a {
   justify-content: center;
   border: 0;
 }
-
 
 
 .search-txt-m {
@@ -197,7 +197,6 @@ a {
 
 .container_ {
   position: relative;
-  z-index: 1;
 }
 
 .navi_profile_box {
