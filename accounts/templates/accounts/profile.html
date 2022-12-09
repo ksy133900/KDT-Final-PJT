@@ -76,6 +76,9 @@
           팔로워 <span id="followers-count">{{ user.followers.count }}</span>
         </a>
       </div>
+      <!-- 소개글 (삭제되었길래 다시 추가했습니다.)-->
+      <p> {{ user.profile.intro|linebreaksbr }} </p>
+
       <!-- 팔로잉 collapse 내용 -->
       <div class="collapse multi-collapse" id="multiCollapseExample1">
         <div class="card card-body">
