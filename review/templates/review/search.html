@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+
+{% endblock css %}
+{% block content %}
+
+
+<div class="row pb-5">
+  {% for review in search_reviews %}
+  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 p-3">
+    <a href="#">
+      <div class="card glow">
+        <!-- 첫 번째 이미지를 썸네일로 -->
+        {% if review.image_set.all.0.image %}
+        <img src="{{ review.image_set.all.0.image.url }}" class="card-img-top" alt="..." height="300px">
+        {% else %}
+        <img src="https://dummyimage.com/1200x960/000000/c4c4c4" class="card-img-top" height="300px">
+        {% endif %}
+
+        <div class="card-body d-flex flex-column justify-content-between" style="height: 12rem">
+          <!-- 유저 -->
+          <div class="mb-2">
+            <a href="{% url 'accounts:open_profile' review.user.pk %}" class="text-dark">
+              {% if review.user.profile.image %}
+              <img src="{{ review.user.profile.image.url }}" alt="{{ review.user.profile.image }}"
+                class="rounded-2 border border-1" width="40px">
+              {% else %}
+              <img src="{% static 'images/dummy-image-square.jpg' %}" alt="" class="rounded-2 border border-1"
+                width="40px">
+              {% endif %}
+              <span class="ms-2">{{ review.user.nickname }}</span>
+            </a>
+          </div>
+
+          <h5 class="card-title card-title-text mb-2">{{ review.title }}</h5>
+          <div class="d-flex align-items-center mb-2">
+
+            <i class="bi bi-geo-alt-fill fs-6 text-primary"></i>
+            <span class="fs-6 text-primary ms-1 location">{{review.location}}</span>
+          </div>
+
+          <div class="hashtags col-lg-8 col-md-10 mb-2">
+            {% for tag in review.tags.all %}
+            <a href="/search/?search_option=hashtag&amp;search={{ tag.name }}" class="text-decoration-none fs-6">#
+              {{ tag.name }}</a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+{%endfor%}
+{% endblock content %}
