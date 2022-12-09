@@ -26,12 +26,15 @@ def pro_index(request):
 def index(request):
     reviews = Review.objects.order_by("-pk")
     profile = Profile.objects.order_by("-pk")
+    #books = Book.objects.all()
+    book_image = Image.objects.all()
     books = Book.objects.order_by("-pk")
 
     context = {
         "reviews": reviews,
         "profile": profile,
         "books": books,
+        "book_image": book_image,
     }
     return render(request, "review/index.html", context)
 
@@ -179,10 +182,13 @@ def delete(request, pk, book_pk):
 def detail(request, book_pk):
     reviews = Review.objects.filter(book_id=book_pk).order_by("-pk")
     book = Book.objects.get(pk=book_pk)
+    book_image = Image.objects.get(book_id = book_pk)
+
 
     context = {
         "reviews": reviews,
         "book": book,
+        "book_image": book_image,
     }
     return render(request, "review/detail.html", context)
 

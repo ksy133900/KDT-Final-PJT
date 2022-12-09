@@ -158,7 +158,7 @@ def delete(request):
         messages.warning(request, "회원 탈퇴 되었습니다.")
         auth_logout(request)
 
-    return redirect("review:index")
+    return redirect("review:pro_index")
 
 
 def get_queryset(self):
