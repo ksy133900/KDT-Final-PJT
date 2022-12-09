@@ -77,7 +77,11 @@
         </a>
       </div>
       <!-- 소개글 (삭제되었길래 다시 추가했습니다.)-->
-      <p> {{ user.profile.intro|linebreaksbr }} </p>
+      {% if user.profile.intro == null or user.profile.intro == "" %}
+        <p> 소개글이 없습니다. </p>
+      {% else %}
+        <p> {{ user.profile.intro|linebreaksbr }} </p>
+      {% endif %}
 
       <!-- 팔로잉 collapse 내용 -->
       <div class="collapse multi-collapse" id="multiCollapseExample1">
