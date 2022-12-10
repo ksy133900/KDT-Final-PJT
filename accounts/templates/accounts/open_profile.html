@@ -38,6 +38,14 @@
             {% endif %}
             <!--팔로우(언팔로우)버튼-->
             <div>
+              {% if user == request.user %}
+              <!--버튼-->
+              <div class=" d-flex gap-2">
+                <a href="{% url 'accounts:update' user.pk %}">
+                  <input type="button" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #4b3a88; color: white;" value="프로필 수정">
+                </a>
+             </div>
+                {% else %}
               <form id="follow-form" data-user-id="{{ user.pk }}">
                 {% csrf_token %}
                 {% if request.user in user.followers.all %}
@@ -46,8 +54,10 @@
                 <input id="follow-btn" type="submit" formmethod="POST" class="btn btn-primary ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; color: white;" value="팔로우">
                 {% endif %}
               </form>
+              {% endif %}
+          
             </div>
-          </div>
+        </div>
           <h5>독토 매칭 찾고 있습니다</h5><!--매칭 휴식중이면 "독토 매칭 휴식중 입니다"로 변경 되도록 하려합니다-->  
           <!-- 팔로잉 / 팔로워 collapse 시작 -->
           <!-- collapse 버튼 -->
@@ -203,13 +213,7 @@
               </div>
               <div class="col-auto col-md-7">
               </div>
-              <div class="col-auto col-md-3 d-flex gap-2 d-md-flex justify-content-md-end">
-                {% if request.user == review.user %}
-                <a href="{% url 'review:update' review.pk %}" style="color:black;"><i class="bi bi-pencil-square"></i></a>
-                <a href="{% url 'review:delete' review.pk %}" style="color:black;"><i class="bi bi-trash"></i></a>
-                {% endif %}
-                <p>작성일: {{review.created_at|date:'Y-m-d'}}</p>
-              </div>
+   
               <!--                
                 {% for tag in review.tags.all %}
                 <a href="/search/?search_option=hashtag&amp;search={{ tag.name }}" class="text-decoration-none fs-6">#{{ tag.name }}</a>
