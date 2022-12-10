@@ -26,7 +26,7 @@ def pro_index(request):
 def index(request):
     reviews = Review.objects.order_by("-pk")
     profile = Profile.objects.order_by("-pk")
-    #books = Book.objects.all()
+    # books = Book.objects.all()
     book_image = Image.objects.all()
     books = Book.objects.order_by("-pk")
 
@@ -100,7 +100,7 @@ def create(request, book_pk):
 
     if request.method == "POST":
         review_form = ReviewForm(request.POST, request.FILES)
-        photo_form = PhotoForm(request.POST, request.FILES)
+        # photo_form = PhotoForm(request.POST, request.FILES)
         book = Book.objects.get(pk=book_pk)
 
         images = request.FILES.getlist("image")
@@ -111,9 +111,9 @@ def create(request, book_pk):
         # else:
         #     tags = None
 
-        if review_form.is_valid() and photo_form.is_valid():
+        if review_form.is_valid():  # and photo_form.is_valid():
             review = review_form.save(commit=False)
-            photo = photo_form.save()
+            # photo = photo_form.save()
             review.user = request.user
             review.book = book
 
@@ -134,10 +134,10 @@ def create(request, book_pk):
 
     else:
         review_form = ReviewForm()
-        photo_form = PhotoForm()
+        # photo_form = PhotoForm()
     context = {
         "review_form": review_form,
-        "photo_form": photo_form,
+        # "photo_form": photo_form,
     }
     return render(request, "review/create.html", context)
 
@@ -150,20 +150,20 @@ def update(request, pk, book_pk):
         # POST : input 값 가져와서 검증하고 DB에 저장
         # 기존에 있는 값을 수정하므로 그 기존값을 받아와야 한다. 없으면 수정이 아니라 글을 생성함
         review_form = ReviewForm(request.POST, request.FILES, instance=review)
-        photo_form = PhotoForm(request.POST, request.FILES, instance=review)
-        if review_form.is_valid() and photo_form.is_valid():
+        # photo_form = PhotoForm(request.POST, request.FILES, instance=review)
+        if review_form.is_valid():  # and photo_form.is_valid():
             review_form.save()
-            photo_form.save()
+            # photo_form.save()
             # 유효성 검사 통과하면 상세보기 페이지로
             return redirect("review:detail", book_pk)
             # 유효성 검사 통과하지 않으면 => context 부터해서 오류메시지 담긴 article_form을 랜더링
     else:
         # GET : forms을 제공
         review_form = ReviewForm(instance=review)
-        photo_form = PhotoForm(instance=review)
+        # photo_form = PhotoForm(instance=review)
     context = {
         "review_form": review_form,
-        "photo_form": photo_form,
+        # "photo_form": photo_form,
     }
     return render(request, "review/create.html", context)
 
@@ -182,8 +182,7 @@ def delete(request, pk, book_pk):
 def detail(request, book_pk):
     reviews = Review.objects.filter(book_id=book_pk).order_by("-pk")
     book = Book.objects.get(pk=book_pk)
-    book_image = Image.objects.get(book_id = book_pk)
-
+    book_image = Image.objects.get(book_id=book_pk)
 
     context = {
         "reviews": reviews,
@@ -229,6 +228,7 @@ def like(request, book_pk, review_pk):
 
     data = {
         "isLiked": is_liked,
+        "likeCount": review.like_users.count(),
     }
 
     return JsonResponse(data)

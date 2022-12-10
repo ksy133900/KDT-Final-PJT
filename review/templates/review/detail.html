@@ -136,6 +136,7 @@
               </h4>
             </form>
             {% endif %}
+            <span id="like-{{ review.pk }}-count" class="text-muted me-3">{{ review.like_users.count }}</span>
           </div>
         </div>  
         <!-- {% if request.user.is_authenticated %}
@@ -233,6 +234,8 @@
               likeBtn.classList.remove('bi-emoji-heart-eyes')
 
             }
+            const likeCount = document.querySelector(`#like-${reviewId}-count`)
+            likeCount.innerText = response.data.likeCount
           })
           .catch(error => {
             console.log(error)

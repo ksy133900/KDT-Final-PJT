@@ -44,6 +44,9 @@ class Review(models.Model):
         return self.title
 
     book = models.ForeignKey(Book, on_delete=models.CASCADE, null=True)
+    book_image = models.ForeignKey(
+        Image, on_delete=models.CASCADE, blank=True, null=True
+    )
 
 
 class Photo(models.Model):
