@@ -83,24 +83,23 @@ font-family: 'Single Day', cursive;
 /* matching 검색창 시작  transform: translate(-50%, -50%);*/
 
 .search-box-m {
-  height: 30px;
+  height: 36.3px;
   margin-top: 25px;
   margin-bottom: 25px;
   max-width: 230px;
   padding: 0px;
   border-radius: 6px;
   background: #ffffff;
-  box-shadow: 0px 0px 0 2px #33ccff;
+  box-shadow: 0px 0px 0 1px #33ccff;
   margin-left: 140px;
   width: 100%;
-  max-height: 30px;
 }
 
 .search-btn-m {
   color: #8380a7;
   float: right;
   width: 30px;
-  height: 30px;
+  height: 21px;
   border-radius: 50%;
   background: #ffffff;
   display: flex;
@@ -112,7 +111,7 @@ font-family: 'Single Day', cursive;
 
 .search-txt-m {
   vertical-align: text-top;
-  height: 27px;
+  height: 33px;
   padding-inline-start: 10px;
   background: none;
   border: none;
@@ -200,7 +199,7 @@ font-family: 'Single Day', cursive;
 }
 
 /* nav바 */
-.container_>li {
+.btn-group>.btn>ul>li {
   background-color: whitesmoke;
   box-shadow: #30950e 0px 1px 0 2px;
   margin-left: 8px;

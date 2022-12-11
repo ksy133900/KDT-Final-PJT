@@ -13,10 +13,18 @@ class BookForm(forms.ModelForm):
             "summary",
             "matching_count",
         ]
+        labels = {
+            "title": "책 제목",
+            "genre": "장르",
+            "price": "가격",
+            "summary": "줄거리",
+            "matching_count": "매칭 수",
+        }
 
 
 class ImageForm(forms.ModelForm):
     class Meta:
         model = Image
         fields = ["image"]
+
         widgets = {"image": forms.ClearableFileInput(attrs={"multiple": True})}

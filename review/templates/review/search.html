@@ -7,49 +7,67 @@
 
 
 <div class="row pb-5">
-  {% for review in search_reviews %}
-  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 p-3">
-    <a href="#">
-      <div class="card glow">
-        <!-- 첫 번째 이미지를 썸네일로 -->
-        {% if review.image_set.all.0.image %}
-        <img src="{{ review.image_set.all.0.image.url }}" class="card-img-top" alt="..." height="300px">
-        {% else %}
-        <img src="https://dummyimage.com/1200x960/000000/c4c4c4" class="card-img-top" height="300px">
-        {% endif %}
+  {% for profile in search_profiles %}
+  <b style=" z-index: 4">
+    <div class="card mb-3" style="max-width: 540px;">
+      <div class="row g-0"
+        style="background: linear-gradient(-45deg, #33ccff 0%, #ff99cc 100%);color: black;border: 2px solid black; cursor: pointer; box-shadow: 1px 1px 3px 7px #c3b0ff;">
+        <div class="col-md-5"
+          style="width: 42.3%; height: 227px; font-family: 'Single Day' , cursive; max-height: 210px;">
+          {% if profile_.image %}
+          <img src='{{ profile_.image.url }}' alt='${book.name}'
+            style="width: 100%; max-width: 160px; margin: 40px; box-shadow: 2px 2px 10px 0px #656565;">
+          {% else %}
+          <img src="{% static 'images/no-profile.jpg' %}" alt='${book.name}'
+            style="width: 100%; max-width: 180px;  margin: 30px;">
+          {% endif %}
 
-        <div class="card-body d-flex flex-column justify-content-between" style="height: 12rem">
-          <!-- 유저 -->
-          <div class="mb-2">
-            <a href="{% url 'accounts:open_profile' review.user.pk %}" class="text-dark">
-              {% if review.user.profile.image %}
-              <img src="{{ review.user.profile.image.url }}" alt="{{ review.user.profile.image }}"
-                class="rounded-2 border border-1" width="40px">
+          <p
+            style="font-weight: bolder; text-align: center; font-size: 25px; margin-left: 20px; margin-top: -25px; margin-bottom: 0px;">
+            {{profile_.nickname}}
+          </p>
+        </div>
+        <div class="col-md-7" style="width: 100%; max-width: 300px;">
+          <div class="card-body" style="margin-top: 20px; font-weight: bold">
+            <p class="card-text">선호 장르
+              {% if profile_.genre == '장르' %}
+              <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp미설정</b>
               {% else %}
-              <img src="{% static 'images/dummy-image-square.jpg' %}" alt="" class="rounded-2 border border-1"
-                width="40px">
+              <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp{{profile_.genre}}</b>
               {% endif %}
-              <span class="ms-2">{{ review.user.nickname }}</span>
-            </a>
-          </div>
-
-          <h5 class="card-title card-title-text mb-2">{{ review.title }}</h5>
-          <div class="d-flex align-items-center mb-2">
-
-            <i class="bi bi-geo-alt-fill fs-6 text-primary"></i>
-            <span class="fs-6 text-primary ms-1 location">{{review.location}}</span>
-          </div>
-
-          <div class="hashtags col-lg-8 col-md-10 mb-2">
-            {% for tag in review.tags.all %}
-            <a href="/search/?search_option=hashtag&amp;search={{ tag.name }}" class="text-decoration-none fs-6">#
-              {{ tag.name }}</a>
-            {% endfor %}
+            <p class="card-text">선호 나이
+              {% if profile_.ages == '선택해주세요' %}
+              <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp미설정</b>
+              {% else %}
+              <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp{{profile_.ages}}</b>
+              {% endif %}
+            </p>
+            <p class="card-text">선호 시간대
+              {% if profile_.time == '시간' %}
+              <b style="font-weight:normal;">&nbsp&nbsp미설정</b>
+              {% else %}
+              <b style="font-weight:normal;">&nbsp&nbsp{{profile_.time}}</b>
+              {% endif %}
+            <p class="card-text">활동 지역
+              {% if profile_.location == null %}
+              <b style="font-weight:normal;">
+                &nbsp&nbsp&nbsp&nbsp&nbsp미설정
+              </b>
+              {% else %}
+              <b style="font-weight:normal;">
+                &nbsp&nbsp&nbsp&nbsp&nbsp{{profile_.location}}
+              </b>
+              {% endif %}
+              {{profile_.user.pk}}
+            </p>
+            <a href="{% url 'accounts:open_profile' profile_.user.pk %}">
+              <button class="w-btn-neon2" style=" margin-left: 15%; z-index: 1" type="button">리뷰 보기 </button></a>
           </div>
         </div>
       </div>
-  </div>
-</div>
+    </div>
+  </b>
+  
 
 {%endfor%}
 {% endblock content %}

@@ -25,13 +25,13 @@ class ReviewForm(forms.ModelForm):
         }
 
 
-class PhotoForm(forms.ModelForm):
-    class Meta:
-        model = Photo
-        fields = ("image",)
-        widgets = {
-            "image": ClearableFileInput(attrs={"multiple": True}),
-        }
+# class PhotoForm(forms.ModelForm):
+#     class Meta:
+#         model = Photo
+#         fields = ("image",)
+#         widgets = {
+#             "image": ClearableFileInput(attrs={"multiple": True}),
+#         }
 
 
 class CommentForm(forms.ModelForm):
@@ -49,6 +49,7 @@ class CommentForm(forms.ModelForm):
         fields = [
             "content",
         ]
+
 
 class Match_reviewForm(forms.ModelForm):
     class Meta:

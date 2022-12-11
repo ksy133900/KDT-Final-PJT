@@ -13,7 +13,7 @@ import json
 from .models import *
 from django.db.models import *
 from django.db.models import Q
-
+from book.models import Image
 
 # def signup(request):
 #     context = {}
@@ -99,7 +99,8 @@ def logout(request):
 
 def open_profile(request, pk):
     profile = Profile.objects.get(pk=pk)
-    review = Review.objects.order_by("-pk")
+    # review = Review.objects.order_by("-pk")
+    book = Image.objects.order_by("-pk")
     user = get_object_or_404(get_user_model(), pk=pk)
     reviews = user.review_set.all()
     reviews_count = len(reviews)
@@ -122,8 +123,9 @@ def open_profile(request, pk):
 
     context = {
         "profile": profile,
-        "review": review,
+        # "review": review,
         "user": user,
+        "book": book,
         "reviews": reviews,
         "reviews_count": reviews_count,
         "tab1": tab1,
@@ -131,6 +133,7 @@ def open_profile(request, pk):
         "tab3": tab3,
         "daytime": daytime,
     }
+    print(book)
     return render(request, "accounts/open_profile.html", context)
 
 
