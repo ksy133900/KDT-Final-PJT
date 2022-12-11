@@ -55,7 +55,8 @@
         </div>
         <div class="carousel-item">
           <div class="d-flex justify-content-center gap-4">
-            {% for book in books %}
+            {% for book in book_top10 %}
+            {% if forloop.counter <= 5 %}
             <div class="card" style="width: 130px;">
               <a href="{% url 'review:detail' book.pk %}" class="">
                 <div class="img_box d-flex align-items-center">
@@ -73,6 +74,33 @@
                 -->
               </a>
             </div>
+            {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="d-flex justify-content-center gap-4">
+            {% for book in book_top10 %}
+            {% if forloop.counter <= 5 %}
+            {% elif 5 < forloop.counter <= 10 %}
+            <div class="card" style="width: 130px;">
+              <a href="{% url 'review:detail' book.pk %}" class="">
+                <div class="img_box d-flex align-items-center">
+                  {% if book.image_set.all.0.image %}
+                  <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
+                  {% else %}
+                  <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
+                  {% endif %}
+                </div>
+                <!--
+                  이미지 외 정보 입력 여부 토의 할것!!!!
+                  <div class="card-body text-center">
+                    <b class="card-title">{{book.title}}</b>
+                  </div>
+                -->
+              </a>
+            </div>
+            {% endif %}
             {% endfor %}
           </div>
         </div>
@@ -90,34 +118,85 @@
   <!--작은 캐러셀 종료-->
 
   <!-- 여기부터 글쓰기 및 유저 정보 페이지 팔로우 확인용 시험 코드라서 디자인 바꾸실거면 자유롭게 바꾸셔도 되는데, 없애진 말고 주석으로 남겨주세요-->
-  <a href="{% url 'book:create' %}" class="text-dark">도서 정보 생성</a>
-  
-  {% for review in reviews %}
-  
-  <div class="profile_box">
-    {% if request.user != review.user %}
-    <a href="{% url 'accounts:open_profile' review.user.pk %}" class="text-dark">
-    {% else %}    
-    <a href="{% url 'accounts:profile' review.user.pk %}" class="text-dark">
-    {% endif %}  
-    
-      {% if review.user.profile.image %}                        
-      <img class="profile_img" src="{{ review.user.profile.image.url }}">
-      {% else %}
-      <img src="{% static 'images/no-profile.jpg' %}" alt="" class="rounded-2 border border-1" width="40px">
-      {% endif %}
-    </a>
-  </div>
-  <span class=""> {{ review.user.profile.nickname  }}</span>
-  {% for tag in review.tags.all %}
-    <span>#{{tag.name}}</span>
-  {%endfor%}
-  {% endfor %}
-  
-  <!-- 여기까지 글쓰기 및 유저 정보 페이지 팔로우 확인용 시험 코드라서 디자인 바꾸실거면 자유롭게 바꾸셔도 되는데, 없애진 말고 주석으로 남겨주세요 -->
+  <a href="{% url 'book:create' %}" class="text-dark btn btn-info">도서 정보 생성</a>
   {% if request.user.is_authenticated %}
   {% comment %} 쪽지 알람 {% endcomment %}
   <a href="#" class="mailbox_label svg_all" title="전체메일">전체메일</a>
   {% endif %}
+
+  <!--장르별 리뷰 최신 도서-->
+  <div class="container-fluid" style="width: 90%;">
+    <!-- 1번 장르 -->
+    <div id="genre_book" class="border border-1 bg-dark p-2 mt-2 mb-2">
+      <h3 class="text-warning">000 장르 NEW 리뷰</h3>
+      <div class="d-flex justify-content-center gap-5">
+        {% for book in new_book %}
+        <div class="card" style="width: 230px;">
+          <a href="{% url 'review:detail' book.pk %}" class="">
+            <div class="img_box d-flex align-items-center">
+              {% if book.image_set.all.0.image %}
+              <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
+              {% else %}
+              <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
+              {% endif %}
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{{book.title}}</h5>
+              <p class="card-text">book모델에 평점추가해야함</p>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <!-- 2번 장르 -->
+    <div id="genre_book" class="border border-1 bg-dark p-2 mt-2 mb-2">
+      <h3 class="text-warning">000 장르 NEW 리뷰</h3>
+      <div class="d-flex justify-content-center gap-5">
+        {% for book in new_book %}
+        <div class="card" style="width: 230px;">
+          <a href="{% url 'review:detail' book.pk %}" class="">
+            <div class="img_box d-flex align-items-center">
+              {% if book.image_set.all.0.image %}
+              <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
+              {% else %}
+              <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
+              {% endif %}
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{{book.title}}</h5>
+              <p class="card-text">book모델에 평점추가해야함</p>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <!-- 리뷰 유저 프로필 부분이라 임시로 주석처리 합니다
+    {% for review in reviews %}
+    
+    <div class="profile_box">
+      {% if request.user != review.user %}
+      <a href="{% url 'accounts:open_profile' review.user.pk %}" class="text-dark">
+      {% else %}    
+      <a href="{% url 'accounts:profile' review.user.pk %}" class="text-dark">
+      {% endif %}  
+      
+        {% if review.user.profile.image %}                        
+        <img class="profile_img" src="{{ review.user.profile.image.url }}">
+        {% else %}
+        <img src="{% static 'images/no-profile.jpg' %}" alt="" class="rounded-2 border border-1" width="40px">
+        {% endif %}
+      </a>
+    </div>
+    <span class=""> {{ review.user.profile.nickname  }}</span>
+    {% for tag in review.tags.all %}
+      <span>#{{tag.name}}</span>
+    {%endfor%}
+    {% endfor %}
+  -->
+  
+  <!-- 여기까지 글쓰기 및 유저 정보 페이지 팔로우 확인용 시험 코드라서 디자인 바꾸실거면 자유롭게 바꾸셔도 되는데, 없애진 말고 주석으로 남겨주세요 -->
 </section>
 {% endblock %}

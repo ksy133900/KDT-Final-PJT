@@ -15,3 +15,10 @@
   overflow: hidden;
   margin: 0 auto;
 }
+
+#genre_book .img_box {
+  width: 100px;
+  height: 130px;
+  overflow: hidden;
+  margin: 0 auto;
+}

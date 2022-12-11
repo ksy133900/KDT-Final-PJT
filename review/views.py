@@ -26,15 +26,21 @@ def pro_index(request):
 def index(request):
     reviews = Review.objects.order_by("-pk")
     profile = Profile.objects.order_by("-pk")
-    #books = Book.objects.all()
+    # 장르별 최고 평점 1권만 filter로 수정해야함.
+    books = Book.objects.all()
+    # 전체 도서 평점 top10[10개까지]
+    book_top10 = Book.objects.all()[:10]
+    # 장르별 최근 리뷰 도서[3개까지]
+    new_book = Book.objects.order_by("-pk")[:3]
     book_image = Image.objects.all()
-    books = Book.objects.order_by("-pk")
 
     context = {
         "reviews": reviews,
         "profile": profile,
         "books": books,
         "book_image": book_image,
+        "new_book": new_book,
+        "book_top10": book_top10,
     }
     return render(request, "review/index.html", context)
 
