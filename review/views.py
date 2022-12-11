@@ -50,18 +50,21 @@ def faq(request):
 
 
 def matching(request):
-
+    user = User.objects.order_by("-pk")
+    user_address = User.objects.values_list("address")
     # address_split = user.address.split(" ")
     # address1 = address_split[0]
     # address2 = address_split[1]
     profile = Profile.objects.order_by("-pk")
-
+    notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
     context = {
         "profile": profile,
+        "notes_notice": notes_notice,
+        "user": user,
         # "address1": address1,
         # "address2": address2,
     }
-
+    print(user_address)
     return render(request, "review/matching.html", context)
 
 
@@ -101,6 +104,9 @@ def search(request):
     return render(request, "review/search.html", context)
 
 
+
+
+
 @login_required
 def create(request, book_pk):
 
@@ -117,7 +123,7 @@ def create(request, book_pk):
         # else:
         #     tags = None
 
-        if review_form.is_valid():  # and photo_form.is_valid():
+        if review_form.is_valid():# and photo_form.is_valid():
             review = review_form.save(commit=False)
             # photo = photo_form.save()
             review.user = request.user
@@ -157,7 +163,7 @@ def update(request, pk, book_pk):
         # 기존에 있는 값을 수정하므로 그 기존값을 받아와야 한다. 없으면 수정이 아니라 글을 생성함
         review_form = ReviewForm(request.POST, request.FILES, instance=review)
         # photo_form = PhotoForm(request.POST, request.FILES, instance=review)
-        if review_form.is_valid():  # and photo_form.is_valid():
+        if review_form.is_valid():# and photo_form.is_valid():
             review_form.save()
             # photo_form.save()
             # 유효성 검사 통과하면 상세보기 페이지로
@@ -180,15 +186,22 @@ def update(request, pk, book_pk):
 def delete(request, pk, book_pk):
     Review.objects.get(id=pk).delete()
     return redirect("review:detail", book_pk)
-
-
 # 글 삭제 끝
 
 
 def detail(request, book_pk):
     reviews = Review.objects.filter(book_id=book_pk).order_by("-pk")
     book = Book.objects.get(pk=book_pk)
-    book_image = Image.objects.get(book_id=book_pk)
+    # 도서이미지가 없는 경우 디테일페이지 연결 오류가 있어 수정하였습니다.
+    test = Image.objects.all()
+    for t in test:
+        print(t.book_id, type(t.book_id))
+        if book_pk == t.book_id:
+            book_image = Image.objects.get(book_id = book_pk)
+            break
+        else:
+            book_image = 0
+            
 
     context = {
         "reviews": reviews,
@@ -234,7 +247,6 @@ def like(request, book_pk, review_pk):
 
     data = {
         "isLiked": is_liked,
-        "likeCount": review.like_users.count(),
     }
 
     return JsonResponse(data)
@@ -270,16 +282,32 @@ def search(request):
     search_option = request.GET.get(
         "search_option", ""
     )  # title, title_content, hashtag, user
-    profiles = Profile.objects.order_by("-pk")
+    reviews = Review.objects.order_by("-pk")
+
     if search_keyword:
-        if search_option == "nickname":
+        if search_option == "title":
+            search_reviews = reviews.filter(title__icontains=search_keyword)
+
+        elif search_option == "title_content":
+            # Q: ORM WHERE에서 or 연산을 수행
+            search_reviews = reviews.filter(
+                Q(title__icontains=search_keyword)
+                | Q(content__icontains=search_keyword)
+            )
+        elif search_option == "hashtag":
+            # distinct(): 중복 제거
+            # 만약 해시태그가 #1, #11, #111인 글이 하나 있고, 1을 검색하면
+            # 같은 글이 3개가 보여짐.
+            search_reviews = reviews.filter(
+                tags__name__icontains=search_keyword
+            ).distinct()
+        elif search_option == "user":
             # ForeignKey icontains
             # {Article의 User field}__{User의 nickname field}__icontains
-            search_profiles = profiles.filter(
-                Q(profile__nickname__icontains=search_keyword)
-            )
+            search_reviews = reviews.filter(Q(user__nickname__icontains=search_keyword))
+
     context = {
-        "search_profiles": search_profiles,
+        "search_reviews": search_reviews,
     }
 
     return render(request, "review/search.html", context)
