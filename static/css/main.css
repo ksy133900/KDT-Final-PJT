@@ -8,6 +8,18 @@ a {
   text-decoration: none;
 }
 
+.title_font {
+  font-family: 'Single Day', cursive;
+  text-align: center;
+}
+
+/* css에서 폰트 값
+font-family: 'Dongle', sans-serif;
+font-family: 'East Sea Dokdo', cursive;
+font-family: 'Gugi', cursive;
+font-family: 'Single Day', cursive;
+*/
+
 /* 메인 검색창 시작*/
 .search-box {
   position: absolute;
