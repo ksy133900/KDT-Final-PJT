@@ -5,61 +5,89 @@
 <link rel="stylesheet" href="{% static 'css/index.css' %}">
 {% endblock css %}
 {% block content %}
-<section class="mt-5 mb-5">
-
-  <div class="container-fluid">
-    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-inner bg-dark">
-        {% for book in books %}
-        <div class="carousel-item {% if book.id == 1 %}active{% endif %}" style="width: 300px;">
-          <a href="{% url 'review:detail' book.pk %}">
-          {% if book.image_set.all.0.image %}
-          <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
-          {% else %}
-          <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
-          {% endif %}
-          </a>
+<section class="mt-3 mb-5">
+  <!--상단 캐러셀 시작-->
+  <h1 class="title_font mb-1 ">장르별 최고 평점 도서</h1>
+  <div id="carouselExampleControls_1" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner bg-dark">
+      {% for book in books %}
+      <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
+        <div class="d-flex justify-content-center">
+          <div class="card" style="width: 230px;">
+            <a href="{% url 'review:detail' book.pk %}" class="">
+              <div class="img_box d-flex align-items-center">
+                {% if book.image_set.all.0.image %}
+                <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
+                {% else %}
+                <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
+                {% endif %}
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">{{book.title}}</h5>
+                <p class="card-text">book모델에 평점추가해야함</p>
+              </div>
+            </a>
+          </div>
         </div>
-        {% endfor %}
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
+      {% endfor %}
     </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls_1" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls_1" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
   </div>
-  
-  <div class="container-fluid mt-5 mb-5">
+  <!--상단 캐러셀 종료-->
+  <!--작은 캐러셀 시작-->
+  <div class="container-fluid mt-1 mb-5">
     <div id="carouselExampleControls_2" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner bg-dark">
-        {% for book in books %}
-        <div class="carousel-item {% if book.id == 1 %}active{% endif %}" style="width: 100px;">
-          <a href="{% url 'review:detail' book.pk %}">
-            {% for image in book_image %}
-            {% if image.book_id == book.id %}
-            <img src="{{ image.image.url }}" alt="{{book.title}}_img">
-            {% else %}
-            <img src="{% static 'images/dummy-image-square.jpg' %}" alt="dummy_img">
-            {% endif %}
-            {% endfor %}
-          </a>
+        <div class="carousel-item active">
+          <div class="d-flex justify-content-center gap-4">
+            <div class="card d-flex justify-content-center" style="width: 400px; height: 130px;">
+              <h1 class="title_font">Top 10 도서 목록</h1>
+            </div>
+          </div>
         </div>
-        {% endfor %}
+        <div class="carousel-item">
+          <div class="d-flex justify-content-center gap-4">
+            {% for book in books %}
+            <div class="card" style="width: 130px;">
+              <a href="{% url 'review:detail' book.pk %}" class="">
+                <div class="img_box d-flex align-items-center">
+                  {% if book.image_set.all.0.image %}
+                  <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
+                  {% else %}
+                  <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
+                  {% endif %}
+                </div>
+                <!--
+                  이미지 외 정보 입력 여부 토의 할것!!!!
+                  <div class="card-body text-center">
+                    <b class="card-title">{{book.title}}</b>
+                  </div>
+                -->
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls_2" data-bs-slide="prev">
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls_2" data-bs-slide="prev" style="width: 10%;">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
       </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls_2" data-bs-slide="next">
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls_2" data-bs-slide="next" style="width: 10%;">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
       </button>
     </div>
   </div>
+  <!--작은 캐러셀 종료-->
 
   <!-- 여기부터 글쓰기 및 유저 정보 페이지 팔로우 확인용 시험 코드라서 디자인 바꾸실거면 자유롭게 바꾸셔도 되는데, 없애진 말고 주석으로 남겨주세요-->
   <a href="{% url 'book:create' %}" class="text-dark">도서 정보 생성</a>

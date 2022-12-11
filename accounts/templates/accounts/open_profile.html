@@ -204,10 +204,6 @@
               <div class="col-auto col-md-7">
               </div>
               <div class="col-auto col-md-3 d-flex gap-2 d-md-flex justify-content-md-end">
-                {% if request.user == review.user %}
-                <a href="{% url 'review:update' review.pk %}" style="color:black;"><i class="bi bi-pencil-square"></i></a>
-                <a href="{% url 'review:delete' review.pk %}" style="color:black;"><i class="bi bi-trash"></i></a>
-                {% endif %}
                 <p>작성일: {{review.created_at|date:'Y-m-d'}}</p>
               </div>
               <!--                
