@@ -10,7 +10,9 @@
   <h1> 수정하기 </h1>
   {% endif %}
 
-  <form action="" method="POST" enctype="multipart/form-data" style="margin-left: 13rem; margin-right: 13rem;">
+  <form action="" method="POST" enctype="multipart/form-data" style="    margin-left: 16rem;
+  margin-right: 16rem;
+  width: 800px;">
     {% csrf_token %}
     {% bootstrap_form book_form %}
     {% bootstrap_form image_form %}
