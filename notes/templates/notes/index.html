@@ -18,7 +18,8 @@
           data-bs-toggle="dropdown" aria-expanded="false">
           메뉴
         </button>
-        <ul class="dropdown-menu" style="--bs-dropdown-min-width: 8rem;">
+        <ul class="dropdown-menu" style="--bs-dropdown-min-width: 8rem;background-color: whitesmoke;
+        box-shadow: #30950e 0px 0px 0 2px;">
           <li><a class="dropdown-item text-center" href="{% url 'notes:mail' %}">메일 보내기</a></li>
           <li>
             <hr class="dropdown-divider">
@@ -115,7 +116,7 @@
         </colgroup>
         <!--테이블 헤드-->
         <thead>
-          <div style="margin: bottom 30px;">
+          <div style="margin-bottom: 3rem;">
             <h2 class="fw-bold" style="margin-bottom: 30px"> 보낸 메일함</h2>
           </div>
           <tr class="table-success mt-3">
