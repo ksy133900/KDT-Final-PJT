@@ -15,10 +15,10 @@ def create(request):
             book.save()
 
             if len(images):
-                for image in images:
-                    image_instance = Image(book=book, image=image)
+                for img in images:
+                    img_instance = Image(book=book, image=img)
 
-                    image_instance.save()
+                    img_instance.save()
 
             return redirect("review:index")
     else:
