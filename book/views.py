@@ -13,8 +13,10 @@ def create(request):
             book = book_form.save(commit=False)
             book.user = request.user
             book.save()
-            image_form.save()
-
+            images = image_form.save(commit=False)
+            images.book = book
+            images.save()
+            
             # if len(images):
             #     for img in images:
             #         img_instance = Image(book=book, image=img)
