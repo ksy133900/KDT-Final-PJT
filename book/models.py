@@ -45,4 +45,4 @@ class Book(models.Model):
 # 도서 이미지
 class Image(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, null=True)
-    image = models.ImageField(upload_to="images/", blank=True, null=True)
+    image = models.ImageField(upload_to="media/images/", blank=True, null=True)

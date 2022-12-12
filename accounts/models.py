@@ -24,7 +24,7 @@ class Profile(models.Model):
     intro = models.TextField(null=True, blank=True)  # 소개글
     image = ProcessedImageField(
         blank=True,
-        upload_to="profile/",
+        upload_to="media/profile/",
         processors=[ResizeToFill(300, 300)],
         format="JPEG",
         options={"quality": 90},
