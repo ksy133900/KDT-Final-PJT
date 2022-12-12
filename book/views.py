@@ -29,3 +29,8 @@ def create(request):
         "image_form": image_form,
     }
     return render(request, "book/create.html", context)
+
+def delete(request,book_pk):
+    book = Book.objects.get(pk = book_pk)
+    book.delete()
+    return redirect("review:index")

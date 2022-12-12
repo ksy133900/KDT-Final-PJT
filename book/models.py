@@ -5,18 +5,6 @@ from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 
 
-# User = get_user_model()
-
-
-# class book_genre(models.Model):
-#     genre=models.CharField(max_length=10, unique=True)
-
-#     def __str__(self):
-#         return self.genre
-#     # def get_deferred_fields(self):
-#     #     return reverse('book/book_list.html',args=[self.genre])
-
-
 class Book(models.Model):
 
     # 제목
