@@ -27,4 +27,4 @@ class ImageForm(forms.ModelForm):
         model = Image
         fields = ["image"]
 
-        widgets = {"image": forms.ClearableFileInput(attrs={"multiple": True})}
+        # widgets = {"image": forms.ClearableFileInput(attrs={"multiple": True})}
