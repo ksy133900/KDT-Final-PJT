@@ -29,8 +29,7 @@ class Book(models.Model):
         ("판타지", "판타지"),
         ("로맨스", "로맨스"),
     ]
-    genre = models.CharField(
-        blank=True, max_length=20, choices=genre_choice, null=True) 
+    genre = models.CharField(blank=True, max_length=20, choices=genre_choice, null=True)
     # 가격
     price = models.PositiveIntegerField()
     # 줄거리
@@ -44,5 +43,5 @@ class Book(models.Model):
 
 # 도서 이미지
 class Image(models.Model):
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, null=True)
-    image = models.ImageField(upload_to="media/images/", blank=True, null=True)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, blank=True, null=True)
+    image = models.ImageField(upload_to="images/", null=True)
