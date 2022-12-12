@@ -8,14 +8,18 @@
   max-width: 1000px;
   margin: auto;
   margin-bottom: 120px;
+  display: flex;
+  flex-direction: column;
 }
 .mesgs_container {
   float: left;
   max-width: 1000px;
   margin: 0;
+  border: 1px solid #c4c4c4;
+  border-radius: 5%
 }
 .msg_history {
-  padding: 50px 100px 50px 100px;
+  padding: 30px 100px 30px 100px;
   height: 750px;
   flex-direction: column;
   overflow-y: auto;
@@ -54,25 +58,24 @@
   height: auto;
   box-sizing: content-box;
   padding: 10px 0 10px 0;
+  display: flex;
   /* flex-direction: row-reverse; */
 }
 .incoming_msg_img {
   position: relative;
-  display: inline;
+  display: inline-block;
   box-sizing: content-box;
+  width: 6%;
 }
 .incoming_msg_img_img {
   vertical-align: middle;
   border-style: none;
   display: inline-block;
-  width: 6%;
+  width: 100%;
   border-radius: 30px;
 }
 .received_withd_msg {
   padding: 0 0 0 5px;
-}
-.received_msg {
-  padding: 0 5px 0 0;
 }
 .received_withd_msg p{
   background: #ebebeb none repeat scroll 0 0;
@@ -87,6 +90,15 @@
   max-width: 250px;
   width: max-content;
   word-break: break-all; 
+  padding: 0 5px 0 0;
+}
+.outgoing_msg {
+  display: flex;
+  flex-direction: row-reverse;
+  width: auto;
+  height: auto;
+  box-sizing: content-box;
+  padding: 10px 0 10px 0;
 }
 .time_date {
   background: #ebebeb none repeat scroll 0 0;

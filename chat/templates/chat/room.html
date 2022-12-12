@@ -8,16 +8,9 @@
     <h3 class="text-center">책 토론방</h3>
     <div class="mesgs_container">
         <div class="msg_history" id="chat-messages">
-            <div class="inbox_msg">
-                
-                <div class="mesgs">
-                    <p class="font-bold entering" id="chat-entering"></p>
-                    
-                </div>
-            </div>
             {% for message in messages %}
             {% if request.user.username == message.user.username %}
-            <div class="d-flex incoming_msg">
+            <div class="outgoing_msg">
                 <div class="incoming_msg_img">
                     <img src="{% static 'images/no-profile.jpg' %}" class="incoming_msg_img_img">
                 </div>
@@ -33,11 +26,18 @@
                 </div>
             </div>
             {% else %}
-            <div class="d-flex chat-messages">
-                <img src="{% static 'images/no-profile.jpg' %}" class="profile_imgss">
-                <p class="font-bold">{{ message.user.username}}</p>
-                <div class="received_withd_msg ">
-                    <p>{{ message.content }}</p>
+            <div class="incoming_msg">
+                <div class="incoming_msg_img">
+                    <img src="{% static 'images/no-profile.jpg' %}" class="incoming_msg_img_img">
+                </div>
+                <div>
+                    <p class="font-bold">{{ message.user.username}}</p>
+                </div>
+                <div class="received_msg">
+                    <div class="received_withd_msg">
+                        <p >{{ message.content }}</p>
+                        <span class="time_date">{{ message.created_at }}</span>
+                    </div>
                 </div>
             </div>
             {% endif %}
@@ -57,11 +57,12 @@
 
 {% block script %}
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+<!-- 날짜를 한국 날짜 시간으로 표현하기 위해 url 링크 가져옴 -->
+<script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/locale/ko.js"></script>
 {{ room|json_script:"json-roomname" }}
 {{ request.user.username|json_script:"json-username"}}
 {{ message.user.username|json_script:"json-messagename"}}
-{{ accounts_name.username|json_script:"json-accountsname"}}
-{{ message.created_at|json_script:"json-created-at"}}
+{{ request.user.profile.nickname|json_script:"json-accountsname"}}
 <script type="text/javascript">
     function herf_location(id){
         current = window.location.href
@@ -71,7 +72,6 @@
     const userName = JSON.parse(document.getElementById("json-username").textContent);
     const messageName = JSON.parse(document.getElementById("json-messagename").textContent);
     const accountsName = JSON.parse(document.getElementById("json-accountsname").textContent);
-    const Time = JSON.parse(document.getElementById("json-created-at").textContent);
     const chatSocket = new WebSocket(
         'ws://'
         + window.location.host
@@ -88,9 +88,11 @@
         document.querySelector('#chat-messages').innerHTML += html;
         
     }
+    /* 날짜를 ko 한국시간 기준으로 출력하겠다 */
+    moment.locale('ko');
+    console.log(moment().format('YYYY년 MMMM Do h:mm a'))
     chatSocket.onmessage = function(e) {
         console.log('onmessage')
-
         /* 서버로부터 데이터 받기 */
         const data = JSON.parse(e.data);
         console.log(data)
@@ -102,21 +104,29 @@
         console.log(accountsName,'4444444444444444')
         if (data.message) {
             if (userName == accountsName){
-            let html = '<div class="d-flex chat-messages-reverse">';
-                html += '<img src="{% static 'images/no-profile.jpg' %}" class="profile_imgss">';
-                html += '<p class="font-bold">'+ data.username + '</p>';
-                html += '<div class="received_withd_msg ">';
-                html += '<p>'+ data.message + '</p></div>';
-                html += '</div>';
+            let html = '<div class="outgoing_msg">';
+                html += '<div class="incoming_msg_img">';
+                html += '<img src="{% static 'images/no-profile.jpg' %}" class="incoming_msg_img_img"></div>';
+                html += '<div>';
+                html += '<p class="font-bold">' + data.username + '</p></div>';
+                html += '<div class="received_msg ">';
+                html += '<div class="received_withd_msg">';
+                html += '<p >' + data.message + '</p>';
+                html += '<span class="time_date">' + moment().format('YYYY년 MMMM Do h:mm a')+ '</span></div>'
+                html += '</div></div>';
             document.querySelector('#chat-messages').innerHTML += html;
             }
             else if(userName != accountsName) {
-            let html = '<div class="d-flex chat-messages-reverse">';
-                html += '<img src="{% static 'images/no-profile.jpg' %}" class="profile_imgss">';
-                html += '<p class="font-bold">'+ data.username + '</p>';
-                html += '<div class="received_withd_msg ">';
-                html += '<p>'+ data.message + '</p></div>';
-                html += '</div>';
+                let html = '<div class="incoming_msg">';
+                html += '<div class="incoming_msg_img">';
+                html += '<img src="{% static 'images/no-profile.jpg' %}" class="incoming_msg_img_img"></div>';
+                html += '<div>';
+                html += '<p class="font-bold">' + data.username + '</p></div>';
+                html += '<div class="received_msg ">';
+                html += '<div class="received_withd_msg">';
+                html += '<p >' + data.message + '</p>';
+                html += '<span class="time_date">' + moment().format('YYYY년 MMMM Do h:mm a')+ '</span></div>'
+                html += '</div></div>';
             document.querySelector('#chat-messages').innerHTML += html;
             }
             
