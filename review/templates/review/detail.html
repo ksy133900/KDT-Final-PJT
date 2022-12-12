@@ -32,7 +32,8 @@
           <tbody>
             <tr>
               <th scope="row">제목</th>
-              <td>{{ book.title }}</td>
+              <td>{{ book.title }}<a href="{% url 'book:delete' book.pk %}" class="btn btn-sm"><i class="bi bi-trash"></i></a>
+              </td>
             </tr>
             <tr>
               <th scope="row">장르</th>
