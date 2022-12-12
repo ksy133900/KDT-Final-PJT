@@ -149,12 +149,21 @@ def profile(request, pk):
     user = get_object_or_404(get_user_model(), pk=pk)
     reviews = user.review_set.all()
     reviews_count = len(reviews)
+    image_list = []
+    books_image = Image.objects.all()
+    for t in reviews:
+        for t1 in books_image:
+            if t.book_id == t1.book_id:
+                image_list.append(t1.book_id)
+    
     context = {
         "profile": profile,
         "review": review,
         "user": user,
         "reviews": reviews,
         "reviews_count": reviews_count,
+        "books_image": books_image,
+        "image_list": image_list,
     }
 
     return render(request, "accounts/profile.html", context)
