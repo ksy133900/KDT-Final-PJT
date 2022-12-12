@@ -7,18 +7,19 @@ def create(request):
     if request.method == "POST":
         book_form = bookForm(request.POST)
         image_form = ImageForm(request.POST, request.FILES)
-        images = request.FILES.getlist("image")
+        # images = request.FILES.getlist("image")
 
         if book_form.is_valid() and image_form.is_valid():
             book = book_form.save(commit=False)
             book.user = request.user
             book.save()
+            image_form.save()
 
-            if len(images):
-                for img in images:
-                    img_instance = Image(book=book, image=img)
+            # if len(images):
+            #     for img in images:
+            #         img_instance = Image(book=book, image=img)
 
-                    img_instance.save()
+            #         img_instance.save()
 
             return redirect("review:index")
     else:
