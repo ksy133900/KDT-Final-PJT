@@ -206,9 +206,8 @@ if DEBUG:  # 개발(로컬) 환경
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
-
-else:  # 배포(원격, 클라우드) 환경
-    DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+else:
+    DEFAULT_FILE_STORAGE = "pjt.storages.MediaStorage"
 
     AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
     AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
