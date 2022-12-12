@@ -5,11 +5,8 @@ from .forms import *
 # Create your views here.
 def create(request):
     if request.method == "POST":
-        book_form = BookForm(
-            request.POST,
-        )
+        book_form = BookForm(request.POST)
         image_form = ImageForm(request.POST, request.FILES)
-
         images = request.FILES.getlist("image")
 
         if book_form.is_valid() and image_form.is_valid():
