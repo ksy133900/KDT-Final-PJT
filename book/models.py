@@ -16,6 +16,7 @@ from imagekit.processors import ResizeToFill
 #     # def get_deferred_fields(self):
 #     #     return reverse('book/book_list.html',args=[self.genre])
 
+
 class Book(models.Model):
 
     # 제목
@@ -27,10 +28,11 @@ class Book(models.Model):
     # 줄거리
     summary = models.TextField(max_length=500, blank=True)
     # 매칭수
-    matching_count = models.PositiveIntegerField(blank=True) 
+    matching_count = models.PositiveIntegerField(default=0, blank=True)
 
     def __str__(self):
         return self.title
+
 
 # 도서 이미지
 class Image(models.Model):
