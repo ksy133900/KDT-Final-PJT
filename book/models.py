@@ -29,13 +29,15 @@ class Book(models.Model):
         ("로맨스", "로맨스"),
     ]
     genre = models.CharField(
-        blank=True, max_length=20, default="장르", choices=genre_choice, null=True) 
+        blank=True, max_length=20, choices=genre_choice, null=True) 
     # 가격
     price = models.PositiveIntegerField()
     # 줄거리
     summary = models.TextField(max_length=500, blank=True)
     # 매칭수
-    matching_count = models.PositiveIntegerField(blank=True) 
+    matching_count = models.PositiveIntegerField(blank=True)
+    # 평점
+     
 
     def __str__(self):
         return self.title
