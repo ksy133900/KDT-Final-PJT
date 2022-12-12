@@ -114,7 +114,7 @@ def create(request, book_pk):
         book_images = Image.objects.filter(
             book__id=book_pk
         )  # book_pk로 Image.book_id가 필터(없어도 필터라 쿼리셋으로 변수지정)
-        images = request.FILES.getlist("image")
+
         tags = request.POST.get("tags", "").split(",")
 
         # if request.POST.get("tags", "") != "":
