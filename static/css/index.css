@@ -1,0 +1,24 @@
+#carouselExampleControls_1 .img_box {
+  width: 200px;
+  height: 250px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.img_box img {
+  width: 100%;
+}
+
+#carouselExampleControls_2 .img_box {
+  width: 100px;
+  height: 130px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+#genre_book .img_box {
+  width: 100px;
+  height: 130px;
+  overflow: hidden;
+  margin: 0 auto;
+}

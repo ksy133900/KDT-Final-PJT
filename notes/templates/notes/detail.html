@@ -8,6 +8,7 @@
     height: 100%;
     object-fit: fill;
   }
+
   .navi_profile_box {
     width: 50px;
     height: 50px;
@@ -15,51 +16,52 @@
     overflow: hidden;
     cursor: pointer;
   }
-
 </style>
 {% endblock css %}
 {% block content%}
 <div class="container mt-5">
   <div class="d-flex">
     <div class="col-2">
-        <div class="btn-group">
-          <button type="button" class="btn btn-success dropdown-toggle" style="width: 100px; margin-right:50px;" data-bs-toggle="dropdown" aria-expanded="false">
-            메뉴
-          </button>
-          <ul class="dropdown-menu" style="--bs-dropdown-min-width: 8rem;">
-            <li>
-              <a class="dropdown-item text-center" href="{% url 'notes:mail' %}">메일 보내기</a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li>
-              <a class="dropdown-item text-center" href="{% url 'notes:index' %}">받은 메일함</a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li>
-              <a class="dropdown-item text-center" href="{% url 'notes:sent' %}">보낸 메일함</a>
+      <div class="btn-group">
+        <button type="button" class="btn btn-success dropdown-toggle" style="width: 100px; margin-right:50px;"
+          data-bs-toggle="dropdown" aria-expanded="false">
+          메뉴
+        </button>
+        <ul class="dropdown-menu" style="--bs-dropdown-min-width: 8rem;background-color: whitesmoke;
+          box-shadow: #30950e 0px 0px 0 2px;">
+          <li>
+            <a class="dropdown-item text-center" href="{% url 'notes:mail' %}">메일 보내기</a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li>
+            <a class="dropdown-item text-center" href="{% url 'notes:index' %}">받은 메일함</a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li>
+            <a class="dropdown-item text-center" href="{% url 'notes:sent' %}">보낸 메일함</a>
             </th>
           </li>
 
         </ul>
-        </div>
       </div>
- 
+    </div>
+
 
     <div class="col-10">
       <h5 class="mb-3">발신자 :
         {% if note.from_user.profile.image %}
         <div class="navi_profile_box">
-        <img src ="{{ note.from_user.profile.image.url}}" class="mx-2" width="25" height="25">
-        {% else %}
-        <img src="{% static 'images/no-profile.jpg' %}" class="mx-2" width="25" height="25">
-        {% endif %}
-        {{ note.from_user.profile.nickname }}
+          <img src="{{ note.from_user.profile.image.url}}" class="mx-2" width="25" height="25">
+          {% else %}
+          <img src="{% static 'images/no-profile.jpg' %}" class="mx-2" width="25" height="25">
+          {% endif %}
+          {{ note.from_user.profile.nickname }}
 
-        <hr>
+          <hr>
       </h5>
       <h5 class="mb-3">받은 시간 :
         {{ note.created_at|date:'y년 m월 d일 H:m' }}</h5>
@@ -68,11 +70,11 @@
         {{ note.title }}</h5>
       <hr>
       <h5 class="mb-3 d-flex">내용 :</h5>
-        <textarea rows="4" cols="50">{{note.content}}</textarea>
+      <textarea rows="4" cols="50">{{note.content}}</textarea>
       <hr>
 
 
-</div>
-</div>
+    </div>
+  </div>
 
-{% endblock %}
+  {% endblock %}

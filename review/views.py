@@ -10,7 +10,10 @@ from django.http import JsonResponse
 from django.db.models import Count
 from django.views.decorators.http import require_POST
 from django.contrib.auth import logout as auth_logout
-
+from accounts.models import *
+from django.db.models import Q
+from book.models import *
+from django.db.models import Q
 
 # Create your views here.
 
@@ -19,19 +22,27 @@ def pro_index(request):
     auth_logout(request)
     return render(request, "review/pro_index.html")
 
-# review 값은 테스트를 위해 넣었습니다. 지워도 됩니다.
 def index(request):
     reviews = Review.objects.order_by("-pk")
     profile = Profile.objects.order_by("-pk")
+    # 장르별 최고 평점 1권만 filter로 수정해야함.
     books = Book.objects.all()
-    review = reviews[0]
-    print(reviews)
-    print(review.pk)
+
+    # 전체 도서 평점 top10[10개까지]
+    book_top10 = Book.objects.all()[:10]
+    # 장르별 최근 리뷰 도서[3개까지]
+    new_book = Book.objects.order_by("-pk")[:3]
+    book_image = Image.objects.all()
+
+
     context = {
         "reviews": reviews,
         "profile": profile,
         "books": books,
-        "review": review,
+        "book_image": book_image,
+        "new_book": new_book,
+        "book_top10": book_top10,
+
     }
     return render(request, "review/index.html", context)
 
@@ -41,20 +52,66 @@ def faq(request):
 
 
 def matching(request):
-    profile = Profile.objects.all()
+    user = User.objects.order_by("-pk")
+    user_address = User.objects.values_list("address")
+    # address_split = user.address.split(" ")
+    # address1 = address_split[0]
+    # address2 = address_split[1]
+    profile = Profile.objects.order_by("-pk")
     notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
     context = {
         "profile": profile,
         "notes_notice": notes_notice,
+        "user": user,
+        # "address1": address1,
+        # "address2": address2,
     }
+    print(user_address)
     return render(request, "review/matching.html", context)
 
+
+def search(request):
+    search_keyword = request.GET.get("search", "")
+    search_option = request.GET.get(
+        "search_option", ""
+    )  # title, title_content, hashtag, user
+    reviews = Review.objects.order_by("-pk")
+
+    if search_keyword:
+        if search_option == "title":
+            search_reviews = reviews.filter(title__icontains=search_keyword)
+
+        elif search_option == "title_content":
+            # Q: ORM WHERE에서 or 연산을 수행
+            search_reviews = reviews.filter(
+                Q(title__icontains=search_keyword)
+                | Q(content__icontains=search_keyword)
+            )
+        elif search_option == "hashtag":
+            # distinct(): 중복 제거
+            # 만약 해시태그가 #1, #11, #111인 글이 하나 있고, 1을 검색하면
+            # 같은 글이 3개가 보여짐.
+            search_reviews = reviews.filter(
+                tags__name__icontains=search_keyword
+            ).distinct()
+        elif search_option == "user":
+            # ForeignKey icontains
+            # {Article의 User field}__{User의 nickname field}__icontains
+            search_reviews = reviews.filter(Q(user__nickname__icontains=search_keyword))
+
+    context = {
+        "search_reviews": search_reviews,
+    }
+
+    return render(request, "review/search.html", context)
+
 @login_required
-def create(request):
+def create(request, book_pk):
 
     if request.method == "POST":
         review_form = ReviewForm(request.POST, request.FILES)
-        photo_form = PhotoForm(request.POST, request.FILES)
+        # photo_form = PhotoForm(request.POST, request.FILES)
+        book = Book.objects.get(pk=book_pk)
 
         images = request.FILES.getlist("image")
         tags = request.POST.get("tags", "").split(",")
@@ -64,10 +121,11 @@ def create(request):
         # else:
         #     tags = None
 
-        if review_form.is_valid() and photo_form.is_valid():
+        if review_form.is_valid():# and photo_form.is_valid():
             review = review_form.save(commit=False)
-            photo = photo_form.save()
+            # photo = photo_form.save()
             review.user = request.user
+            review.book = book
 
             if len(images):
                 for image in images:
@@ -82,58 +140,69 @@ def create(request):
                     review.tags.add(tag)
                     review.save()
 
-            return redirect("/")
+            return redirect("review:index")
 
     else:
         review_form = ReviewForm()
-        photo_form = PhotoForm()
+        # photo_form = PhotoForm()
     context = {
         "review_form": review_form,
-        "photo_form": photo_form,
+        # "photo_form": photo_form,
     }
     return render(request, "review/create.html", context)
 
 
 # 글 수정 시작
 @login_required
-def update(request, pk):
+def update(request, pk, book_pk):
     review = Review.objects.get(pk=pk)  # 수정하기 위해서 이전 글을 불러와야 하므로
     if request.method == "POST":
         # POST : input 값 가져와서 검증하고 DB에 저장
         # 기존에 있는 값을 수정하므로 그 기존값을 받아와야 한다. 없으면 수정이 아니라 글을 생성함
         review_form = ReviewForm(request.POST, request.FILES, instance=review)
-        photo_form = PhotoForm(request.POST, request.FILES, instance=review)
-        if review_form.is_valid() and photo_form.is_valid():
+        # photo_form = PhotoForm(request.POST, request.FILES, instance=review)
+        if review_form.is_valid():# and photo_form.is_valid():
             review_form.save()
-            photo_form.save()
+            # photo_form.save()
             # 유효성 검사 통과하면 상세보기 페이지로
-            return redirect("review:detail")
+            return redirect("review:detail", book_pk)
             # 유효성 검사 통과하지 않으면 => context 부터해서 오류메시지 담긴 article_form을 랜더링
     else:
         # GET : forms을 제공
         review_form = ReviewForm(instance=review)
-        photo_form = PhotoForm(instance=review)
+        # photo_form = PhotoForm(instance=review)
     context = {
         "review_form": review_form,
-        "photo_form": photo_form,
+        # "photo_form": photo_form,
     }
     return render(request, "review/create.html", context)
+
+
 # 글 수정 끝
 
 # 글 삭제 시작
-def delete(request, pk):
+def delete(request, pk, book_pk):
     Review.objects.get(id=pk).delete()
-    return redirect("review:detail")
+    return redirect("review:detail", book_pk)
 # 글 삭제 끝
 
-
-def detail(request, pk):
-    reviews = Review.objects.order_by("-pk")
-    book = Book.objects.get(pk=pk)
-
+def detail(request, book_pk):
+    reviews = Review.objects.filter(book_id=book_pk).order_by("-pk")
+    book = Book.objects.get(pk=book_pk)
+    # 도서이미지가 없는 경우 디테일페이지 연결 오류가 있어 수정하였습니다.
+    test = Image.objects.all()
+    for t in test:
+        print(t.book_id, type(t.book_id))
+        if book_pk == t.book_id:
+            book_image = Image.objects.get(book_id = book_pk)
+            break
+        else:
+            book_image = 0
+     
     context = {
         "reviews": reviews,
         "book": book,
+        "book_image": book_image,
     }
     return render(request, "review/detail.html", context)
 
@@ -161,8 +230,9 @@ def detail(request, pk):
 #     return JsonResponse(context)
 
 
-def like(request, pk):
-    review = Review.objects.get(pk=pk)
+def like(request, book_pk, review_pk):
+    review = Review.objects.get(pk=review_pk)
+    book = Book.objects.get(pk=book_pk)
 
     if review.like_users.filter(pk=request.user.pk).exists():
         review.like_users.remove(request.user)
@@ -177,12 +247,14 @@ def like(request, pk):
 
     return JsonResponse(data)
 
+
 def match_board(request):
     test = Match_review.objects.all()
     context = {
         "test": test,
     }
     return render(request, "review/match_board.html", context)
+
 
 def match_create(request):
     if request.method == "POST":
@@ -194,8 +266,44 @@ def match_create(request):
             return redirect("review:match_board")
     else:
         match_review_form = Match_reviewForm()
-    
+
     context = {
         "match_review_form": match_review_form,
     }
     return render(request, "review/match_create.html", context)
+
+
+def search(request):
+    search_keyword = request.GET.get("search", "")
+    search_option = request.GET.get(
+        "search_option", ""
+    )  # title, title_content, hashtag, user
+    reviews = Review.objects.order_by("-pk")
+
+    if search_keyword:
+        if search_option == "title":
+            search_reviews = reviews.filter(title__icontains=search_keyword)
+
+        elif search_option == "title_content":
+            # Q: ORM WHERE에서 or 연산을 수행
+            search_reviews = reviews.filter(
+                Q(title__icontains=search_keyword)
+                | Q(content__icontains=search_keyword)
+            )
+        elif search_option == "hashtag":
+            # distinct(): 중복 제거
+            # 만약 해시태그가 #1, #11, #111인 글이 하나 있고, 1을 검색하면
+            # 같은 글이 3개가 보여짐.
+            search_reviews = reviews.filter(
+                tags__name__icontains=search_keyword
+            ).distinct()
+        elif search_option == "user":
+            # ForeignKey icontains
+            # {Article의 User field}__{User의 nickname field}__icontains
+            search_reviews = reviews.filter(Q(user__nickname__icontains=search_keyword))
+
+    context = {
+        "search_reviews": search_reviews,
+    }
+
+    return render(request, "review/search.html", context)

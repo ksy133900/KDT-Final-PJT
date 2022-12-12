@@ -7,14 +7,14 @@
 {% endblock css %}
 
 {% block content %}
-<div class="container my-5 row justify-content-center">
+<div class="container my-5 justify-content-center " style="display: flex;">
   <div class="create_box rounded-3 p-3">
     {% if request.resolver_match.url_name == 'match_create' %}
-      <h1> 매칭 후기 작성 </h1>
+    <h1> 매칭 후기 작성 </h1>
     {% else %}
-      <h1> 매칭 후기 수정 </h1>
+    <h1> 매칭 후기 수정 </h1>
     {% endif %}
-  
+
     <form action="" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
       {% bootstrap_form match_review_form %}

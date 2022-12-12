@@ -38,6 +38,14 @@
             {% endif %}
             <!--팔로우(언팔로우)버튼-->
             <div>
+              {% if user == request.user %}
+              <!--버튼-->
+              <div class=" d-flex gap-2">
+                <a href="{% url 'accounts:update' user.pk %}">
+                  <input type="button" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #4b3a88; color: white;" value="프로필 수정">
+                </a>
+             </div>
+                {% else %}
               <form id="follow-form" data-user-id="{{ user.pk }}">
                 {% csrf_token %}
                 {% if request.user in user.followers.all %}
@@ -46,8 +54,10 @@
                 <input id="follow-btn" type="submit" formmethod="POST" class="btn btn-primary ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; color: white;" value="팔로우">
                 {% endif %}
               </form>
+              {% endif %}
+          
             </div>
-          </div>
+        </div>
           <h5>독토 매칭 찾고 있습니다</h5><!--매칭 휴식중이면 "독토 매칭 휴식중 입니다"로 변경 되도록 하려합니다-->  
           <!-- 팔로잉 / 팔로워 collapse 시작 -->
           <!-- collapse 버튼 -->
@@ -154,87 +164,67 @@
           </div>
        </div>
       </div>
-      
-<!--작성글 collapse 시작-->
-            <div class="collapse" id="user_articles">
-              <div class="row justify-content-center">
-                {% for review in reviews %}
-                <div class="review_card row border rounded-4 border-success border-opacity-25 border-3 p-3 mt-3 mb-3">
-                  <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-                    <div class="row flex-nowrap">
-                      {% if review.rating == 5 %}
-                      <h6>⭐⭐⭐⭐⭐</h6>
-                      {% elif review.rating == 4 %}
-                      <h6>⭐⭐⭐⭐</h6>
-                      {% elif review.rating == 3 %}
-                      <h6>⭐⭐⭐</h6>
-                      {% elif review.rating == 2 %}
-                      <h6>⭐⭐</h6>
-                      {% elif review.rating == 1 %}
-                      <h6>⭐</h6>
-                      {% endif %}
-                    </div>
-                  </div>
-                    
-                    <div class="row justify-content-around">
-                      <div class="profile_img col-auto col-md-4 text-center">
-                        <!-- 유저 -->
-                            {% if review.user.profile.image %}
-                            <img src="{{ review.user.profile.image.url }}" alt="{{ review.user.profile.image }}" class="rounded-2 border border-1" width="40px">
-                            {% else %}
-                            <img src="{% static 'images/no-profile.jpg' %}" alt="" class="rounded-2 border border-1" width="40px">
-                            {% endif %}
-                            {% if review.user.profile.nickname %}
-                            <p>{{ review.user.profile.nickname }}</p>
-                            {% else %}
-                            <p>{{review.user.username}}</p>
-                            {% endif %}
-                      </div>  
-                        
-                      <div class="overflow-auto content_box border bg-success bg-opacity-10 border-0 rounded-3 col-auto col-md-9">
-                          <p>{{review.content | linebreaksbr }}</p>
-                      </div>
-                    </div>
-                       <!--독토요청/수정/삭제 버튼, 작성일자-->
-                       <div class="row">
-                         <div class="col-auto col-md-2 text-center">
-                           {% if request.user != review.user %}
-                           <a href="{% url 'notes:mail' %}" class="btn btn_docto btn-sm">독토요청하기</a>
-                           {% endif %}
-                        </div>
-                         <div class="col-auto col-md-7">
-                       </div>
-                         <div class="col-auto col-md-3 d-flex gap-2 d-md-flex justify-content-md-end">
-                           {% if request.user == review.user %}
-                           <a href="{% url 'review:update' review.pk %}" style="color:black;"><i class="bi bi-pencil-square"></i></a>
-                           <a href="{% url 'review:delete' review.pk %}" style="color:black;"><i class="bi bi-trash"></i></a>
-                           {% endif %}
-                           <p>작성일: {{review.created_at|date:'Y-m-d'}}</p>
-                         </div>
-                      
-                  
-                  
-<!--                
-                            {% for tag in review.tags.all %}
-                              <a href="/search/?search_option=hashtag&amp;search={{ tag.name }}" class="text-decoration-none fs-6">#{{ tag.name }}</a>
-                            {% endfor %} -->
-                     
-              
-               </div>
+      <!--작성글 collapse 시작-->
+      <div class="collapse" id="user_articles">
+        <div class="row justify-content-center">
+          {% for review in reviews %}
+          <div class="review_card row border rounded-4 border-success border-opacity-25 border-3 p-3 mt-3 mb-3">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+              <div class="row flex-nowrap">
+                {% if review.rating == 5 %}
+                <h6>⭐⭐⭐⭐⭐</h6>
+                {% elif review.rating == 4 %}
+                <h6>⭐⭐⭐⭐</h6>
+                {% elif review.rating == 3 %}
+                <h6>⭐⭐⭐</h6>
+                {% elif review.rating == 2 %}
+                <h6>⭐⭐</h6>
+                {% elif review.rating == 1 %}
+                <h6>⭐</h6>
+                {% endif %}
               </div>
             </div>
-            
-               {%endfor%}
-             
+              
+            <div class="row justify-content-around">
+              <div class="profile_img col-auto col-md-4 text-center">
+                <!-- 유저 -->
+                {% if review.user.profile.image %}
+                <img src="{{ review.user.profile.image.url }}" alt="{{ review.user.profile.image }}" class="rounded-2 border border-1" width="40px">
+                {% else %}
+                <img src="{% static 'images/no-profile.jpg' %}" alt="" class="rounded-2 border border-1" width="40px">
+                {% endif %}
+                {% if review.user.profile.nickname %}
+                <p>{{ review.user.profile.nickname }}</p>
+                {% else %}
+                <p>{{review.user.username}}</p>
+                {% endif %}
+              </div>  
+                
+              <div class="overflow-auto content_box border bg-success bg-opacity-10 border-0 rounded-3 col-auto col-md-9">
+                  <p>{{review.content | linebreaksbr }}</p>
+              </div>
             </div>
-            <!--리뷰 갯수(collapse) 내용 종료-->
-          
+            <!--독토요청/수정/삭제 버튼, 작성일자-->
+            <div class="row">
+              <div class="col-auto col-md-2 text-center">
+                  {% if request.user != review.user %}
+                  <a href="{% url 'notes:mail' %}" class="btn btn_docto btn-sm">독토요청하기</a>
+                  {% endif %}
+              </div>
+              <div class="col-auto col-md-7">
+              </div>
+              <!--                
+                {% for tag in review.tags.all %}
+                <a href="/search/?search_option=hashtag&amp;search={{ tag.name }}" class="text-decoration-none fs-6">#{{ tag.name }}</a>
+                {% endfor %}
+              -->
+            </div>
           </div>
+          {%endfor%}
         </div>
       </div>
+      <!--리뷰 갯수(collapse) 내용 종료-->
     </div>
-  </div>
- <!--리뷰 갯수 표시-->
     <!--선호나이-->
     <div class="border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
       <h4 class="text-center">선호 나이</h4>
@@ -257,11 +247,11 @@
     <div class="border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
       <h4>활동 지역</h4>
       <p></p>
-      {% if user.address == null %}
+      {% if user.profile.location == null %}
         <p>아직 지역 설정을 하지 않았습니다.</p>
       {% else %}
         <p>
-          <span>{{address1}}</span>&nbsp;<span>{{address2}}</span></p>
+          {{user.profile.location}}</p>
       {% endif %}
     </div>
     <!--선호시간-->

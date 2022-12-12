@@ -12,7 +12,11 @@
     <div class="top_banner row d-flex align-items-center justify-content-around">
       <!--책 이미지-->
       <div class="book_img col-auto">
-        <img src="{{ book.image.url }}" alt="">
+        {% if book_image != 0 %}
+        <img src="{{ book_image.image.url }}" alt="">
+        {% else %}
+        <img src="{% static 'images/dummy-image-square.jpg' %}" alt="dummy_img">
+        {% endif %}
       </div>
       <!--책 정보 시작-->
       <div class="col-auto">
@@ -58,7 +62,7 @@
     <div class="row justify-content-center">
       <!--리뷰작성 버튼-->
       <div class="d-grid justify-content-center mt-3 mb-5">
-        <a href="{% url 'review:create' %}" class="btn btn_1">리뷰작성</a>
+        <a href="{% url 'review:create' book.pk %}" class="btn btn_1">리뷰작성</a>
       </div>
       <!--리뷰카드 시작-->
       {% for review in reviews %}
@@ -129,7 +133,7 @@
                 <span id="like-count">{{ review.like_users.count}}</span>
             <div> -->
             {% if request.user.is_authenticated %}
-            <form class="like-forms d-inline" data-review-id="{{ review.pk }}">
+            <form class="like-forms d-inline" data-book-id="{{ book.pk }}" data-review-id="{{ review.pk }}">
               {% csrf_token %}
               <h4>
                 {% if request.user in review.like_users.all %}
@@ -140,8 +144,24 @@
               </h4>
             </form>
             {% endif %}
+            <span id="like-{{ review.pk }}-count" class="text-muted me-3">{{ review.like_users.count }}</span>
           </div>
+        </div>  
+        <!-- {% if request.user.is_authenticated %}
+        <div class="like-heart mt-2 mx-2">
+          {% if request.user in review.like_users.all %}
+            <i id="btn-review-like" data-book-id="{{ book.pk }}" data-review-id="{{ review.pk }}" class="bi bi-heart-fill btn-review-like"></i>
+          {% else %}
+            <i id="btn-review-like" data-book-id="{{ book.pk }}" data-review-id="{{ review.pk }}" class="bi bi-heart btn-review-like"></i>
+          {% endif %}
         </div>
+      {% else %}
+        <a href="{% url 'accounts:login' %}" class="mx-2">
+          <i class="bi bi-heart"></i>
+        </a>
+      {% endif %}
+      </div>
+      </div> -->
         <!--포로필이미지/리뷰내용-->
         <div class="row justify-content-around">
           <!--프로필이미지-->
@@ -176,8 +196,8 @@
           </div>
           <div class="col-auto col-md-3 d-flex gap-2 d-md-flex justify-content-md-end">
             {% if request.user == review.user %}
-            <a href="{% url 'review:update' review.pk %}" style="color:black;"><i class="bi bi-pencil-square"></i></a>
-            <a href="{% url 'review:delete' review.pk %}" style="color:black;"><i class="bi bi-trash"></i></a>
+            <a href="{% url 'review:update' review.pk book.pk %}" style="color:black;"><i class="bi bi-pencil-square"></i></a>
+            <a href="{% url 'review:delete' review.pk book.pk %}" style="color:black;"><i class="bi bi-trash"></i></a>
             {% endif %}
             <p>작성일: {{review.created_at|date:'Y-m-d'}}</p>
           </div>
@@ -199,39 +219,36 @@
         form.addEventListener('submit', function (event) {
           event.preventDefault()
           const reviewId = event.target.dataset.reviewId
-  
+          const bookId = event.target.dataset.bookId
+ 
           axios({
+            
             method: 'post',
-            url: `/detail/like/${reviewId}/`,
+            url: `/detail/${bookId}/like/${reviewId}`,
             headers: {'X-CSRFToken': csrfToken},
+         
           })
+          
           .then(response => {
             const isLiked = response.data.isLiked
             const likeBtn = document.querySelector(`#btn-like-${reviewId}`)
-            console.log(response.data)
-           
-            console.log(isLiked)
-
-            console.log(likeBtn)
+            console.log(isLiked)  
             if (isLiked === true) {
-              console.log('호호')
               likeBtn.classList.add('bi-emoji-heart-eyes')
               likeBtn.classList.remove('bi-emoji-angry')
-              
+
             } else {
               likeBtn.classList.add('bi-emoji-angry')
               likeBtn.classList.remove('bi-emoji-heart-eyes')
-              
+
             }
-            
+            const likeCount = document.querySelector(`#like-${reviewId}-count`)
+            likeCount.innerText = response.data.likeCount
           })
           .catch(error => {
             console.log(error)
           })
         })
       })
-      
-    
-  
       </script>
 {% endblock script %}

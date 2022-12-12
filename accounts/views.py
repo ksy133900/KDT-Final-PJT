@@ -10,32 +10,67 @@ from django.contrib import messages
 from django.http import JsonResponse
 from review.models import Review
 import json
-from notes.models import Notes
+from .models import *
+from django.db.models import *
 from django.db.models import Q
+from book.models import Image
+
+# def signup(request):
+#     context = {}
+#     if request.user.is_authenticated:
+#         return redirect("review:index")
+#     # 로그인 상태면 회원가입 ㄴㄴ
+#     if request.method == "POST":
+#         signup_form = CustomUserCreationForm(request.POST)
+#         if signup_form.is_valid():
+#             user = signup_form.save()
+#             Profile.objects.create(user=user)
+#             return redirect("accounts:login")
+#     else:
+#         signup_form = CustomUserCreationForm()
+
+#     context = {
+#         "signup_form": signup_form,
+#     }
+#     if signup_form.errors:
+#         context["error"] = []
+#         for value in signup_form.errors.values():
+#             context["error"].append(value)
+#     return render(request, "accounts/signup.html", context)
 
 
-# Create your views here.
 def signup(request):
-    context = {}
+
     if request.user.is_authenticated:
         return redirect("review:index")
-    # 로그인 상태면 회원가입 ㄴㄴ
+
     if request.method == "POST":
         signup_form = CustomUserCreationForm(request.POST)
-        if signup_form.is_valid():
+        profile_form = ProfileForm(request.POST)
+
+        if signup_form.is_valid() and profile_form.is_valid():
             user = signup_form.save()
-            Profile.objects.create(user=user)
-            return redirect("accounts:login")
+
+            profile = profile_form.save(commit=False)
+            Profile.objects.create(
+                user=user,
+                nickname=profile.nickname,
+            )
+
+            auth_login(
+                request,
+                user,
+            )
+            return redirect("review:index")
     else:
         signup_form = CustomUserCreationForm()
+        profile_form = ProfileForm()
 
     context = {
         "signup_form": signup_form,
+        "profile_form": profile_form,
     }
-    if signup_form.errors:
-        context["error"] = []
-        for value in signup_form.errors.values():
-            context["error"].append(value)
+
     return render(request, "accounts/signup.html", context)
 
 
@@ -61,19 +96,18 @@ def logout(request):
     auth_logout(request)
     return redirect("review:pro_index")
 
+
 def open_profile(request, pk):
     profile = Profile.objects.get(pk=pk)
-    review = Review.objects.order_by("-pk")
+    # review = Review.objects.order_by("-pk")
+    book = Image.objects.order_by("-pk")
     user = get_object_or_404(get_user_model(), pk=pk)
     reviews = user.review_set.all()
     reviews_count = len(reviews)
-    address_split = user.address.split(" ")
-    address1 = address_split[0]
-    address2 = address_split[1]
     tab1 = []
     tab2 = []
     tab3 = []
-    for i in range(1,22):
+    for i in range(1, 22):
         if i < 8:
             tab1.append(i)
         elif 8 <= i < 15:
@@ -81,22 +115,25 @@ def open_profile(request, pk):
         else:
             tab3.append(i)
     # 선호 시간용
-    dt_json = json.loads(profile.daytime)#list로 받았으나 내부값이 str이라 바로 사용 못함
-    daytime = list(map(int, dt_json))#오랜만에 사용하는 map(int)로 타입 변경하여 list로 변수 지정
+    if profile.daytime:
+        dt_json = json.loads(profile.daytime)  # list로 받았으나 내부값이 str이라 바로 사용 못함
+        daytime = list(map(int, dt_json))  # 오랜만에 사용하는 map(int)로 타입 변경하여 list로 변수 지정
+    else:
+        daytime = [0]
 
     context = {
         "profile": profile,
-        "review": review,
+        # "review": review,
         "user": user,
+        "book": book,
         "reviews": reviews,
         "reviews_count": reviews_count,
-        "address1": address1,
-        "address2": address2,
         "tab1": tab1,
         "tab2": tab2,
         "tab3": tab3,
         "daytime": daytime,
     }
+    print(book)
     return render(request, "accounts/open_profile.html", context)
 
 
@@ -124,41 +161,80 @@ def delete(request):
         messages.warning(request, "회원 탈퇴 되었습니다.")
         auth_logout(request)
 
-    return redirect("review:index")
+    return redirect("review:pro_index")
 
-# 검색기능
+
 def get_queryset(self):
-    search_keyword = self.request.GET.get('q', '')
-    search_type = self.request.GET.get('type', '')
-    notice_list = Notice.objects.order_by('-id') 
-    
-    if search_keyword :
-        if len(search_keyword) > 0 :
-            if search_type == 'all':
-                search_notice_list = notice_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword) | Q (writer__user_id__icontains=search_keyword))
-            elif search_type == 'title_content':
-                search_notice_list = notice_list.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword))
-            elif search_type == 'title':
-                search_notice_list = notice_list.filter(title__icontains=search_keyword)    
-            elif search_type == 'content':
-                search_notice_list = notice_list.filter(content__icontains=search_keyword)    
-            elif search_type == 'writer':
-                search_notice_list = notice_list.filter(writer__user_id__icontains=search_keyword)
+    search_keyword = self.request.GET.get("q", "")
+    search_type = self.request.GET.get("type", "")
+    notice_list = Review.objects.order_by("-id")
 
+    if search_keyword:
+        if len(search_keyword) > 1:
+            if search_type == "all":
+                search_notice_list = notice_list.filter(
+                    Q(title__icontains=search_keyword)
+                    | Q(content__icontains=search_keyword)
+                    | Q(writer__user_id__icontains=search_keyword)
+                )
+            elif search_type == "title_content":
+                search_notice_list = notice_list.filter(
+                    Q(title__icontains=search_keyword)
+                    | Q(content__icontains=search_keyword)
+                )
+            elif search_type == "title":
+                search_notice_list = notice_list.filter(title__icontains=search_keyword)
+
+            elif search_type == "user":
+                search_notice_list = notice_list.filter(
+                    Q(user__user_id__icontains=search_keyword)
+                )
+
+            # if not search_notice_list :
+            #     messages.error(self.request, '일치하는 검색 결과가 없습니다.')
             return search_notice_list
         else:
-            messages.error(self.request, '검색어는 1글자 이상 입력해주세요.')
+            messages.error(self.request, "검색어는 2글자 이상 입력해주세요.")
     return notice_list
 
-def get_context_data(self, **kwargs):
-    search_keyword = self.request.GET.get('q', '')
-    search_type = self.request.GET.get('type', '')
 
-    if len(search_keyword) > 1 :
-        context['q'] = search_keyword
-        context['type'] = search_type
+# 게시글 검색기능
+# def get_queryset(request):
+#     search_keyword = request.request.GET.get("q", "")
+#     search_type = request.request.GET.get("type", "")
+#     review_list = Review.objects.order_by("-pk")
 
-    return context
+#     if search_keyword:
+#         if search_type == "title":
+#             search_review_list = review_list.filter(title__icontains=search_keyword)
+#         elif search_type == "title_content":
+#             # Q: ORM WHERE에서 or 연산을 수행
+#             search_review_list = review_list.filter(
+#                 Q(titleicontains=search_keyword) | Q(contenticontains=search_keyword)
+#             )
+#         elif search_type == "user":
+#             search_review_list == review_list.filter(
+#                 Q(user__nickname__icontains = search_keyword)
+#             )
+#     context = {
+#         "search_review_list" : search_review_list,
+#     }
+#     return render(request,'review/matching.html', context)
+# else:
+#     messages.error(self.request, "검색어는 1글자 이상 입력해주세요.")
+# return review_list
+
+
+# def get_context_data(self, **kwargs):
+#     search_keyword = self.request.GET.get("q", "")
+#     search_type = self.request.GET.get("type", "")
+
+#     if len(search_keyword) > 1:
+#             context["q"] = search_keyword
+#         context["type"] = search_type
+
+#     return context
+
 
 @require_POST
 @login_required
@@ -194,7 +270,7 @@ def update(request, pk):
     tab1 = []
     tab2 = []
     tab3 = []
-    for i in range(1,22):
+    for i in range(1, 22):
         if i < 8:
             tab1.append(i)
         elif 8 <= i < 15:
@@ -209,10 +285,11 @@ def update(request, pk):
 
     if request.method == "POST":
         profile_form = ProfileForm(request.POST, request.FILES, instance=user.profile)
-     
-        #profile DB 저장 완료 
+
+        # profile DB 저장 완료
+
         test = profile_form.save(commit=False)
-        test.daytime = json.dumps(request.POST.getlist('daytime'))
+        test.daytime = json.dumps(request.POST.getlist("daytime"))
         # print("============>>>>>>>>", test.daytime, type(test.daytime)) list 타입 저장 확인
         test.save()
 

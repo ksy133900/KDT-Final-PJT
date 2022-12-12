@@ -2,30 +2,30 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="ko">
+
+ <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  {% bootstrap_css %}
+  {% block css %}{% endblock css %}
+  <!-- Bootstrap icon -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  <!-- <link rel="stylesheet" href="{% static 'js/tailwindcss.js' %}"> -->
+
   
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- font 4가지(Gugi, East Sea Dokdo, Single Day, Dongle) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dongle:wght@300&family=East+Sea+Dokdo&family=Gugi&family=Single+Day&display=swap" rel="stylesheet">
+  <!-- font -->
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    {% bootstrap_css %}
-    {% block css %}{% endblock css %}
-    <!-- Bootstrap icon -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
-
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    <link rel="stylesheet" href="{% static 'css/chat.css' %}">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!--nav font-->
-    <link href="https://fonts.googleapis.com/css2?family=Black+And+White+Picture&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Single+Day&display=swap" rel="stylesheet">
-    <!-- nav font-->
     <title> 독토 </title>
 
     <!-- <scripts src="https://cdn.tailwindcss.com"></scripts> -->
@@ -57,17 +57,11 @@
       ul {
         list-style-type: circle;
       }
-      
     </style>
-
-    
-   
-
-  </head>
-
-  <body>
-   <!--내비바 시작-->
-   <nav class="navbar navbar-expand-lg bg-light" style="padding: 0px; box-shadow: 0.1em 0.1em 5px 0.5px #bfbfbf;">
+ </head>
+ <body>
+  <!--내비바 시작-->
+  <nav class="navbar navbar-expand-lg bg-light" style="padding: 0px; box-shadow: 0.1em 0.1em 5px 0.5px #bfbfbf;">
     <div class="container-fluid">
       {% if request.user.is_authenticated %}
       <a class="navbar-brand" href="{% url 'review:index' %}"> 
@@ -105,7 +99,7 @@
           </li>
           {% endif %}
         </ul>
-      
+
         <!--우측 로그인/회원가입 & 프로필/로그아웃-->
         <div class="navbar-nav gap-3 d-flex align-items-center flex-row" style="font-family: 'Single Day', cursive;">
           {% if request.user.is_authenticated %}
@@ -161,28 +155,29 @@
     </div>
   </nav>
   <!--내비바 끝-->
-    {% block content %}{% endblock content %}
-    <script src="/static/js/script.js"></script>
-    <!--검색창 클릭 효과 시작-->
+  {% block content%}{% endblock content %}
+  <!--footer 시작-->
+  <footer class="fixed-bottom text-center bg-white">© 2022 Docto, 독서 토론 매칭 by 2조</footer>
+  <!--footer 끝-->
+  <!-- Bootstrap JS -->
 
-    <!--검색창 클릭 효과 끝-->
-
-    <!--footer 시작-->
-    <footer class="fixed-bottom text-center bg-white">© 2022 Docto, 독서 토론 매칭 by 2조</footer>
-    <!--footer 끝-->
-    <!-- Bootstrap JS -->
-
-    <!-- JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-    <!-- JQuery -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <!-- Axios -->
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <!-- Moment.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-    <!-- Scripts -->
-    {% block script %}{% endblock script %}
-  </body>
+  <!-- JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+    crossorigin="anonymous"></script>
+  <!-- JQuery -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <!-- Axios -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <!-- Moment.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <!-- Scripts -->
+  {% block script %}{% endblock script %}
+ </body>
 
 </html>
