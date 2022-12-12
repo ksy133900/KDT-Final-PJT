@@ -10,17 +10,6 @@ class Review(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=20)
     content = models.TextField()
-    genre_choice = [
-        ("장르를 선택해주세요", "장르를 선택해주세요"),
-        ("추리", "추리"),
-        ("스릴러", "스릴러"),
-        ("공포", "공포"),
-        ("판타지", "판타지"),
-        ("로맨스", "로맨스"),
-    ]
-    genre = models.CharField(
-        max_length=20, choices=genre_choice, null=True, default="장르를 선택해주세요"
-    )
     age = models.IntegerField(null=True)
     rating = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)], null=True, default=1
