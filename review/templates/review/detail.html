@@ -86,7 +86,11 @@
             <!-- <button id="#myBtn" type="button" class="btn btn-dark btn-lg" data-toggle="modal" data-target="#myModal">
               댓글
             </button> -->
-            <a href="{% url 'comments:comments' review.pk %}" class="btn btn-dark btn-sm" style="height: 2rem;">댓글</a>
+            <a href="{% url 'chat:room' review.pk %}" class="btn btn-dark btn-sm" style="height: 2rem;">챗방</a>
+            <form method="POST" action="/chat/room.html" class="flex">
+              {% csrf_token %}
+              <button class ="btn btn-dark btn-sm" id="chat-message-submit" >챗방1</button>
+            </form>
             <!-- Modal -->
             <!--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 

@@ -19,16 +19,19 @@ def pro_index(request):
     auth_logout(request)
     return render(request, "review/pro_index.html")
 
-
+# review 값은 테스트를 위해 넣었습니다. 지워도 됩니다.
 def index(request):
     reviews = Review.objects.order_by("-pk")
     profile = Profile.objects.order_by("-pk")
     books = Book.objects.all()
-
+    review = reviews[0]
+    print(reviews)
+    print(review.pk)
     context = {
         "reviews": reviews,
         "profile": profile,
         "books": books,
+        "review": review,
     }
     return render(request, "review/index.html", context)
 
@@ -124,7 +127,7 @@ def delete(request, pk):
 # 글 삭제 끝
 
 
-def detail(request,pk):
+def detail(request, pk):
     reviews = Review.objects.order_by("-pk")
     book = Book.objects.get(pk=pk)
 

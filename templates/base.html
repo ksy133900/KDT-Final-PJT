@@ -11,12 +11,12 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     {% bootstrap_css %}
-     {% block css %}{% endblock css %}
+    {% block css %}{% endblock css %}
     <!-- Bootstrap icon -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    <!-- <link rel="stylesheet" href="{% static 'js/tailwindcss.js' %}"> -->
+    <link rel="stylesheet" href="{% static 'css/chat.css' %}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -66,104 +66,101 @@
   </head>
 
   <body>
-    <!--내비바 시작-->
-    <nav class="navbar navbar-expand-lg bg-light" style="padding: 0px; box-shadow: 0.1em 0.1em 5px 0.5px #bfbfbf;">
-      <div class="container-fluid">
-        {% if request.user.is_authenticated %}
-        <a class="navbar-brand" href="{% url 'review:index' %}"> 
-          <img src="https://cdn-icons-png.flaticon.com/512/3296/3296160.png" style="width: 52px;">
-        </a>
-        {% else %}
-        <a class="navbar-brand" href="{% url 'review:pro_index' %}"> 
-          <img src="https://cdn-icons-png.flaticon.com/512/3296/3296160.png" style="width: 52px;">
-        </a>
-        {% endif %}
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
-          <ul class="navbar-nav" style="font-family: 'Black And White Picture', sans-serif; font-size: x-large;">
-            {% if request.user.is_authenticated %}
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{% url 'review:index' %}">독토</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                장르
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">공란</a></li>
-                <li><a class="dropdown-item" href="#">공란</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'review:matching' %}">유저목록</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'review:match_board' %}">매칭후기</a>
-            </li>
-            {% endif %}
-          </ul>
-        
-          <!--우측 로그인/회원가입 & 프로필/로그아웃-->
-          <div class="navbar-nav gap-3 d-flex align-items-center flex-row" style="font-family: 'Single Day', cursive;">
-            {% if request.user.is_authenticated %}
-            <div class="nav-item fw-bold">
-              <a class="nav-link d-flex align-items-center gap-2" aria-current="page" href="{% url 'accounts:profile' request.user.pk %}">
-                <div class="navi_profile_box">
-                  {% if request.user.profile.image %}
-                  <img src="{{ request.user.profile.image.url }}" class="navi_profile_img">
-                  {% else %}
-                  <img src="{% static 'images/no-profile.jpg' %}" class="navi_profile_img">
-                  {% endif %}
-                </div>
-                {% if request.user.profile.nickname != null %}
-                {{ request.user.profile.nickname }}
+   <!--내비바 시작-->
+   <nav class="navbar navbar-expand-lg bg-light" style="padding: 0px; box-shadow: 0.1em 0.1em 5px 0.5px #bfbfbf;">
+    <div class="container-fluid">
+      {% if request.user.is_authenticated %}
+      <a class="navbar-brand" href="{% url 'review:index' %}"> 
+        <img src="https://cdn-icons-png.flaticon.com/512/3296/3296160.png" style="width: 52px;">
+      </a>
+      {% else %}
+      <a class="navbar-brand" href="{% url 'review:pro_index' %}"> 
+        <img src="https://cdn-icons-png.flaticon.com/512/3296/3296160.png" style="width: 52px;">
+      </a>
+      {% endif %}
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
+        <ul class="navbar-nav" style="font-family: 'East Sea Dokdo', cursive; font-size: x-large;">
+          {% if request.user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'review:index' %}">독토</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              장르
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">공란</a></li>
+              <li><a class="dropdown-item" href="#">공란</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'review:matching' %}">유저목록</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'review:match_board' %}">매칭후기</a>
+          </li>
+          {% endif %}
+        </ul>
+      
+        <!--우측 로그인/회원가입 & 프로필/로그아웃-->
+        <div class="navbar-nav gap-3 d-flex align-items-center flex-row" style="font-family: 'Single Day', cursive;">
+          {% if request.user.is_authenticated %}
+          <div class="nav-item fw-bold">
+            <a class="nav-link d-flex align-items-center gap-2" aria-current="page" href="{% url 'accounts:profile' request.user.pk %}">
+              <div class="navi_profile_box">
+                {% if request.user.profile.image %}
+                <img src="{{ request.user.profile.image.url }}" class="navi_profile_img">
                 {% else %}
-                {{request.user.username}}
+                <img src="{% static 'images/no-profile.jpg' %}" class="navi_profile_img">
                 {% endif %}
-              </a>
-            </div>
-            <div class="nav-item fw-bold">
-              <a href="{% url 'notes:index' %}"><button class="btn position-relative " style="border: none;">
+              </div>
+              {{ request.user.profile.nickname }}
+            </a>
+          </div>
+          <div class="nav-item fw-bold">
+            <a href="{% url 'notes:index' %}"><button class="btn position-relative " style="border: none;">
                 <img src="https://cdn.icon-icons.com/icons2/1097/PNG/512/1485477030-mail_78575.png" style="width: 40px">
                 {% if read_count != 0 %}
-                <span class="position-absolute translate-middle badge rounded-pill bg-danger" style="top: 6px; start: 100px;">
+                <span class="position-absolute translate-middle badge rounded-pill bg-danger"
+                  style="top: 6px; start: 100px;">
                   {{read_count}}
                 </span>
                 {% endif %}
-              </a>
-            </div>
-            <div class="nav-item fw-bold">
-              <a class="nav-link  nav-style" aria-current="page" href="{% url 'accounts:logout' %}">
-                로그아웃
-              </a>
-            </div>
-            {% else %}
-            <div class="nav-item fw-bold">
-              <a class="nav-link nav-style" aria-current="page" href="{% url 'accounts:signup' %}">회원 가입</a>
-            </div>
-            <div class="nav-item fw-bold">
-              <a class="nav-link nav-style" aria-current="page" href="{% url 'accounts:login' %}">로그인</a>
-            </div>
-            {% endif %}
+            </a>
           </div>
-        </div>
-        <!--search_box-->
-        <div class="search-box">
-          <form action="" method="POST">
-            {% csrf_token %}
-            <input class="search-txt" type="search" placeholder="도서 검색" size="15" name="q" value="{{q}}">
-            <button class="search-btn" type="submit" maxlength="50">
-              <img src="{% static 'images/book2.jpg' %}" alt="" class="jb-b">
-              <img src="{% static 'images/book.gif' %}" alt="" class="jb-c">
-            </button>
-          </form>
+          <div class="nav-item fw-bold">
+            <a class="nav-link  nav-style" aria-current="page" href="{% url 'accounts:logout' %}">
+              로그아웃
+            </a>
+          </div>
+          {% else %}
+          <div class="nav-item fw-bold">
+            <a class="nav-link nav-style" aria-current="page" href="{% url 'accounts:signup' %}">회원 가입</a>
+          </div>
+          <div class="nav-item fw-bold">
+            <a class="nav-link nav-style" aria-current="page" href="{% url 'accounts:login' %}">로그인</a>
+          </div>
+          {% endif %}
         </div>
       </div>
-    </nav>
-    <!--내비바 끝-->
+      <!--search_box-->
+      <div class="search-box">
+        <form action="" method="POST">
+          {% csrf_token %}
+          <input class="search-txt" type="search" placeholder="도서 검색" size="15" name="q" value="{{q}}">
+          <button class="search-btn" type="submit" maxlength="50">
+            <img src="{% static 'images/book2.jpg' %}" alt="" class="jb-b">
+            <img src="{% static 'images/book.gif' %}" alt="" class="jb-c">
+          </button>
+        </form>
+      </div>
+    </div>
+  </nav>
+  <!--내비바 끝-->
     {% block content %}{% endblock content %}
     <script src="/static/js/script.js"></script>
     <!--검색창 클릭 효과 시작-->
