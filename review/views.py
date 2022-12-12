@@ -133,11 +133,11 @@ def create(request, book_pk):
                 ) in book_images:  # 변수가 있다면 for문으로 셋을 풀고 review.book_image에 지정
                     review.book_image = book_image
 
-            if len(images):
-                for image in images:
-                    image_instance = Photo(review=review, image=image)
-                    review.save()
-                    image_instance.save()
+            # if len(images):
+            #     for image in images:
+            #         image_instance = Photo(review=review, image=image)
+            #         review.save()
+            #         image_instance.save()
 
             review.save()
             if tags:
