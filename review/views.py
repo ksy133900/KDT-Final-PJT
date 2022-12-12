@@ -52,17 +52,13 @@ def faq(request):
 def matching(request):
     user = User.objects.order_by("-pk")
     user_address = User.objects.values_list("address")
-    # address_split = user.address.split(" ")
-    # address1 = address_split[0]
-    # address2 = address_split[1]
     profile = Profile.objects.order_by("-pk")
     notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
+    
     context = {
         "profile": profile,
         "notes_notice": notes_notice,
         "user": user,
-        # "address1": address1,
-        # "address2": address2,
     }
     print(user_address)
     return render(request, "review/matching.html", context)
@@ -127,10 +123,11 @@ def create(request, book_pk):
             # photo = photo_form.save()
             review.user = request.user
             review.book = book
-            if book_images:  # 지정된 변수가 없으면 review.book_image는 지정이 안되어 null처리됨
-                for (
-                    book_image
-                ) in book_images:  # 변수가 있다면 for문으로 셋을 풀고 review.book_image에 지정
+            
+            # 지정된 변수가 없으면 review.book_image는 지정이 안되어 null처리됨
+            if book_images:  
+                # 변수가 있다면 for문으로 셋을 풀고 review.book_image에 지정
+                for book_image in book_images:  
                     review.book_image = book_image
 
             # if len(images):
