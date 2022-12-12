@@ -22,17 +22,18 @@ def pro_index(request):
     auth_logout(request)
     return render(request, "review/pro_index.html")
 
-
 def index(request):
     reviews = Review.objects.order_by("-pk")
     profile = Profile.objects.order_by("-pk")
     # 장르별 최고 평점 1권만 filter로 수정해야함.
     books = Book.objects.all()
+
     # 전체 도서 평점 top10[10개까지]
     book_top10 = Book.objects.all()[:10]
     # 장르별 최근 리뷰 도서[3개까지]
     new_book = Book.objects.order_by("-pk")[:3]
     book_image = Image.objects.all()
+
 
     context = {
         "reviews": reviews,
@@ -41,6 +42,7 @@ def index(request):
         "book_image": book_image,
         "new_book": new_book,
         "book_top10": book_top10,
+
     }
     return render(request, "review/index.html", context)
 
@@ -102,10 +104,6 @@ def search(request):
     }
 
     return render(request, "review/search.html", context)
-
-
-
-
 
 @login_required
 def create(request, book_pk):
@@ -188,7 +186,6 @@ def delete(request, pk, book_pk):
     return redirect("review:detail", book_pk)
 # 글 삭제 끝
 
-
 def detail(request, book_pk):
     reviews = Review.objects.filter(book_id=book_pk).order_by("-pk")
     book = Book.objects.get(pk=book_pk)
@@ -201,8 +198,7 @@ def detail(request, book_pk):
             break
         else:
             book_image = 0
-            
-
+     
     context = {
         "reviews": reviews,
         "book": book,

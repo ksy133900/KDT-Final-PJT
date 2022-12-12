@@ -1,43 +1,77 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
-{% load static%}
+{% load static %}
 
 {% block content %}
-<div class ="d-flex text-center">
-    <h1 class="d-flex text-black">{{ review.pk }}</h1>
-</div>
+<br><br>
+<div class="containers">
+    <h3 class="text-center">책 토론방</h3>
+    <div class="mesgs_container">
+        <div class="msg_history" id="chat-messages">
+            <div class="inbox_msg">
+                
+                <div class="mesgs">
+                    <p class="font-bold entering" id="chat-entering"></p>
+                    
+                </div>
+            </div>
+            {% for message in messages %}
+            {% if request.user.username == message.user.username %}
+            <div class="d-flex incoming_msg">
+                <div class="incoming_msg_img">
+                    <img src="{% static 'images/no-profile.jpg' %}" class="incoming_msg_img_img">
+                </div>
+                <div>
 
-<div class="lg:w-2/4 mx-4 lg:mx-auto p-4 bg-white rounded-xl">
-    <div class="chat-messages d-flex" id="chat-messages">
-        <div class="p-4 bg-gray-200 rounded-xl">
-            <p class="font-bold">{{request.user.username}} 님이 입장했습니다.</p>
-
+                    <p class="font-bold">{{ message.user.username}}</p>
+                </div>
+                <div class="received_msg ">
+                    <div class="received_withd_msg">
+                        <p >{{ message.content }}</p>
+                        <span class="time_date">{{ message.created_at }}</span>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="d-flex chat-messages">
+                <img src="{% static 'images/no-profile.jpg' %}" class="profile_imgss">
+                <p class="font-bold">{{ message.user.username}}</p>
+                <div class="received_withd_msg ">
+                    <p>{{ message.content }}</p>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
         </div>
-        {% for message in messages %}
-            <div class="d-flex">
-            <p class="font-bold">{{ message.user.username}}</p>
-            <p>{{ message.content }}</p>
-        </div>
-        {% endfor %}
+    </div>
+    <div class="type_msg">
+        <form method="POST" action="" class="flex">
+            <input type="text" name="content" class="text_box" placeholder="메시지 입력하세요" id="chat-message-input">
+            
+            <button class ="px-3 py-3 rounded-xl text-black bg-teal-600 hover:bg-teal-700" id="chat-message-submit" >메시지 입력</button>
+        </form>
     </div>
 </div>
 
-<div class="lg:w-2/4 mx-4 lg:mx-auto p-4 bg-white rounded-xl">
-    <form method="POST" action="" class="flex">
-        <input type="text" name="content" class="flex-1 mr-3" placeholder="메시지 입력하세요" id="chat-message-input">
-
-        <button class ="px-3 py-3 rounded-xl text-black bg-teal-600 hover:bg-teal-700" id="chat-message-submit">메시지 입력</button>
-    </form>
-</div>
 {% endblock content %}
 
 {% block script %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
 {{ room|json_script:"json-roomname" }}
 {{ request.user.username|json_script:"json-username"}}
+{{ message.user.username|json_script:"json-messagename"}}
+{{ accounts_name.username|json_script:"json-accountsname"}}
+{{ message.created_at|json_script:"json-created-at"}}
 <script type="text/javascript">
+    function herf_location(id){
+        current = window.location.href
+        window.location.href = '/chat/' + id + '/'
+    }
     const roomName = JSON.parse(document.getElementById("json-roomname").textContent);
     const userName = JSON.parse(document.getElementById("json-username").textContent);
+    const messageName = JSON.parse(document.getElementById("json-messagename").textContent);
+    const accountsName = JSON.parse(document.getElementById("json-accountsname").textContent);
+    const Time = JSON.parse(document.getElementById("json-created-at").textContent);
     const chatSocket = new WebSocket(
         'ws://'
         + window.location.host
@@ -45,35 +79,83 @@
         + roomName
         + '/'
     );
-
+    chatSocket.onopen = function(e){
+        console.log('onopen')
+        let html = '<div class="inbox_msg">';
+            html += '<div class="mesgs">';
+            html += '<p class="font-bold entering" id="chat-entering">'+ userName + '님이 입장했습니다.</p>';
+            html += '</div>';
+        document.querySelector('#chat-messages').innerHTML += html;
+        
+    }
     chatSocket.onmessage = function(e) {
         console.log('onmessage')
 
         /* 서버로부터 데이터 받기 */
         const data = JSON.parse(e.data);
-
+        console.log(data)
+        /* test */
+        console.log(userName)
+        console.log(data.username,'11111111')
+        console.log(messageName,'2222222')
+        console.log(data.message)
+        console.log(accountsName,'4444444444444444')
         if (data.message) {
-            let html = '<div class="d-flex">';
-                html += '<p class="font-bold">' + data.username + '</p>';
-                html += '<p>' + data.message + '</p></div>';
-
+            if (userName == accountsName){
+            let html = '<div class="d-flex chat-messages-reverse">';
+                html += '<img src="{% static 'images/no-profile.jpg' %}" class="profile_imgss">';
+                html += '<p class="font-bold">'+ data.username + '</p>';
+                html += '<div class="received_withd_msg ">';
+                html += '<p>'+ data.message + '</p></div>';
+                html += '</div>';
             document.querySelector('#chat-messages').innerHTML += html;
+            }
+            else if(userName != accountsName) {
+            let html = '<div class="d-flex chat-messages-reverse">';
+                html += '<img src="{% static 'images/no-profile.jpg' %}" class="profile_imgss">';
+                html += '<p class="font-bold">'+ data.username + '</p>';
+                html += '<div class="received_withd_msg ">';
+                html += '<p>'+ data.message + '</p></div>';
+                html += '</div>';
+            document.querySelector('#chat-messages').innerHTML += html;
+            }
+            
+            // let html = '<div class="d-flex chat-messages-reverse">';
+            //     html += '<img src="{% static 'images/no-profile.jpg' %}" class="profile_imgss">';
+            //     html += '<p class="font-bold">'+ data.username + '</p>';
+            //     html += '<div class="received_withd_msg ">';
+            //     html += '<p>'+ data.message + '</p></div>';
+            //     html += '</div>';
+
+            //document.querySelector('#chat-messages').innerHTML += html;
 
         } else {
             alert('글을 작성해주세요!')
         }
     }
 
-    chatSocket.onmessage = function(e) {
+    chatSocket.onclose = function(e) {
         console.log('onclose')
+        // let html = '<div class="inbox_msg">';
+        //     html += '<div class="mesgs">';
+        //     html += '<p class="font-bold entering" id="chat-entering">'+ userName + '님이 나갔습니다.</p>';
+        //     html += '</div>';
+        // document.querySelector('#chat-messages').innerHTML += html;
     }
-
+    // document.querySelector('#chat-entering') = function(e) {
+    //     chatSocket.send(JSON.stringify({
+    //         'username':userName,
+    //     })); 
+    // }
     document.querySelector('#chat-message-submit').onclick = function(e) {
         e.preventDefault();
 
         const messageInputDom = document.querySelector('#chat-message-input');
         const message = messageInputDom.value;
 
+        /* test */
+        console.log(message)
+        console.log(userName)
         chatSocket.send(JSON.stringify({
             'message':message,
             'username':userName,
@@ -83,6 +165,12 @@
 
         return false;
     }
+
+    // function scrollToBottom() {
+    //     const objDiv = document.querySelector('#chat-messages');
+    //     objDiv.scrollTop = objDiv.scrollHeight;
+    // }
+    // scrollToBottom()
 </script>
 
 {% endblock script %}

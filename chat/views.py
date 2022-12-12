@@ -9,6 +9,7 @@ from django.db.models.signals import post_save
 from .models import Message
 from django.http import JsonResponse
 from datetime import datetime
+from accounts.models import User
 
 
 def index(request):
@@ -16,9 +17,25 @@ def index(request):
 
     #pk는 review.pk임
 def room(request, pk):
+    print(type(pk))
     # print(Review.pk)
     # room = Review.objects.get(pk=pk)
+    print(request.GET)
     room = pk
-    messages = Message.objects.filter(room=room)[0:25]
-    return render(request, "chat/room.html", {'room':room,'messages':messages})
+    messages = Message.objects.filter(room=room).order_by('created_at').all()
+    print(messages,'111111111111111')
+    # room = message['room']
+    # created_at = message['created_at']
+    # messages = message['content']
+    
+    accounts_names=list(User.objects.filter(username=request.user).values())
+    print(accounts_names[0]['username'],'33333')
+    accounts_name=accounts_names[0]
+    # context = {
+    #     'room': room,
+    #     'messages': messages,
+    #     'created_at': created_at,
+    #     'accounts_name':accounts_name,
+    # }
+    return render(request, "chat/room.html", {'messages':messages, 'room':room, 'accounts_name':accounts_name})
 
