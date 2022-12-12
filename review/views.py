@@ -132,28 +132,18 @@ def create(request, book_pk):
                     book_image
                 ) in book_images:  # 변수가 있다면 for문으로 셋을 풀고 review.book_image에 지정
                     review.book_image = book_image
-
-            # if len(images):
-            #     for image in images:
-            #         image_instance = Photo(review=review, image=image)
-            #         review.save()
-            #         image_instance.save()
-
             review.save()
             if tags:
                 for tag in tags:
                     tag = tag.strip()
                     review.tags.add(tag)
                     review.save()
-
-            return redirect("review:index")
-
+                return redirect("review:index")
     else:
         review_form = ReviewForm()
-        # photo_form = PhotoForm()
+
     context = {
         "review_form": review_form,
-        # "photo_form": photo_form,
     }
     return render(request, "review/create.html", context)
 
