@@ -5,7 +5,7 @@ from .forms import *
 # Create your views here.
 def create(request):
     if request.method == "POST":
-        book_form = BookForm(request.POST)
+        book_form = bookForm(request.POST)
         image_form = ImageForm(request.POST, request.FILES)
         images = request.FILES.getlist("image")
 
@@ -22,7 +22,7 @@ def create(request):
 
             return redirect("review:index")
     else:
-        book_form = BookForm()
+        book_form = bookForm()
         image_form = ImageForm()
     context = {
         "book_form": book_form,

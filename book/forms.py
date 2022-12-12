@@ -3,7 +3,7 @@ from .models import *
 from django.forms import ClearableFileInput
 
 
-class BookForm(forms.ModelForm):
+class bookForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = [
