@@ -30,7 +30,7 @@ class Book(models.Model):
         ("로맨스", "로맨스"),
     ]
     genre = models.CharField(
-        blank=True, max_length=20, default="장르", choices=genre_choice, null=True) 
+        blank=True, max_length=20, choices=genre_choice, null=True) 
     # 가격
     price = models.PositiveIntegerField()
     # 줄거리

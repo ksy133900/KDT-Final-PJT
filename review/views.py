@@ -27,7 +27,6 @@ def index(request):
     profile = Profile.objects.order_by("-pk")
     # 장르별 최고 평점 1권만 filter로 수정해야함.
     books = Book.objects.all()
-
     # 전체 도서 평점 top10[10개까지]
     book_top10 = Book.objects.all()[:10]
     # 장르별 최근 리뷰 도서[3개까지]
@@ -111,8 +110,8 @@ def create(request, book_pk):
     if request.method == "POST":
         review_form = ReviewForm(request.POST, request.FILES)
         # photo_form = PhotoForm(request.POST, request.FILES)
-        book = Book.objects.get(pk=book_pk)
-
+        book = Book.objects.get(pk = book_pk)
+        book_images = Image.objects.filter(book__id = book_pk) # book_pk로 Image.book_id가 필터(없어도 필터라 쿼리셋으로 변수지정)
         images = request.FILES.getlist("image")
         tags = request.POST.get("tags", "").split(",")
 
@@ -126,6 +125,9 @@ def create(request, book_pk):
             # photo = photo_form.save()
             review.user = request.user
             review.book = book
+            if book_images: # 지정된 변수가 없으면 review.book_image는 지정이 안되어 null처리됨 
+                for book_image in book_images: # 변수가 있다면 for문으로 셋을 풀고 review.book_image에 지정
+                    review.book_image = book_image
 
             if len(images):
                 for image in images:

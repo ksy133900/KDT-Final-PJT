@@ -180,16 +180,12 @@
       <div class="card align-items-center col" style="width: 150px;">
         <a href="{% url 'review:detail' review.book_id %}">
           <div class="img_box d-flex align-items-center">
-            {% if review.book_id in image_list %}
-            {% for book in books_image %}
-            {% if review.book_id == book.book_id %}
-            <img src="{{ book.image.url }}"  alt="{{book.title}}_img">
-            {% endif %}
-            {% endfor %}
+            {% if review.book_image %}
+            <img src="{{ review.book_image.image.url }}"  alt="{{book.title}}_img">
             {% else %}
             <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
             {% endif %}
-          </div>
+      </div>
         </a>
         <div class="card-body">
           <p class="card-title">{{review.title}}</p>
