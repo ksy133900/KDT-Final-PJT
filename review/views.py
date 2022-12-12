@@ -22,6 +22,7 @@ def pro_index(request):
     auth_logout(request)
     return render(request, "review/pro_index.html")
 
+
 def index(request):
     reviews = Review.objects.order_by("-pk")
     profile = Profile.objects.order_by("-pk")
@@ -33,7 +34,6 @@ def index(request):
     new_book = Book.objects.order_by("-pk")[:3]
     book_image = Image.objects.all()
 
-
     context = {
         "reviews": reviews,
         "profile": profile,
@@ -41,7 +41,6 @@ def index(request):
         "book_image": book_image,
         "new_book": new_book,
         "book_top10": book_top10,
-
     }
     return render(request, "review/index.html", context)
 
@@ -104,14 +103,17 @@ def search(request):
 
     return render(request, "review/search.html", context)
 
+
 @login_required
 def create(request, book_pk):
 
     if request.method == "POST":
         review_form = ReviewForm(request.POST, request.FILES)
         # photo_form = PhotoForm(request.POST, request.FILES)
-        book = Book.objects.get(pk = book_pk)
-        book_images = Image.objects.filter(book__id = book_pk) # book_pk로 Image.book_id가 필터(없어도 필터라 쿼리셋으로 변수지정)
+        book = Book.objects.get(pk=book_pk)
+        book_images = Image.objects.filter(
+            book__id=book_pk
+        )  # book_pk로 Image.book_id가 필터(없어도 필터라 쿼리셋으로 변수지정)
         images = request.FILES.getlist("image")
         tags = request.POST.get("tags", "").split(",")
 
@@ -120,13 +122,15 @@ def create(request, book_pk):
         # else:
         #     tags = None
 
-        if review_form.is_valid():# and photo_form.is_valid():
+        if review_form.is_valid():  # and photo_form.is_valid():
             review = review_form.save(commit=False)
             # photo = photo_form.save()
             review.user = request.user
             review.book = book
-            if book_images: # 지정된 변수가 없으면 review.book_image는 지정이 안되어 null처리됨 
-                for book_image in book_images: # 변수가 있다면 for문으로 셋을 풀고 review.book_image에 지정
+            if book_images:  # 지정된 변수가 없으면 review.book_image는 지정이 안되어 null처리됨
+                for (
+                    book_image
+                ) in book_images:  # 변수가 있다면 for문으로 셋을 풀고 review.book_image에 지정
                     review.book_image = book_image
 
             if len(images):
@@ -163,7 +167,7 @@ def update(request, pk, book_pk):
         # 기존에 있는 값을 수정하므로 그 기존값을 받아와야 한다. 없으면 수정이 아니라 글을 생성함
         review_form = ReviewForm(request.POST, request.FILES, instance=review)
         # photo_form = PhotoForm(request.POST, request.FILES, instance=review)
-        if review_form.is_valid():# and photo_form.is_valid():
+        if review_form.is_valid():  # and photo_form.is_valid():
             review_form.save()
             # photo_form.save()
             # 유효성 검사 통과하면 상세보기 페이지로
@@ -186,7 +190,10 @@ def update(request, pk, book_pk):
 def delete(request, pk, book_pk):
     Review.objects.get(id=pk).delete()
     return redirect("review:detail", book_pk)
+
+
 # 글 삭제 끝
+
 
 def detail(request, book_pk):
     reviews = Review.objects.filter(book_id=book_pk).order_by("-pk")
@@ -196,11 +203,11 @@ def detail(request, book_pk):
     for t in test:
         # print(t.book_id, type(t.book_id))
         if book_pk == t.book_id:
-            book_image = Image.objects.get(book_id = book_pk)
+            book_image = Image.objects.get(book_id=book_pk)
             break
         else:
             book_image = 0
-     
+
     context = {
         "reviews": reviews,
         "book": book,
@@ -245,6 +252,7 @@ def like(request, book_pk, review_pk):
 
     data = {
         "isLiked": is_liked,
+        "likeCount": review.like_users.count(),
     }
 
     return JsonResponse(data)
