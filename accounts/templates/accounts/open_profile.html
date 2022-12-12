@@ -166,58 +166,39 @@
       </div>
       <!--작성글 collapse 시작-->
       <div class="collapse" id="user_articles">
-        <div class="row justify-content-center">
+        <div class="row row-cols-2 gap-3 justify-content-center">
           {% for review in reviews %}
-          <div class="review_card row border rounded-4 border-success border-opacity-25 border-3 p-3 mt-3 mb-3">
-            <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-              <div class="row flex-nowrap">
-                {% if review.rating == 5 %}
-                <h6>⭐⭐⭐⭐⭐</h6>
-                {% elif review.rating == 4 %}
-                <h6>⭐⭐⭐⭐</h6>
-                {% elif review.rating == 3 %}
-                <h6>⭐⭐⭐</h6>
-                {% elif review.rating == 2 %}
-                <h6>⭐⭐</h6>
-                {% elif review.rating == 1 %}
-                <h6>⭐</h6>
+          <div class="card align-items-center col" style="width: 150px;">
+            <a href="{% url 'review:detail' review.book_id %}">
+              <div class="img_box d-flex align-items-center">
+                {% if review.book_id in image_list %}
+                {% for book in books_image %}
+                {% if review.book_id == book.book_id %}
+                <img src="{{ book.image.url }}"  alt="{{book.title}}_img">
                 {% endif %}
-              </div>
-            </div>
-              
-            <div class="row justify-content-around">
-              <div class="profile_img col-auto col-md-4 text-center">
-                <!-- 유저 -->
-                {% if review.user.profile.image %}
-                <img src="{{ review.user.profile.image.url }}" alt="{{ review.user.profile.image }}" class="rounded-2 border border-1" width="40px">
-                {% else %}
-                <img src="{% static 'images/no-profile.jpg' %}" alt="" class="rounded-2 border border-1" width="40px">
-                {% endif %}
-                {% if review.user.profile.nickname %}
-                <p>{{ review.user.profile.nickname }}</p>
-                {% else %}
-                <p>{{review.user.username}}</p>
-                {% endif %}
-              </div>  
-                
-              <div class="overflow-auto content_box border bg-success bg-opacity-10 border-0 rounded-3 col-auto col-md-9">
-                  <p>{{review.content | linebreaksbr }}</p>
-              </div>
-            </div>
-            <!--독토요청/수정/삭제 버튼, 작성일자-->
-            <div class="row">
-              <div class="col-auto col-md-2 text-center">
-                  {% if request.user != review.user %}
-                  <a href="{% url 'notes:mail' %}" class="btn btn_docto btn-sm">독토요청하기</a>
-                  {% endif %}
-              </div>
-              <div class="col-auto col-md-7">
-              </div>
-              <!--                
-                {% for tag in review.tags.all %}
-                <a href="/search/?search_option=hashtag&amp;search={{ tag.name }}" class="text-decoration-none fs-6">#{{ tag.name }}</a>
                 {% endfor %}
-              -->
+                {% else %}
+                <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
+                {% endif %}
+              </div>
+            </a>
+            <div class="card-body">
+              <p class="card-title">{{review.title}}</p>
+              <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+                <div class="row flex-nowrap">
+                  {% if review.rating == 5 %}
+                  <h6>⭐⭐⭐⭐⭐</h6>
+                  {% elif review.rating == 4 %}
+                  <h6>⭐⭐⭐⭐</h6>
+                  {% elif review.rating == 3 %}
+                  <h6>⭐⭐⭐</h6>
+                  {% elif review.rating == 2 %}
+                  <h6>⭐⭐</h6>
+                  {% elif review.rating == 1 %}
+                  <h6>⭐</h6>
+                  {% endif %}
+                </div>
+              </div>
             </div>
           </div>
           {%endfor%}
@@ -225,34 +206,36 @@
       </div>
       <!--리뷰 갯수(collapse) 내용 종료-->
     </div>
-    <!--선호나이-->
-    <div class="border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
-      <h4 class="text-center">선호 나이</h4>
-      <div class="d-grid gap-3 d-md-flex justify-content-around">
-        <div class="border border-3 border-warning rounded-5 {% if user.profile.ages == "20대" %}bg-warning{% else %}bg-secondary{% endif %}">
-          <h1 class="fw-bold m-2">20대</h1>
+    <div class="row gap-3 m-0">
+      <!--선호나이-->
+      <div class="col border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
+        <h4 class="text-center">선호 나이</h4>
+        <div class="d-grid gap-3 d-md-flex justify-content-around">
+          <div class="border border-3 border-warning rounded-5 {% if user.profile.ages == "20대" %}bg-warning{% else %}bg-secondary{% endif %}">
+            <h5 class="fw-bold m-2">20대</h5>
+          </div>
+          <div class="border border-3 border-warning rounded-5 {% if user.profile.ages == "30대" %}bg-warning{% else %}bg-secondary{% endif %}">
+            <h5 class="fw-bold m-2">30대</h5>
+          </div>
+          <div class="border border-3 border-warning rounded-5 {% if user.profile.ages == "40대" %}bg-warning{% else %}bg-secondary{% endif %}">
+            <h5 class="fw-bold m-2">40대</h5>
+          </div>
+          <div class="border border-3 border-warning rounded-5 {% if user.profile.ages == "50대" %}bg-warning{% else %}bg-secondary{% endif %}">
+            <h5 class="fw-bold m-2">50대</h5>
+          </div>      
         </div>
-        <div class="border border-3 border-warning rounded-5 {% if user.profile.ages == "30대" %}bg-warning{% else %}bg-secondary{% endif %}">
-          <h1 class="fw-bold m-2">30대</h1>
-        </div>
-        <div class="border border-3 border-warning rounded-5 {% if user.profile.ages == "40대" %}bg-warning{% else %}bg-secondary{% endif %}">
-          <h1 class="fw-bold m-2">40대</h1>
-        </div>
-        <div class="border border-3 border-warning rounded-5 {% if user.profile.ages == "50대" %}bg-warning{% else %}bg-secondary{% endif %}">
-          <h1 class="fw-bold m-2">50대</h1>
-        </div>      
       </div>
-    </div>
-    <!--활동지역-->
-    <div class="border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
-      <h4>활동 지역</h4>
-      <p></p>
-      {% if user.profile.location == null %}
-        <p>아직 지역 설정을 하지 않았습니다.</p>
-      {% else %}
-        <p>
-          {{user.profile.location}}</p>
-      {% endif %}
+      <!--활동지역-->
+      <div class="col border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
+        <h4>활동 지역</h4>
+        <p></p>
+        {% if user.profile.location == null %}
+          <p>아직 지역 설정을 하지 않았습니다.</p>
+        {% else %}
+          <p>
+            {{user.profile.location}}</p>
+        {% endif %}
+      </div>
     </div>
     <!--선호시간-->
     <div class="border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">

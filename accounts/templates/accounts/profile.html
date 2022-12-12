@@ -112,12 +112,6 @@
           {% endif %}
         </div>
       </div>
-      <!--소개글 (소개글 삭제 때문에 다시 추가했습니다.)-->
-      {% if user.profile.intro == null or user.profile.intro == "" %}
-        <p> 소개글이 없습니다. </p>
-      {% else %}
-        <p> {{ user.profile.intro | linebreaks }} </p>
-      {% endif %}
 
       <!-- 팔로워 collapse 내용 -->      
       <div class="collapse multi-collapse" id="multiCollapseExample2">
@@ -175,8 +169,6 @@
           </a>
         </div>
       </div>
-      <!--북마크-->
-  
     </div>
   </div>
   <!--리뷰 갯수(collapse) 내용 시작-->
@@ -184,14 +176,15 @@
     <div class="row">
       {% for review in reviews %}
       <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 p-3">
-        <a href="">
-          <div class="card glow mb-2">
-            <!-- 첫 번째 이미지를 썸네일로 -->
+        <div class="card mb-2">
+          <!-- 첫 번째 이미지를 썸네일로 -->
+          <a href="#">
             {% if review.photo_set.all.0.image %}
             <img src="{{ review.photo_set.all.0.image.url }}" class="card-img-top" alt="..." height="300px">
             {% else %}
             <img src="https://dummyimage.com/1200x960/000000/c4c4c4" class="card-img-top" height="300px">
             {% endif %}
+          </a>
             <div class="card-body d-flex flex-column justify-content-between" style="height: 12rem">
               <!-- 유저 -->
               <div class="mb-2">
@@ -214,7 +207,6 @@
               </div>
             </div>  
           </div>
-        </a>
       </div>
       {%endfor%}
     </div>
