@@ -27,7 +27,8 @@ def room(request, pk):
     # room = message['room']
     # created_at = message['created_at']
     # messages = message['content']
-    
+    print(messages[0].created_at,'7777777777777777777777777')
+    message_time = messages[0]
     accounts_names=list(User.objects.filter(username=request.user).values())
     print(accounts_names[0]['username'],'33333')
     accounts_name=accounts_names[0]
@@ -37,5 +38,5 @@ def room(request, pk):
     #     'created_at': created_at,
     #     'accounts_name':accounts_name,
     # }
-    return render(request, "chat/room.html", {'messages':messages, 'room':room, 'accounts_name':accounts_name})
+    return render(request, "chat/room.html", {'messages':messages, 'room':room, 'accounts_name':accounts_name, 'message_time':message_time})
 
