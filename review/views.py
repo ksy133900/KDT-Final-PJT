@@ -193,14 +193,14 @@ def detail(request, book_pk):
     reviews = Review.objects.filter(book_id=book_pk).order_by("-pk")
     book = Book.objects.get(pk=book_pk)
     book_image = Image.objects.get(book_id=book_pk)
-    genre_list = ["공포/추리" , "판타지", "로맨스/가족", "역사/철학", "정치/경제"]
-    genre = genre_list[int(book.genre)-1]
+    genre_list = ["공포/추리", "판타지", "로맨스/가족", "역사/철학", "정치/경제"]
+    genre = genre_list[int(book.genre) - 1]
 
     context = {
         "reviews": reviews,
         "book": book,
         "book_image": book_image,
-        "genre": genre,    
+        "genre": genre,
     }
     return render(request, "review/detail.html", context)
 
@@ -271,38 +271,31 @@ def match_create(request):
     }
     return render(request, "review/match_create.html", context)
 
+def search(request):
+    search_keyword = request.GET.get("search", "")
+    search_option = request.GET.get(
+        "search_option", ""
+    )  # title, title_content, hashtag, user
+    # reviews = Review.objects.order_by("-pk")
+    profiles = Profile.objects.order_by("-pk")
 
-# def search(request):
-#     search_keyword = request.GET.get("search", "")
-#     search_option = request.GET.get(
-#         "search_option", ""
-#     )  # title, title_content, hashtag, user
-#     reviews = Review.objects.order_by("-pk")
+    if search_keyword:
+        if search_option == "nickname":
+            search_profiles = profiles.filter(Q(nickname__icontains=search_keyword))
 
-#     if search_keyword:
-#         if search_option == "title":
-#             search_reviews = reviews.filter(title__icontains=search_keyword)
+        elif search_option == "genre":
+            # Q: ORM WHERE에서 or 연산을 수행
+            search_profiles = profiles.filter(Q(genre__icontains=search_keyword))
 
-#         elif search_option == "title_content":
-#             # Q: ORM WHERE에서 or 연산을 수행
-#             search_reviews = reviews.filter(
-#                 Q(title__icontains=search_keyword)
-#                 | Q(content__icontains=search_keyword)
-#             )
-#         elif search_option == "hashtag":
-#             # distinct(): 중복 제거
-#             # 만약 해시태그가 #1, #11, #111인 글이 하나 있고, 1을 검색하면
-#             # 같은 글이 3개가 보여짐.
-#             search_reviews = reviews.filter(
-#                 tags__name__icontains=search_keyword
-#             ).distinct()
-#         elif search_option == "user":
-#             # ForeignKey icontains
-#             # {Article의 User field}__{User의 nickname field}__icontains
-#             search_reviews = reviews.filter(Q(user__nickname__icontains=search_keyword))
+        elif search_option == "location":
+            search_profiles = profiles.filter(Q(location__icontains=search_keyword))
 
-#     context = {
-#         "search_reviews": search_reviews,
-#     }
+        elif search_option == "ages":
+            search_profiles = profiles.filter(Q(ages__icontains=search_keyword))
 
-#     return render(request, "review/search.html", context)
+    context = {
+        # "search_reviews": search_reviews,
+        "search_profiles": search_profiles,
+    }
+
+    return render(request, "review/search.html", context)
