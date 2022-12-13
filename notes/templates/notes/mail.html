@@ -7,8 +7,8 @@
 {% block content%}
 
 <div class="container d-flex justify-content-center p-5">
-  <div class="container class=" style="margin: auto;">
-    <div class="row" style="justify-content: center;">
+  <div class="container" style="margin: auto; display:contents;">
+    <div class="row" style="display:flex; justify-content: center; width: 540px;">
       <h4 class="text-center mb-3" style="    background: #198754;
       color: #ffffff;
       max-width: 450px;
@@ -19,10 +19,9 @@
         position: absolute;
         margin-top: -28px;">
           <div class="btn-group" style="vertical-align: baseline;">
-            <button type="button" class="btn btn-success dropdown-toggle" style="
-              height: 23px;
-    padding-top: 0px;
-    padding-bottom: 10px;" data-bs-toggle="dropdown" aria-expanded="false">
+            <button type="button" class="btn btn-success dropdown-toggle"
+              style="height: 23px;padding-top: 0px; padding-bottom: 10px;" data-bs-toggle="dropdown"
+              aria-expanded="false">
               메뉴
             </button>
             <ul class="dropdown-menu" style="--bs-dropdown-min-width: 8rem; background-color: whitesmoke;
@@ -49,7 +48,7 @@
         </div>
 
       </h4>
-      <div class="col-sm-12 col-md-8" style="max-width: 450px;">
+      <div class="col-sm-12 col-md-12" style="max-width: 450px;padding: 0;">
         <form action="{% url 'notes:mail' %}" method="POST">
           {% csrf_token %}
           {% bootstrap_form form %}
@@ -59,8 +58,8 @@
           background-color: rgba(255,255,255,0);
           width: 100%;
           max-width: 45px;
-          position: relative;    margin-top: -64.7rem;
-    margin-left: 23.7rem;">
+          position: relative; margin-top: -64.7rem;
+          margin-left: 25.5rem;">
         </form>
       </div>
     </div>
