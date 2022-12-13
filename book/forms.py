@@ -12,7 +12,7 @@ class bookForm(forms.ModelForm):
             "price",
             "summary",
             "matching_count",
-            "grade",
+            # "grade",
         ]
         labels = {
             "title": "책 제목",
@@ -20,7 +20,7 @@ class bookForm(forms.ModelForm):
             "price": "가격",
             "summary": "줄거리",
             "matching_count": "매칭점수",
-            "grade": "도서 평점",
+            # "grade": "도서 평점",
         }
 
 
