@@ -12,9 +12,9 @@
         <select class="form-select w-auto" name="search_option" style="
         transform: translate(-140px, -38px);
         max-width: 130px; border-color: #33ccff;">
-          <option value="title">제목</option>
+          <!-- <option value="title">제목</option>
           <option value="title_content">제목+내용</option>
-          <option value="hashtag">해시태그</option>
+          <option value="hashtag">해시태그</option> -->
           <option value="user">작성자</option>
         </select>
         <div>
@@ -44,7 +44,7 @@
 
 
 <div class="container">
-  <div id="list" class="row row-cols-2" style="    --bs-gutter-x: 5rem;
+  <div id="list" class="row row-cols-2" style="--bs-gutter-x: 5rem;
   --bs-gutter-y: 2rem;">
     {% for profile_ in profile %}
     <b style=" z-index: 4">
@@ -60,7 +60,6 @@
             <img src="{% static 'images/no-profile.jpg' %}" alt='${book.name}'
               style="width: 100%; max-width: 180px;  margin: 30px;">
             {% endif %}
-
             <p
               style="font-weight: bolder; text-align: center; font-size: 25px; margin-left: 20px; margin-top: -25px; margin-bottom: 0px;">
               {{profile_.nickname}}
@@ -140,8 +139,8 @@
                 </b>
                 {% endif %}
               </p>
-              <a href="{% url 'accounts:open_profile' profile_.user.pk %}">
-                <button class="w-btn-neon2" style=" margin-left: 15%; z-index: 1" type="button">리뷰 보기 </button></a>
+              <a href="{% url 'accounts:open_profile' profile_.pk %}">
+                <button class="w-btn-neon2" style=" margin-left: 15%; z-index: 1" type="button">프로필 확인</button></a>
             </div>
           </div>
         </div>
