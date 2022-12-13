@@ -68,7 +68,15 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
          "CONFIG": {
-             "hosts": [("Kdtdjangodocto-env.eba-3mhhckaa.ap-northeast-2.elasticbeanstalk.com", 5432)],
+             "hosts": [os.environ.get('REDIS_URL','redis://localhost:6379')],
+         },
+    },
+}
+CACHES = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+         "CONFIG": {
+             "hosts": [os.environ.get('REDIS_URL','redis://localhost:6379')],
          },
     },
 }
