@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% for book in search_books %}
+
+  <div class="d-flex justify-content-center">
+    <div class="card" style="width: 230px;">
+      <a href="{% url 'review:detail' book.pk %}" class="">
+        <div class="img_box d-flex align-items-center">
+          {% if book.image_set.all.0.image %}
+          <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
+          {% else %}
+          <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
+          {% endif %}
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{book.title}}</h5>
+          <p class="card-text">book모델에 평점추가해야함</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% endblock content %}

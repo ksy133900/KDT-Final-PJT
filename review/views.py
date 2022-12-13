@@ -271,6 +271,7 @@ def match_create(request):
     }
     return render(request, "review/match_create.html", context)
 
+
 def search(request):
     search_keyword = request.GET.get("search", "")
     search_option = request.GET.get(
@@ -299,3 +300,22 @@ def search(request):
     }
 
     return render(request, "review/search.html", context)
+
+
+def main_search(request):
+    search_keyword = request.GET.get("main_search", "")
+    search_option = request.GET.get("main_search_option", "")
+    books = Book.objects.order_by("-pk")
+
+    if search_keyword:
+        if search_option == "title":
+            search_books = books.filter(Q(title__icontains=search_keyword))
+
+        elif search_option == "genre":
+            search_books = books.filter(Q(genre__icontains=search_keyword))
+
+    context = {
+        "search_books": search_books,
+    }
+
+    return render(request, "review/main_search.html", context)
