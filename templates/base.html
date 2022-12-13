@@ -87,9 +87,11 @@
               장르
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">공란</a></li>
-              <li><a class="dropdown-item" href="#">공란</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
+              <li><a class="dropdown-item" href="{% url 'book:book_list' 1%}">공포/추리</a></li>
+              <li><a class="dropdown-item" href="{% url 'book:book_list' 2%}">판타지</a></li>
+              <li><a class="dropdown-item" href="{% url 'book:book_list' 3%}">로맨스/가족</a></li>
+              <li><a class="dropdown-item" href="{% url 'book:book_list' 4%}">역사/철학</a></li>
+              <li><a class="dropdown-item" href="{% url 'book:book_list' 5%}">정치/경제</a></li>
             </ul>
           </li>
           <li class="nav-item">
@@ -121,7 +123,7 @@
                 <img src="https://cdn.icon-icons.com/icons2/1097/PNG/512/1485477030-mail_78575.png" style="width: 40px">
                 {% if read_count != 0 %}
                 <span class="position-absolute translate-middle badge rounded-pill bg-danger"
-                  style="top: 6px; start: 100px;">
+                  style="top: 6px;">
                   {{read_count}}
                 </span>
                 {% endif %}
