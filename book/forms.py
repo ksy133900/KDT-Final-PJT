@@ -11,6 +11,7 @@ class bookForm(forms.ModelForm):
             "genre",
             "price",
             "summary",
+            "matching_count",
             "grade",
         ]
         labels = {
@@ -18,6 +19,7 @@ class bookForm(forms.ModelForm):
             "genre": "장르",
             "price": "가격",
             "summary": "줄거리",
+            "matching_count": "매칭점수",
             "grade": "도서 평점",
         }
 
