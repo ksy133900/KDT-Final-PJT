@@ -26,4 +26,5 @@ urlpatterns = [
     path("match_board/", views.match_board, name="match_board"),
     # 검색 페이지
     path("search/", views.search, name="search"),
+    path("main_search/", views.main_search, name="main_search"),
 ]
