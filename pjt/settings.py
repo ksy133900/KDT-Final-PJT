@@ -139,7 +139,7 @@ AUTH_USER_MODEL = "accounts.User"
 
 DEBUG = os.getenv("DEBUG") == "True"
 
-if DEBUG:  # 개발(로컬) 환경
+if DEBUG:  # 개발(로컬)환경
     MEDIA_URL = "/media/"
     MEDIA_ROOT = BASE_DIR / "images"
 
