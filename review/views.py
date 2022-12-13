@@ -185,20 +185,15 @@ def delete(request, pk, book_pk):
 def detail(request, book_pk):
     reviews = Review.objects.filter(book_id=book_pk).order_by("-pk")
     book = Book.objects.get(pk=book_pk)
-    # 도서이미지가 없는 경우 디테일페이지 연결 오류가 있어 수정하였습니다.
-    test = Image.objects.all()
-    for t in test:
-        # print(t.book_id, type(t.book_id))
-        if book_pk == t.book_id:
-            book_image = Image.objects.get(book_id=book_pk)
-            break
-        else:
-            book_image = 0
+    # book_image = Image.objects.get(book_id=book_pk)
+    genre_list = ["공포/추리" , "판타지", "로맨스/가족", "역사/철학", "정치/경제"]
+    genre = genre_list[int(book.genre)-1]
 
     context = {
         "reviews": reviews,
         "book": book,
-        "book_image": book_image,
+        # "book_image": book_image,
+        "genre": genre,    
     }
     return render(request, "review/detail.html", context)
 
