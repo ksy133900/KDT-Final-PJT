@@ -26,7 +26,7 @@ class Book(models.Model):
     # 매칭수
     matching_count = models.PositiveIntegerField(default=0, blank=True)
     # 평점
-    grade = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], null=True, default=1)
+    grade = models.FloatField(validators=[MinValueValidator(1), MaxValueValidator(5)], null=True, default=1)
 
     def __str__(self):
         return self.title
