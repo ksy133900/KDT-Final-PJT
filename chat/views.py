@@ -38,5 +38,6 @@ def room(request, pk):
     #     'created_at': created_at,
     #     'accounts_name':accounts_name,
     # }
+    print(request.user.is_authenticated,'11111111111')
     return render(request, "chat/room.html", {'messages':messages, 'room':room, 'accounts_name':accounts_name, 'message_time':message_time})
 
