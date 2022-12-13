@@ -87,9 +87,11 @@
               장르
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">공란</a></li>
-              <li><a class="dropdown-item" href="#">공란</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
+              <li><a class="dropdown-item" href="{% url 'book:book_list' 1%}">공포/추리</a></li>
+              <li><a class="dropdown-item" href="{% url 'book:book_list' 2%}">판타지</a></li>
+              <li><a class="dropdown-item" href="{% url 'book:book_list' 3%}">로맨스/가족</a></li>
+              <li><a class="dropdown-item" href="{% url 'book:book_list' 4%}">역사/철학</a></li>
+              <li><a class="dropdown-item" href="{% url 'book:book_list' 5%}">정치/경제</a></li>
             </ul>
           </li>
           <li class="nav-item">
