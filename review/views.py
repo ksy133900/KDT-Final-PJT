@@ -303,19 +303,15 @@ def search(request):
 
 
 def main_search(request):
-    search_keyword = request.GET.get("main_search", "")
-    search_option = request.GET.get("main_search_option", "")
     books = Book.objects.order_by("-pk")
+    search_keyword = request.GET.get("search_keyword", "")
 
     if search_keyword:
-        if search_option == "title":
-            search_books = books.filter(Q(title__icontains=search_keyword))
-
-        elif search_option == "genre":
-            search_books = books.filter(Q(genre__icontains=search_keyword))
+        search_books = books.filter(Q(title__icontains=search_keyword))
 
     context = {
         "search_books": search_books,
+        "search_keyword": search_keyword,
     }
 
     return render(request, "review/main_search.html", context)

@@ -146,32 +146,15 @@
       </div>
       <!--search_box-->
       <div class="search-box">
-
-
         <form role="search" action="{% url 'review:main_search' %}">
-          <input class="search-txt-m" type="search" placeholder="도서 검색" size="14" name="main_search"
+          <input class="search-txt-m" type="search" placeholder="도서 검색" value="{{search_keyword}}" size="14" name="search_keyword"
             style="vertical-align: top;">
-          <select class="form-select w-auto" name="main_search_option" style="
-          transform: translate(-140px, -38px);
-          max-width: 130px; border-color: #387245;">
-            <option value="title">제목</option>
-            <option value="genre">장르</option>
-          </select>
           <button class="search-btn" type="submit" maxlength="50">
             <img src="{% static 'images/book2.jpg' %}" alt="" class="jb-b">
             <img src="{% static 'images/book.gif' %}" alt="" class="jb-c">
           </button>
         </form>
       </div>
-
-
-
-
-
-
-
-
-
     </div>
   </nav>
   <!--내비바 끝-->
