@@ -29,13 +29,14 @@ class Book(models.Model):
         return self.title
 
 
+DEFAULT = "images/dummy-image-square.jpg"
 # 도서 이미지
 class Image(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, blank=True, null=True)
     image = ProcessedImageField(
-        upload_to="images/", 
+        upload_to="images/",
         null=True,
-        processors=[ResizeToFill(450,450)],
-        options={'quality': 90},
+        processors=[ResizeToFill(450, 450)],
+        options={"quality": 60},
         format="JPEG",
-        )
+    )
