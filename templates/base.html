@@ -152,9 +152,9 @@
       </div>
       <!--search_box-->
       <div class="search-box">
-        <form action="" method="POST">
-          {% csrf_token %}
-          <input class="search-txt" type="search" placeholder="도서 검색" size="15" name="q" value="{{q}}">
+        <form role="search" action="{% url 'review:main_search' %}">
+          <input class="search-txt-m" type="search" placeholder="도서 검색" value="{{search_keyword}}" size="14" name="search_keyword"
+            style="vertical-align: top;">
           <button class="search-btn" type="submit" maxlength="50">
             <img src="{% static 'images/book2.jpg' %}" alt="" class="jb-b">
             <img src="{% static 'images/book.gif' %}" alt="" class="jb-c">

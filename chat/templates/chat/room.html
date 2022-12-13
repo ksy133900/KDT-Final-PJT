@@ -63,16 +63,10 @@
 {{ room|json_script:"json-roomname" }}
 {{ request.user.username|json_script:"json-username"}}
 {{ message.user.username|json_script:"json-messagename"}}
-{{ request.user.profile.nickname|json_script:"json-accountsname"}}
 <script type="text/javascript">
-    function herf_location(id){
-        current = window.location.href
-        window.location.href = '/chat/' + id + '/'
-    }
     const roomName = JSON.parse(document.getElementById("json-roomname").textContent);
     const userName = JSON.parse(document.getElementById("json-username").textContent);
     const messageName = JSON.parse(document.getElementById("json-messagename").textContent);
-    const accountsName = JSON.parse(document.getElementById("json-accountsname").textContent);
     const chatSocket = new WebSocket(
         'wss://'
         + window.location.host
@@ -80,7 +74,7 @@
         + roomName
         + '/'
     );
-    chatSocket.onopen = () => {
+    chatSocket.onopen = function(e) {
         console.log('onopen')
 
         const message = userName + "님이 입장하였습니다." 
@@ -111,7 +105,7 @@
             else if (userName == data.username){
             let html = '<div class="outgoing_msg">';
                 html += '<div class="incoming_msg_img">';
-                html += '<img src="{% static 'images/no-profile.jpg' %}" class="incoming_msg_img_img"></div>';
+                html += '</div>';
                 html += '<div>';
                 html += '<p class="font-bold">' + data.username + '</p></div>';
                 html += '<div class="received_msg ">';
@@ -124,7 +118,7 @@
             else if(userName != data.username) {
                 let html = '<div class="incoming_msg">';
                 html += '<div class="incoming_msg_img">';
-                html += '<img src="{% static 'images/no-profile.jpg' %}" class="incoming_msg_img_img"></div>';
+                html += '</div>';
                 html += '<div>';
                 html += '<p class="font-bold">' + data.username + '</p></div>';
                 html += '<div class="received_msg ">';

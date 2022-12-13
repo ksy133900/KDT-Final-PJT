@@ -19,7 +19,5 @@ def index(request):
 def room(request, pk):
     room = pk
     messages = Message.objects.filter(room=room).order_by('created_at').all()
-    accounts_names=list(User.objects.filter(username=request.user).values())
-    accounts_name=accounts_names[0]
-    return render(request, "chat/room.html", {'messages':messages, 'room':room, 'accounts_name':accounts_name, })
+    return render(request, "chat/room.html", {'messages':messages, 'room':room,})
 
