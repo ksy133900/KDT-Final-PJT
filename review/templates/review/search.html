@@ -48,6 +48,9 @@
 <div class="container">
   <div class="row row-cols-2" style="--bs-gutter-x: 5rem;
   --bs-gutter-y: 2rem;">
+    {% if not search_profiles %}
+    <p>검색결과없음</p>
+    {%else%}
     {% for profile_ in search_profiles %}
     <b style=" z-index: 4">
       <div class="card mb-3" style="max-width: 540px;">
@@ -149,6 +152,7 @@
         </div>
       </div>
     </b>
+    {%endif%}
     {%endfor%}
   </div>
 </div>
