@@ -54,7 +54,7 @@ def matching(request):
     user_address = User.objects.values_list("address")
     profile = Profile.objects.order_by("-pk")
     notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
-    
+
     context = {
         "profile": profile,
         "notes_notice": notes_notice,
@@ -69,15 +69,15 @@ def search(request):
     search_option = request.GET.get(
         "search_option", ""
     )  # title, title_content, hashtag, user
-    reviews = Review.objects.order_by("-pk")
+    profiles = Profile.objects.order_by("-pk")
 
     if search_keyword:
         if search_option == "title":
-            search_reviews = reviews.filter(title__icontains=search_keyword)
+            search_profiles = profiles.filter(title__icontains=search_keyword)
 
         elif search_option == "title_content":
             # Q: ORM WHERE에서 or 연산을 수행
-            search_reviews = reviews.filter(
+            search_profiles = profiles.filter(
                 Q(title__icontains=search_keyword)
                 | Q(content__icontains=search_keyword)
             )
@@ -85,16 +85,19 @@ def search(request):
             # distinct(): 중복 제거
             # 만약 해시태그가 #1, #11, #111인 글이 하나 있고, 1을 검색하면
             # 같은 글이 3개가 보여짐.
-            search_reviews = reviews.filter(
+            search_profiles = profiles.filter(
                 tags__name__icontains=search_keyword
             ).distinct()
-        elif search_option == "user":
+        elif search_option == "profiles":
             # ForeignKey icontains
-            # {Article의 User field}__{User의 nickname field}__icontains
-            search_reviews = reviews.filter(Q(user__nickname__icontains=search_keyword))
+            # review__User field__User__nickname__field__icontains
+            search_profiles = profiles.filter(
+                Q(user__nickname__icontains=search_keyword)
+                # | Q(review__nickname__icontains=search_keyword)
+            )
 
     context = {
-        "search_reviews": search_reviews,
+        "search_profiles": search_profiles,
     }
 
     return render(request, "review/search.html", context)
@@ -123,11 +126,11 @@ def create(request, book_pk):
             # photo = photo_form.save()
             review.user = request.user
             review.book = book
-            
+
             # 지정된 변수가 없으면 review.book_image는 지정이 안되어 null처리됨
-            if book_images:  
+            if book_images:
                 # 변수가 있다면 for문으로 셋을 풀고 review.book_image에 지정
-                for book_image in book_images:  
+                for book_image in book_images:
                     review.book_image = book_image
             review.save()
             if tags:
@@ -265,37 +268,37 @@ def match_create(request):
     return render(request, "review/match_create.html", context)
 
 
-def search(request):
-    search_keyword = request.GET.get("search", "")
-    search_option = request.GET.get(
-        "search_option", ""
-    )  # title, title_content, hashtag, user
-    reviews = Review.objects.order_by("-pk")
+# def search(request):
+#     search_keyword = request.GET.get("search", "")
+#     search_option = request.GET.get(
+#         "search_option", ""
+#     )  # title, title_content, hashtag, user
+#     reviews = Review.objects.order_by("-pk")
 
-    if search_keyword:
-        if search_option == "title":
-            search_reviews = reviews.filter(title__icontains=search_keyword)
+#     if search_keyword:
+#         if search_option == "title":
+#             search_reviews = reviews.filter(title__icontains=search_keyword)
 
-        elif search_option == "title_content":
-            # Q: ORM WHERE에서 or 연산을 수행
-            search_reviews = reviews.filter(
-                Q(title__icontains=search_keyword)
-                | Q(content__icontains=search_keyword)
-            )
-        elif search_option == "hashtag":
-            # distinct(): 중복 제거
-            # 만약 해시태그가 #1, #11, #111인 글이 하나 있고, 1을 검색하면
-            # 같은 글이 3개가 보여짐.
-            search_reviews = reviews.filter(
-                tags__name__icontains=search_keyword
-            ).distinct()
-        elif search_option == "user":
-            # ForeignKey icontains
-            # {Article의 User field}__{User의 nickname field}__icontains
-            search_reviews = reviews.filter(Q(user__nickname__icontains=search_keyword))
+#         elif search_option == "title_content":
+#             # Q: ORM WHERE에서 or 연산을 수행
+#             search_reviews = reviews.filter(
+#                 Q(title__icontains=search_keyword)
+#                 | Q(content__icontains=search_keyword)
+#             )
+#         elif search_option == "hashtag":
+#             # distinct(): 중복 제거
+#             # 만약 해시태그가 #1, #11, #111인 글이 하나 있고, 1을 검색하면
+#             # 같은 글이 3개가 보여짐.
+#             search_reviews = reviews.filter(
+#                 tags__name__icontains=search_keyword
+#             ).distinct()
+#         elif search_option == "user":
+#             # ForeignKey icontains
+#             # {Article의 User field}__{User의 nickname field}__icontains
+#             search_reviews = reviews.filter(Q(user__nickname__icontains=search_keyword))
 
-    context = {
-        "search_reviews": search_reviews,
-    }
+#     context = {
+#         "search_reviews": search_reviews,
+#     }
 
-    return render(request, "review/search.html", context)
+#     return render(request, "review/search.html", context)
