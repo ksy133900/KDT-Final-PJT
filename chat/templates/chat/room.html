@@ -80,7 +80,7 @@
         + roomName
         + '/'
     );
-    chatSocket.onopen = function(e){
+    chatSocket.onopen = () => {
         console.log('onopen')
 
         const message = userName + "님이 입장하였습니다." 
