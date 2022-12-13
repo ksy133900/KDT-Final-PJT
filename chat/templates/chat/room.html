@@ -46,9 +46,10 @@
     </div>
     <div class="type_msg">
         <form method="POST" action="" class="flex">
+            {% csrf_token %}
             <input type="text" name="content" class="text_box" placeholder="메시지 입력하세요" id="chat-message-input">
             
-            <button class ="px-3 py-3 rounded-xl text-black bg-teal-600 hover:bg-teal-700" id="chat-message-submit" >메시지 입력</button>
+            <button class ="btn btn-dark" id="chat-message-submit" >메시지 입력</button>
         </form>
     </div>
 </div>
@@ -73,37 +74,41 @@
     const messageName = JSON.parse(document.getElementById("json-messagename").textContent);
     const accountsName = JSON.parse(document.getElementById("json-accountsname").textContent);
     const chatSocket = new WebSocket(
-        'ws://'
+        'wss://'
         + window.location.host
         + '/ws/chat/'
         + roomName
         + '/'
     );
-    chatSocket.onopen = function(e){
+    chatSocket.onopen = () => {
         console.log('onopen')
-        let html = '<div class="inbox_msg">';
-            html += '<div class="mesgs">';
-            html += '<p class="font-bold entering" id="chat-entering">'+ userName + '님이 입장했습니다.</p>';
-            html += '</div>';
-        document.querySelector('#chat-messages').innerHTML += html;
+
+        const message = userName + "님이 입장하였습니다." 
+        chatSocket.send(JSON.stringify({
+            'message':message,
+            'username':userName,
+            'room':roomName,
+        }));
+
+        return false;
         
     }
     /* 날짜를 ko 한국시간 기준으로 출력하겠다 */
     moment.locale('ko');
-    console.log(moment().format('YYYY년 MMMM Do h:mm a'))
     chatSocket.onmessage = function(e) {
         console.log('onmessage')
         /* 서버로부터 데이터 받기 */
         const data = JSON.parse(e.data);
-        console.log(data)
         /* test */
-        console.log(userName)
-        console.log(data.username,'11111111')
-        console.log(messageName,'2222222')
-        console.log(data.message)
-        console.log(accountsName,'4444444444444444')
         if (data.message) {
-            if (userName == accountsName){
+            if (data.message.indexOf('입장하였습니다') != -1 ){
+            let html = '<div class="inbox_msg">';
+            html += '<div class="mesgs">';
+            html += '<p class="font-bold entering">'+ data.message + '</p>';
+            html += '</div>';
+            document.querySelector('#chat-messages').innerHTML += html;
+            }
+            else if (userName == data.username){
             let html = '<div class="outgoing_msg">';
                 html += '<div class="incoming_msg_img">';
                 html += '<img src="{% static 'images/no-profile.jpg' %}" class="incoming_msg_img_img"></div>';
@@ -116,7 +121,7 @@
                 html += '</div></div>';
             document.querySelector('#chat-messages').innerHTML += html;
             }
-            else if(userName != accountsName) {
+            else if(userName != data.username) {
                 let html = '<div class="incoming_msg">';
                 html += '<div class="incoming_msg_img">';
                 html += '<img src="{% static 'images/no-profile.jpg' %}" class="incoming_msg_img_img"></div>';
@@ -130,14 +135,6 @@
             document.querySelector('#chat-messages').innerHTML += html;
             }
             
-            // let html = '<div class="d-flex chat-messages-reverse">';
-            //     html += '<img src="{% static 'images/no-profile.jpg' %}" class="profile_imgss">';
-            //     html += '<p class="font-bold">'+ data.username + '</p>';
-            //     html += '<div class="received_withd_msg ">';
-            //     html += '<p>'+ data.message + '</p></div>';
-            //     html += '</div>';
-
-            //document.querySelector('#chat-messages').innerHTML += html;
 
         } else {
             alert('글을 작성해주세요!')
@@ -146,17 +143,7 @@
 
     chatSocket.onclose = function(e) {
         console.log('onclose')
-        // let html = '<div class="inbox_msg">';
-        //     html += '<div class="mesgs">';
-        //     html += '<p class="font-bold entering" id="chat-entering">'+ userName + '님이 나갔습니다.</p>';
-        //     html += '</div>';
-        // document.querySelector('#chat-messages').innerHTML += html;
     }
-    // document.querySelector('#chat-entering') = function(e) {
-    //     chatSocket.send(JSON.stringify({
-    //         'username':userName,
-    //     })); 
-    // }
     document.querySelector('#chat-message-submit').onclick = function(e) {
         e.preventDefault();
 
@@ -164,8 +151,6 @@
         const message = messageInputDom.value;
 
         /* test */
-        console.log(message)
-        console.log(userName)
         chatSocket.send(JSON.stringify({
             'message':message,
             'username':userName,
@@ -175,12 +160,10 @@
 
         return false;
     }
-
-    // function scrollToBottom() {
-    //     const objDiv = document.querySelector('#chat-messages');
-    //     objDiv.scrollTop = objDiv.scrollHeight;
-    // }
-    // scrollToBottom()
+    const scrollMove = () => {
+    let location = document.querySelector('#chat-message').offsetTop;
+    window.scrollTo({top: location, behavior: "smooth"});
+    };
 </script>
 
 {% endblock script %}

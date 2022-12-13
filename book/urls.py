@@ -6,4 +6,5 @@ app_name = "book"
 urlpatterns = [
     path("create/", views.create, name="create"),
     path("delete/<int:book_pk>", views.delete, name="delete"),
+    path("book_list/<int:pk>", views.book_list, name="book_list"),
 ]

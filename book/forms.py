@@ -12,13 +12,15 @@ class bookForm(forms.ModelForm):
             "price",
             "summary",
             "matching_count",
+            # "grade",
         ]
         labels = {
             "title": "책 제목",
             "genre": "장르",
             "price": "가격",
             "summary": "줄거리",
-            "matching_count": "매칭 수",
+            "matching_count": "매칭점수",
+            # "grade": "도서 평점",
         }
 
 
@@ -27,4 +29,4 @@ class ImageForm(forms.ModelForm):
         model = Image
         fields = ["image"]
 
-        # widgets = {"image": forms.ClearableFileInput(attrs={"multiple": True})}
+        widgets = {"image": forms.ClearableFileInput(attrs={"multiple": True})}

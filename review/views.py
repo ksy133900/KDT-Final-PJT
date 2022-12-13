@@ -54,7 +54,7 @@ def matching(request):
     user_address = User.objects.values_list("address")
     profile = Profile.objects.order_by("-pk")
     notes_notice = len(Notes.objects.filter(to_user_id=request.user.pk, read=0))
-    
+
     context = {
         "profile": profile,
         "notes_notice": notes_notice,
@@ -69,32 +69,39 @@ def search(request):
     search_option = request.GET.get(
         "search_option", ""
     )  # title, title_content, hashtag, user
-    reviews = Review.objects.order_by("-pk")
+    # reviews = Review.objects.order_by("-pk")
+    profiles = Profile.objects.order_by("-pk")
 
     if search_keyword:
-        if search_option == "title":
-            search_reviews = reviews.filter(title__icontains=search_keyword)
-
-        elif search_option == "title_content":
-            # Q: ORM WHERE에서 or 연산을 수행
-            search_reviews = reviews.filter(
-                Q(title__icontains=search_keyword)
-                | Q(content__icontains=search_keyword)
-            )
-        elif search_option == "hashtag":
-            # distinct(): 중복 제거
-            # 만약 해시태그가 #1, #11, #111인 글이 하나 있고, 1을 검색하면
-            # 같은 글이 3개가 보여짐.
-            search_reviews = reviews.filter(
-                tags__name__icontains=search_keyword
-            ).distinct()
-        elif search_option == "user":
+        if search_option == "user":
             # ForeignKey icontains
-            # {Article의 User field}__{User의 nickname field}__icontains
-            search_reviews = reviews.filter(Q(user__nickname__icontains=search_keyword))
+            # {Review의 User field}__{User의 nickname field}__icontains
+            search_profiles = profiles.filter(Q(nickname__icontains=search_keyword))
+    # if search_keyword:
+    #     if search_option == "title":
+    #         search_reviews = reviews.filter(title__icontains=search_keyword)
+
+    #     elif search_option == "title_content":
+    #         # Q: ORM WHERE에서 or 연산을 수행
+    #         search_reviews = reviews.filter(
+    #             Q(title__icontains=search_keyword)
+    #             | Q(content__icontains=search_keyword)
+    #         )
+    #     elif search_option == "hashtag":
+    #         # distinct(): 중복 제거
+    #         # 만약 해시태그가 #1, #11, #111인 글이 하나 있고, 1을 검색하면
+    #         # 같은 글이 3개가 보여짐.
+    #         search_reviews = reviews.filter(
+    #             tags__name__icontains=search_keyword
+    #         ).distinct()
+    #     elif search_option == "user":
+    #         # ForeignKey icontains
+    #         # {Review의 User field}__{User의 nickname field}__icontains
+    #         search_profiles = profiles.filter(Q(nickname__icontains=search_keyword))
 
     context = {
-        "search_reviews": search_reviews,
+        # "search_reviews": search_reviews,
+        "search_profiles": search_profiles,
     }
 
     return render(request, "review/search.html", context)
@@ -123,11 +130,11 @@ def create(request, book_pk):
             # photo = photo_form.save()
             review.user = request.user
             review.book = book
-            
+
             # 지정된 변수가 없으면 review.book_image는 지정이 안되어 null처리됨
-            if book_images:  
+            if book_images:
                 # 변수가 있다면 for문으로 셋을 풀고 review.book_image에 지정
-                for book_image in book_images:  
+                for book_image in book_images:
                     review.book_image = book_image
             review.save()
             if tags:
@@ -185,20 +192,15 @@ def delete(request, pk, book_pk):
 def detail(request, book_pk):
     reviews = Review.objects.filter(book_id=book_pk).order_by("-pk")
     book = Book.objects.get(pk=book_pk)
-    # 도서이미지가 없는 경우 디테일페이지 연결 오류가 있어 수정하였습니다.
-    test = Image.objects.all()
-    for t in test:
-        # print(t.book_id, type(t.book_id))
-        if book_pk == t.book_id:
-            book_image = Image.objects.get(book_id=book_pk)
-            break
-        else:
-            book_image = 0
+    book_image = Image.objects.get(book_id=book_pk)
+    genre_list = ["공포/추리", "판타지", "로맨스/가족", "역사/철학", "정치/경제"]
+    genre = genre_list[int(book.genre) - 1]
 
     context = {
         "reviews": reviews,
         "book": book,
         "book_image": book_image,
+        "genre": genre,
     }
     return render(request, "review/detail.html", context)
 
@@ -269,38 +271,31 @@ def match_create(request):
     }
     return render(request, "review/match_create.html", context)
 
-
 def search(request):
     search_keyword = request.GET.get("search", "")
     search_option = request.GET.get(
         "search_option", ""
     )  # title, title_content, hashtag, user
-    reviews = Review.objects.order_by("-pk")
+    # reviews = Review.objects.order_by("-pk")
+    profiles = Profile.objects.order_by("-pk")
 
     if search_keyword:
-        if search_option == "title":
-            search_reviews = reviews.filter(title__icontains=search_keyword)
+        if search_option == "nickname":
+            search_profiles = profiles.filter(Q(nickname__icontains=search_keyword))
 
-        elif search_option == "title_content":
+        elif search_option == "genre":
             # Q: ORM WHERE에서 or 연산을 수행
-            search_reviews = reviews.filter(
-                Q(title__icontains=search_keyword)
-                | Q(content__icontains=search_keyword)
-            )
-        elif search_option == "hashtag":
-            # distinct(): 중복 제거
-            # 만약 해시태그가 #1, #11, #111인 글이 하나 있고, 1을 검색하면
-            # 같은 글이 3개가 보여짐.
-            search_reviews = reviews.filter(
-                tags__name__icontains=search_keyword
-            ).distinct()
-        elif search_option == "user":
-            # ForeignKey icontains
-            # {Article의 User field}__{User의 nickname field}__icontains
-            search_reviews = reviews.filter(Q(user__nickname__icontains=search_keyword))
+            search_profiles = profiles.filter(Q(genre__icontains=search_keyword))
+
+        elif search_option == "location":
+            search_profiles = profiles.filter(Q(location__icontains=search_keyword))
+
+        elif search_option == "ages":
+            search_profiles = profiles.filter(Q(ages__icontains=search_keyword))
 
     context = {
-        "search_reviews": search_reviews,
+        # "search_reviews": search_reviews,
+        "search_profiles": search_profiles,
     }
 
     return render(request, "review/search.html", context)
