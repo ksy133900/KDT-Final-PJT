@@ -12,11 +12,11 @@
     <div class="top_banner row d-flex align-items-center justify-content-around">
       <!--책 이미지-->
       <div class="book_img col-auto">
-        {% comment %} {% if book_image != 0 %}
+        {% if book_image != 0 %}
         <img src="{{ book_image.image.url }}" alt="">
         {% else %}
         <img src="{% static 'images/dummy-image-square.jpg' %}" alt="dummy_img">
-        {% endif %} {% endcomment %}
+        {% endif %}
       </div>
       <!--책 정보 시작-->
       <div class="col-auto">
