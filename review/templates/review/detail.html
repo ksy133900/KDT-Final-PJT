@@ -87,7 +87,9 @@
           </div>
           <!--댓글/좋아/싫어 버튼-->
           <div class="d-flex gap-3">
-
+            <div>
+              <a href="{% url 'chat:room' review.pk %}">챗방</a>
+            </div>
               <!-- <h5 style="color:red;">
                 {% if request.user in review.like_users.all %}
                 <i class="bi bi-hand-thumbs-up" id="likeupBtn" data-review-id="{{ review.pk }}"></i>

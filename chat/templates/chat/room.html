@@ -46,9 +46,10 @@
     </div>
     <div class="type_msg">
         <form method="POST" action="" class="flex">
+            {% csrf_token %}
             <input type="text" name="content" class="text_box" placeholder="메시지 입력하세요" id="chat-message-input">
             
-            <button class ="px-3 py-3 rounded-xl text-black bg-teal-600 hover:bg-teal-700" id="chat-message-submit" >메시지 입력</button>
+            <button class ="btn btn-dark" id="chat-message-submit" >메시지 입력</button>
         </form>
     </div>
 </div>
@@ -81,11 +82,21 @@
     );
     chatSocket.onopen = function(e){
         console.log('onopen')
-        let html = '<div class="inbox_msg">';
+
+        const message = userName + "님이 입장하였습니다." 
+        console.log(message,'999999999999999999999999999999')
+        chatSocket.send(JSON.stringify({
+            'message':message,
+            'username':userName,
+            'room':roomName,
+        }));
+
+        return false;
+       /*  let html = '<div class="inbox_msg">';
             html += '<div class="mesgs">';
-            html += '<p class="font-bold entering" id="chat-entering">'+ userName + '님이 입장했습니다.</p>';
+            html += '<p class="font-bold entering">'+ userName + '님이 입장했습니다.</p>';
             html += '</div>';
-        document.querySelector('#chat-messages').innerHTML += html;
+        document.querySelector('#chat-messages').innerHTML += html; */
         
     }
     /* 날짜를 ko 한국시간 기준으로 출력하겠다 */
@@ -103,7 +114,14 @@
         console.log(data.message)
         console.log(accountsName,'4444444444444444')
         if (data.message) {
-            if (userName == accountsName){
+            if (data.message.indexOf('입장하였습니다') != -1 ){
+            let html = '<div class="inbox_msg">';
+            html += '<div class="mesgs">';
+            html += '<p class="font-bold entering">'+ data.message + '</p>';
+            html += '</div>';
+            document.querySelector('#chat-messages').innerHTML += html;
+            }
+            else if (userName == data.username){
             let html = '<div class="outgoing_msg">';
                 html += '<div class="incoming_msg_img">';
                 html += '<img src="{% static 'images/no-profile.jpg' %}" class="incoming_msg_img_img"></div>';
@@ -116,7 +134,7 @@
                 html += '</div></div>';
             document.querySelector('#chat-messages').innerHTML += html;
             }
-            else if(userName != accountsName) {
+            else if(userName != data.username) {
                 let html = '<div class="incoming_msg">';
                 html += '<div class="incoming_msg_img">';
                 html += '<img src="{% static 'images/no-profile.jpg' %}" class="incoming_msg_img_img"></div>';
@@ -161,7 +179,9 @@
         e.preventDefault();
 
         const messageInputDom = document.querySelector('#chat-message-input');
+        console.log(messageInputDom,'333333333')
         const message = messageInputDom.value;
+        console.log(message,'3333333333')
 
         /* test */
         console.log(message)
@@ -175,12 +195,10 @@
 
         return false;
     }
-
-    // function scrollToBottom() {
-    //     const objDiv = document.querySelector('#chat-messages');
-    //     objDiv.scrollTop = objDiv.scrollHeight;
-    // }
-    // scrollToBottom()
+    const scrollMove = () => {
+    let location = document.querySelector('#chat-message').offsetTop;
+    window.scrollTo({top: location, behavior: "smooth"});
+    };
 </script>
 
 {% endblock script %}

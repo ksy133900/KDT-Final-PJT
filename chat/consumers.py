@@ -60,6 +60,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def save_message(self, username, room, message):
-        user = User.objects.get(username=username)
-        print(user)
-        Message.objects.create(user=user, room=room, content=message)
+        if '입장하였습니다' in message:
+            pass
+        else:
+            user = User.objects.get(username=username)
+            print(user)
+            Message.objects.create(user=user, room=room, content=message)
