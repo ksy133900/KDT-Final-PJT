@@ -7,7 +7,7 @@
 
 
 <div class="row pb-5">
-  {% for profile in search_profiles %}
+  {% for profile_ in search_profiles %}
   <b style=" z-index: 4">
     <div class="card mb-3" style="max-width: 540px;">
       <div class="row g-0"
@@ -42,11 +42,53 @@
               <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp{{profile_.ages}}</b>
               {% endif %}
             </p>
-            <p class="card-text">선호 시간대
-              {% if profile_.time == '시간' %}
-              <b style="font-weight:normal;">&nbsp&nbsp미설정</b>
+            <p class="card-text">선호 시간
+              {% if profile_.daytime == 'daytime' %}
+              <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp미설정</b>
+              {% elif profile_.daytime == '["1"]' %}
+              <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp월요일 오전</b>
+              {% elif profile_.daytime == '["2"]' %}
+              <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp화요일 오전</b>
+              {% elif profile_.daytime == '["3"]' %}
+              <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp수요일 오전</b>
+              {% elif profile_.daytime == '["4"]' %}
+              <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp목요일 오전</b>
+              {% elif profile_.daytime == '["5"]' %}
+              <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp금요일 오전</b>
+              {% elif profile_.daytime == '["6"]' %}
+              <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp토요일 오전</b>
+              {% elif profile_.daytime == '["7"]' %}
+              <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp일요일 오전</b>
+              {% elif profile_.daytime == '["8"]' %}
+              <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp월요일 오후</b>
+              {% elif profile_.daytime == '["9"]' %}
+              <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp화요일 오후</b>
+              {% elif profile_.daytime == '["10"]' %}
+              <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp수요일 오후</b>
+              {% elif profile_.daytime == '["11"]' %}
+              <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp목요일 오후</b>
+              {% elif profile_.daytime == '["12"]' %}
+              <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp금요일 오후</b>
+              {% elif profile_.daytime == '["13"]' %}
+              <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp토요일 오후</b>
+              {% elif profile_.daytime == '["14"]' %}
+              <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp일요일 오후</b>
+              {% elif profile_.daytime == '["15"]' %}
+              <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp월요일 저녁</b>
+              {% elif profile_.daytime == '["16"]' %}
+              <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp화요일 저녁</b>
+              {% elif profile_.daytime == '["17"]' %}
+              <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp수요일 저녁</b>
+              {% elif profile_.daytime == '["18"]' %}
+              <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp목요일 저녁</b>
+              {% elif profile_.daytime == '["19"]' %}
+              <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp금요일 저녁</b>
+              {% elif profile_.daytime == '["20"]' %}
+              <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp토요일 저녁</b>
+              {% elif profile_.daytime == '["21"]' %}
+              <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp일요일 저녁</b>
               {% else %}
-              <b style="font-weight:normal;">&nbsp&nbsp{{profile_.time}}</b>
+              <b style="font-weight:normal;">&nbsp&nbsp&nbsp&nbsp&nbsp프로필에서 확인</b>
               {% endif %}
             <p class="card-text">활동 지역
               {% if profile_.location == null %}
@@ -58,7 +100,6 @@
                 &nbsp&nbsp&nbsp&nbsp&nbsp{{profile_.location}}
               </b>
               {% endif %}
-              {{profile_.user.pk}}
             </p>
             <a href="{% url 'accounts:open_profile' profile_.user.pk %}">
               <button class="w-btn-neon2" style=" margin-left: 15%; z-index: 1" type="button">리뷰 보기 </button></a>
