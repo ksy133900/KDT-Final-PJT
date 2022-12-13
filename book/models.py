@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Book(models.Model):
@@ -24,12 +25,13 @@ class Book(models.Model):
     summary = models.TextField(max_length=500, blank=True)
     # 매칭수
     matching_count = models.PositiveIntegerField(default=0, blank=True)
+    # 평점
+    grade = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True, default=1)
 
     def __str__(self):
         return self.title
 
 
-DEFAULT = "images/dummy-image-square.jpg"
 # 도서 이미지
 class Image(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, blank=True, null=True)
