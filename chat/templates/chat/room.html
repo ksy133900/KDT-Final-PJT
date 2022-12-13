@@ -63,7 +63,6 @@
 {{ room|json_script:"json-roomname" }}
 {{ request.user.username|json_script:"json-username"}}
 {{ message.user.username|json_script:"json-messagename"}}
-{{ request.user.profile.nickname|json_script:"json-accountsname"}}
 <script type="text/javascript">
     function herf_location(id){
         current = window.location.href
@@ -72,7 +71,6 @@
     const roomName = JSON.parse(document.getElementById("json-roomname").textContent);
     const userName = JSON.parse(document.getElementById("json-username").textContent);
     const messageName = JSON.parse(document.getElementById("json-messagename").textContent);
-    const accountsName = JSON.parse(document.getElementById("json-accountsname").textContent);
     const chatSocket = new WebSocket(
         'ws://'
         + window.location.host
