@@ -24,7 +24,7 @@
               </div>
               <div class="card-body">
                 <h5 class="card-title">{{book.title}}</h5>
-                <p class="card-text">book모델에 평점추가해야함</p>
+                <p class="card-text">리뷰평점 평균값</p> <!-- review.rating 평균값으로 대체-->
               </div>
             </a>
           </div>
@@ -66,12 +66,6 @@
                   <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
                   {% endif %}
                 </div>
-                <!--
-                  이미지 외 정보 입력 여부 토의 할것!!!!
-                  <div class="card-body text-center">
-                    <b class="card-title">{{book.title}}</b>
-                  </div>
-                -->
               </a>
             </div>
             {% endif %}
@@ -92,12 +86,6 @@
                   <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
                   {% endif %}
                 </div>
-                <!--
-                  이미지 외 정보 입력 여부 토의 할것!!!!
-                  <div class="card-body text-center">
-                    <b class="card-title">{{book.title}}</b>
-                  </div>
-                -->
               </a>
             </div>
             {% endif %}
