@@ -30,6 +30,7 @@
               <option value="#">매칭횟수</option>
             </select>
             <div>
+              
               <button class="search-btn-m" id="searchBtn" type="submit" maxlength="50" style="margin-top: -67.4px;">
                 <img src="{% static 'images/debate1.png' %}" alt="" class="jb-b-m"
                   style="width: 100%; max-width: 23px; margin-right: 8px; position: absolute;">
@@ -43,6 +44,7 @@
     </div>
     <div id="list" class="row row-cols-2" style="    --bs-gutter-x: 5rem;
   --bs-gutter-y: 2rem; justify-content: center;">
+  {% if search_profiles %}
       {% for profile_ in search_profiles %}
       <b style="width: 625px;">
         <div class="card mb-3" style="max-width: 540px;">
@@ -147,6 +149,9 @@
         </div>
       </b>
       {% endfor %}
+      {% else %}
+      <b>검색 결과가 없어요 ㅠㅠ</b>
+      {% endif %}
     </div>
   </div>
 </div>

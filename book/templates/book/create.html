@@ -14,6 +14,8 @@
   <form action="" method="POST" enctype="multipart/form-data" style="margin-left: 16rem; margin-right: 16rem; width: 800px;">
     {% csrf_token %}
     {% bootstrap_form book_form %}
+    <label for="exampleFormControlInput1" class="form-label">태그 작성</label>
+    <input type="text" class="form-control" name="tags" placeholder="각 태그는 (,)로 구분해주세요">
     {% bootstrap_form image_form %}
     <span>이미지는 1mb 이하만 첨부 가능합니다.</span>
     <div class="mt-2">
