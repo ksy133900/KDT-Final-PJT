@@ -30,7 +30,8 @@ h1 {
 }
 
 .img_box img {
-  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 
