@@ -10,7 +10,8 @@ from django.http import JsonResponse
 
 @login_required
 def index(request):
-    notes = request.user.user_to.order_by("-created_at")
+    # notes = request.user.user_to.order_by("-created_at")
+    notes = Notes.objects.filter(to_user_id=request.user.id).order_by("-created_at")
     context = {
         "notes": notes,
     }
@@ -19,10 +20,13 @@ def index(request):
 
 @login_required
 def sent(request):
-    to_notes = request.user.user_from.order_by("-created_at")
+    # to_notes = request.user.user_from.order_by("-created_at")
+    to_notes = Notes.objects.filter(from_user_id=request.user.id).order_by(
+        "-created_at"
+    )
     context = {
         "to_notes": to_notes,
-        }
+    }
     return render(request, "notes/index.html", context)
 
 
@@ -30,14 +34,13 @@ def sent(request):
 def mail(request):
     form = NotesForm(request.POST or None)
     if form.is_valid():
-        temp = form.save(commit=False)
-        temp.from_user = request.user
-        temp.save()
-        if temp.to_user.note_notice:
-            temp.to_user.notice_note = False
-            temp.to_user.save()
+        to_id = get_user_model().objects.filter(username=request.POST["to_id"])
+        for id in to_id:
+            temp = form.save(commit=False)
+            temp.to_user = id
+            temp.from_user = request.user
+            temp.save()
         return redirect("notes:index")
-
     context = {
         "form": form,
     }
@@ -55,13 +58,9 @@ def detail(request, pk):
         if not request.user.user_to.filter(read=False).exists():
             request.user.notice_note = True
             request.user.save()
-        return render(
-            request, "notes/detail.html", {"note": note}
-        )
+        return render(request, "notes/detail.html", {"note": note})
     elif request.user == note.from_user:
-        return render(
-            request, "notes/detail.html", {"note": note}
-        )
+        return render(request, "notes/detail.html", {"note": note})
     else:
         return redirect("notes:index")
 
