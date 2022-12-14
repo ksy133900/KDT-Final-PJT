@@ -35,10 +35,4 @@ class Book(models.Model):
 # 도서 이미지
 class Image(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, blank=True, null=True)
-    image = ProcessedImageField(
-        upload_to="images/",
-        null=True,
-        processors=[ResizeToFill(450, 450)],
-        options={"quality": 60},
-        format="JPEG",
-    )
+    image = models.ImageField(upload_to="images/", null=True)
