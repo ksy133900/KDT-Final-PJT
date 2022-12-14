@@ -27,62 +27,45 @@
         </div>
         {% endif %}
       </div>
+
       <!-- 회원 정보 & 팔로우 버튼 및 팔로잉, 팔로워 수 -->
       <div class="ms-5 w-100">
         <!--회원 정보-->
         <div class="d-flex align-items-center mb-2">
-          {% if user.profile.nickname %}
+
           <h1 class="mb-0" style="font-size: 30px;">{{ user.profile.nickname }}님의 프로필</h1>
-          {% else %}
-          <h1 class="mb-0" style="font-size: 30px;">{{ user.username}}님의 프로필</h1>
-          {% endif %}
 
-        </div>
-        <!-- 회원 정보 & 팔로우 버튼 및 팔로잉, 팔로워 수 -->
-        <div class="ms-5 w-100">
-          <!--회원 정보-->
-          <div class="d-flex align-items-center mb-2">
-
-            <h1 class="mb-0" style="font-size: 30px;">{{ user.profile.nickname }}님의 프로필</h1>
-       
-            <!--팔로우(언팔로우)버튼-->
-            <div>
-              {% if user == request.user %}
-              <!--버튼-->
-              <div class=" d-flex gap-2">
-                <a href="{% url 'accounts:update' user.pk %}">
-                  <input type="button" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #4b3a88; color: white;" value="프로필 수정">
-                </a>
-             </div>
-                {% else %}
-              <form id="follow-form" data-user-id="{{ user.pk }}">
-                {% csrf_token %}
-                {% if request.user in user.followers.all %}
-                <input id="follow-btn" type="submit" formmethod="POST" class="btn btn-secondary ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; color: white;" value="언팔로우">
-                {% else %}
-                <input id="follow-btn" type="submit" formmethod="POST" class="btn btn-primary ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; color: white;" value="팔로우">
-                {% endif %}
-              </form>
-              {% endif %}
-          
+          <!--팔로우(언팔로우)버튼-->
+          <div>
+            {% if user == request.user %}
+            <!--버튼-->
+            <div class=" d-flex gap-2">
+              <a href="{% url 'accounts:update' user.pk %}">
+                <input type="button" class="btn ms-3 follow-btn-hover color-2"
+                  style="width: 100%; height: 40px; background-color: #4b3a88; color: white;" value="프로필 수정">
+              </a>
             </div>
-        </div>
-        {% if user != request.user %}
-          <p>독토요청은 여기로! : {{ user.username}}  <a href="{% url 'notes:mail' %}" class="btn btn_docto btn-sm">독토요청하기</a></p>
-        {% endif %} 
-          <!-- 팔로잉 / 팔로워 collapse 시작 -->
-          <!-- collapse 버튼 -->
-          <div class="text-primary mb-1">
-            <a class="btn btn-primary" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
-              팔로잉 <span id="followings-count">{{ user.followings.count }}</span>
-            </a>
-            <a class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
-              팔로워 <span id="followers-count">{{ user.followers.count }}</span>
-            </a>
-            <button style="border:none; background-color:transparent;" onClick="window.location.reload()"><i style="font-size: 1.5rem;" class="bi bi-arrow-repeat"></i></button>
+            {% else %}
+            <form id="follow-form" data-user-id="{{ user.pk }}">
+              {% csrf_token %}
+              {% if request.user in user.followers.all %}
+              <input id="follow-btn" type="submit" formmethod="POST"
+                class="btn btn-secondary ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; color: white;"
+                value="언팔로우">
+              {% else %}
+              <input id="follow-btn" type="submit" formmethod="POST"
+                class="btn btn-primary ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; color: white;"
+                value="팔로우">
+              {% endif %}
+            </form>
+            {% endif %}
+
           </div>
         </div>
-        <h5>독토 매칭 찾고 있습니다</h5><!--매칭 휴식중이면 "독토 매칭 휴식중 입니다"로 변경 되도록 하려합니다-->
+        {% if user != request.user %}
+        <p>독토요청은 여기로! : {{ user.username}} <a href="{% url 'notes:mail' %}" class="btn btn_docto btn-sm">독토요청하기</a>
+        </p>
+        {% endif %}
         <!-- 팔로잉 / 팔로워 collapse 시작 -->
         <!-- collapse 버튼 -->
         <div class="text-primary mb-1">
@@ -94,79 +77,85 @@
             aria-expanded="false" aria-controls="multiCollapseExample2">
             팔로워 <span id="followers-count">{{ user.followers.count }}</span>
           </a>
+          <button style="border:none; background-color:transparent;" onClick="window.location.reload()"><i
+              style="font-size: 1.5rem;" class="bi bi-arrow-repeat"></i></button>
         </div>
-        <!-- 팔로잉 collapse 내용 -->
-        <div class="collapse multi-collapse" id="multiCollapseExample1">
-          <div class="card card-body">
-            {% if user.followings.all %}
-            <div class="feed_name">
-              <div class="gap-3" style="display: flex; align-items: center; flex-direction: row;">
-                {% for following in user.followings.all %}
-                <a href="{% url 'accounts:open_profile' following.pk %}" style="color: black; text-decoration: none;">
-                  <!-- 프로필 이미지가 있으면 -->
-                  {% if following.profile.image %}
-                  <div class="navi_profile_box mx-auto">
-                    <img class="navi_profile_img" src="{{ following.profile.image.url }}">
-                  </div>
-                  {% else %}
-                  <div class="navi_profile_box mx-auto">
-                    <img class="navi_profile_img" src="{% static 'images/dummy-image-square.jpg' %}">
-                  </div>
-                  {% endif %}
-                  <!-- 이름이 있으면 이름, 없으면 아이디 -->
-                  {% if following.profile.nickname != null %}
-                  <span class="name_content_txt text-center"> {{following.profile.nickname}}</span>
-                  {% else %}
-                  <span class="name_content_txt text-center"> {{following.username}}</span>
-                  {% endif %}
-                </a>
-                {% endfor %}
-              </div>
+      </div>
+      <h5>독토 매칭 찾고 있습니다</h5><!--매칭 휴식중이면 "독토 매칭 휴식중 입니다"로 변경 되도록 하려합니다-->
+      <!-- 팔로잉 / 팔로워 collapse 시작 -->
+
+      <!-- 팔로잉 collapse 내용 -->
+      <div class="collapse multi-collapse" id="multiCollapseExample1">
+        <div class="card card-body">
+          {% if user.followings.all %}
+          <div class="feed_name">
+            <div class="gap-3" style="display: flex; align-items: center; flex-direction: row;">
+              {% for following in user.followings.all %}
+              <a href="{% url 'accounts:open_profile' following.pk %}" style="color: black; text-decoration: none;">
+                <!-- 프로필 이미지가 있으면 -->
+                {% if following.profile.image %}
+                <div class="navi_profile_box mx-auto">
+                  <img class="navi_profile_img" src="{{ following.profile.image.url }}">
+                </div>
+                {% else %}
+                <div class="navi_profile_box mx-auto">
+                  <img class="navi_profile_img" src="{% static 'images/dummy-image-square.jpg' %}">
+                </div>
+                {% endif %}
+                <!-- 이름이 있으면 이름, 없으면 아이디 -->
+                {% if following.profile.nickname != null %}
+                <span class="name_content_txt text-center"> {{following.profile.nickname}}</span>
+                {% else %}
+                <span class="name_content_txt text-center"> {{following.username}}</span>
+                {% endif %}
+              </a>
+              {% endfor %}
             </div>
-            {% else %}
-            <div class="text-center">다른 사람을 팔로우 하지 않았어요!</div>
-            {% endif %}
           </div>
+          {% else %}
+          <div class="text-center">다른 사람을 팔로우 하지 않았어요!</div>
+          {% endif %}
         </div>
-        <!-- 팔로워 collapse 내용 -->
-        <div class="collapse multi-collapse" id="multiCollapseExample2">
-          <div class="card card-body">
-            {% if user.followers.all %}
-            <div class="feed_name">
-              <div class="gap-3" style="display: flex; align-items: center; flex-direction: row;;">
-                {% for follower in user.followers.all %}
+      </div>
+      <!-- 팔로워 collapse 내용 -->
+      <div class="collapse multi-collapse" id="multiCollapseExample2">
+        <div class="card card-body">
+          {% if user.followers.all %}
+          <div class="feed_name">
+            <div class="gap-3" style="display: flex; align-items: center; flex-direction: row;;">
+              {% for follower in user.followers.all %}
 
-                <a href="{% url 'accounts:open_profile' follower.pk %}" class="modal-followers"
-                  style="color: black; text-decoration: none;">
+              <a href="{% url 'accounts:open_profile' follower.pk %}" class="modal-followers"
+                style="color: black; text-decoration: none;">
 
-                  <!-- 프로필 이미지가 있으면 -->
-                  {% if follower.profile.image %}
-                  <div class="navi_profile_box mx-auto">
-                    <img class="navi_profile_img" src="{{ follower.profile.image.url }}">
-                  </div>
-                  {% else %}
-                  <div class="navi_profile_box mx-auto">
-                    <img class="navi_profile_img" src="{% static 'images/dummy-image-square.jpg' %}">
-                  </div>
-                  {% endif %}
+                <!-- 프로필 이미지가 있으면 -->
+                {% if follower.profile.image %}
+                <div class="navi_profile_box mx-auto">
+                  <img class="navi_profile_img" src="{{ follower.profile.image.url }}">
+                </div>
+                {% else %}
+                <div class="navi_profile_box mx-auto">
+                  <img class="navi_profile_img" src="{% static 'images/dummy-image-square.jpg' %}">
+                </div>
+                {% endif %}
 
-                  <!-- 이름이 있으면 이름, 없으면 아이디 -->
-                  {% if follower.profile.nickname != null %}
-                  <span class="name_content_txt text-center"> {{follower.profile.nickname}}</span>
-                  {% else %}
-                  <span class="name_content_txt text-center"> {{follower.username}}</span>
-                  {% endif %}
-                </a>
-                {% endfor %}
-              </div>
+                <!-- 이름이 있으면 이름, 없으면 아이디 -->
+                {% if follower.profile.nickname != null %}
+                <span class="name_content_txt text-center"> {{follower.profile.nickname}}</span>
+                {% else %}
+                <span class="name_content_txt text-center"> {{follower.username}}</span>
+                {% endif %}
+              </a>
+              {% endfor %}
             </div>
-            {% else %}
-            <div class="text-center">팔로우 눌러준 유저가 없어요!</div>
-            {% endif %}
           </div>
+          {% else %}
+          <div class="text-center">팔로우 눌러준 유저가 없어요!</div>
+          {% endif %}
         </div>
       </div>
     </div>
+  </div>
   </div>
 
   <!--리뷰 갯수 표시-->
