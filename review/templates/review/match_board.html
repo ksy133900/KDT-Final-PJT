@@ -28,7 +28,7 @@ min-height: 900px;">
       </colgroup>
       <!--테이블 헤드-->
       <thead>
-        <tr>
+        <tr style="border-color: #a66d6d;">
           <th scope="col">No.</th>
           <th scope="col">후기 제목</th>
           <th scope="col">매칭 유저</th>
@@ -39,7 +39,7 @@ min-height: 900px;">
       <!--테이블 본문-->
       <tbody>
         {% for i in test %}
-        <tr>
+        <tr style="border-color: #ffa5a5;">
           <th scope="row">{{ i.id }}</th>
           <td><a data-bs-toggle="collapse" href="#collapseExample{{forloop.counter}}" role="button" aria-expanded="false" aria-controls="collapseExample{{forloop.counter}}">{{ i.title }}</a></td>
           <td>{{ i.match_user }}</td>
