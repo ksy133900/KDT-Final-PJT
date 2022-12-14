@@ -1,355 +1,368 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block css %}
-  <link rel="stylesheet" href="{% static 'css/open_profile.css' %}">
+<link rel="stylesheet" href="{% static 'css/open_profile.css' %}">
 {% endblock css %}
 {% block content %}
 
-  <section class="container mt-5 mb-5 p-3 bg-dark bg-opacity-25 rounded-2" style="width:60%;">
-    <!--상단 타이틀-->
-    {% if user.profile.nickname != null %}
-    <h1 class="text-center">{{ user.profile.nickname }}님의 프로필</h1>
-    {% else %}
-    <h1 class="text-center">{{ user.username }}님의 프로필</h1>
-    {% endif %}
-    <!--프로필-->
-    <div class="border border-1 border-dark rounded-5 ps-4 pt-2 mt-3 mb-3 d-flex flex-column bg-white">
-      <div class="d-flex justify-content-center align-items-center mb-4">
-        <!-- 유저 프로필 이미지 -->
-        <div>
-          {% if user.profile.image %}
-          <div class="mt-3 mb-3">
-            <img src="{{ user.profile.image.url }}" style="border-radius: 70%; max-width: 100%;" alt="">
-          </div>
-          {% else %}
-          <div class="mt-3 mb-3">
-            <img src="{% static 'images/dummy-image-square.jpg' %}" style="border-radius: 70%; max-width: 200px;" alt="">
-          </div>
-          {% endif %}
+<section class="container mt-5 mb-5 p-3 bg-dark bg-opacity-25 rounded-2" style="width:60%;">
+  <!--상단 타이틀-->
+  {% if user.profile.nickname != null %}
+  <h1 class="text-center">{{ user.profile.nickname }}님의 프로필</h1>
+  {% else %}
+  <h1 class="text-center">{{ user.username }}님의 프로필</h1>
+  {% endif %}
+  <!--프로필-->
+  <div class="border border-1 border-dark rounded-5 ps-4 pt-2 mt-3 mb-3 d-flex flex-column bg-white">
+    <div class="d-flex justify-content-center align-items-center mb-4">
+      <!-- 유저 프로필 이미지 -->
+      <div>
+        {% if user.profile.image %}
+        <div class="mt-3 mb-3">
+          <img src="{{ user.profile.image.url }}" style="border-radius: 70%; max-width: 100%;" alt="">
         </div>
-        <!-- 회원 정보 & 팔로우 버튼 및 팔로잉, 팔로워 수 -->
-        <div class="ms-5 w-100">
-          <!--회원 정보-->
-          <div class="d-flex align-items-center mb-2">
-            {% if user.profile.nickname %}
-            <h1 class="mb-0" style="font-size: 30px;">{{ user.profile.nickname }}님의 프로필</h1>
-            {% else %}
-            <h1 class="mb-0" style="font-size: 30px;">{{ user.username}}님의 프로필</h1>
-            {% endif %}
-            <!--팔로우(언팔로우)버튼-->
-            <div>
-              {% if user == request.user %}
-              <!--버튼-->
-              <div class=" d-flex gap-2">
-                <a href="{% url 'accounts:update' user.pk %}">
-                  <input type="button" class="btn ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; background-color: #4b3a88; color: white;" value="프로필 수정">
-                </a>
-             </div>
-                {% else %}
-              <form id="follow-form" data-user-id="{{ user.pk }}">
-                {% csrf_token %}
-                {% if request.user in user.followers.all %}
-                <input id="follow-btn" type="submit" formmethod="POST" class="btn btn-secondary ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; color: white;" value="언팔로우">
-                {% else %}
-                <input id="follow-btn" type="submit" formmethod="POST" class="btn btn-primary ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; color: white;" value="팔로우">
-                {% endif %}
-              </form>
-              {% endif %}
-          
-            </div>
-        </div>
-          <h5>독토 매칭 찾고 있습니다</h5><!--매칭 휴식중이면 "독토 매칭 휴식중 입니다"로 변경 되도록 하려합니다-->  
-          <!-- 팔로잉 / 팔로워 collapse 시작 -->
-          <!-- collapse 버튼 -->
-          <div class="text-primary mb-1">
-            <a class="btn btn-primary" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
-              팔로잉 <span id="followings-count">{{ user.followings.count }}</span>
-            </a>
-            <a class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
-              팔로워 <span id="followers-count">{{ user.followers.count }}</span>
-            </a>
-          </div>
-          <!-- 팔로잉 collapse 내용 -->
-          <div class="collapse multi-collapse" id="multiCollapseExample1">
-            <div class="card card-body">
-              {% if user.followings.all %}
-              <div class="feed_name">
-                <div class="gap-3" style="display: flex; align-items: center; flex-direction: row;">
-                  {% for following in user.followings.all %}
-                  <a href="{% url 'accounts:open_profile' following.pk %}"  style="color: black; text-decoration: none;">
-                    <!-- 프로필 이미지가 있으면 -->
-                    {% if following.profile.image %}
-                    <div class="navi_profile_box mx-auto">
-                      <img class="navi_profile_img" src="{{ following.profile.image.url }}">
-                    </div>
-                    {% else %}
-                    <div class="navi_profile_box mx-auto">
-                      <img class="navi_profile_img" src="{% static 'images/dummy-image-square.jpg' %}">
-                    </div>
-                    {% endif %}
-                    <!-- 이름이 있으면 이름, 없으면 아이디 -->
-                    {% if following.profile.nickname != null %}
-                    <span class="name_content_txt text-center"> {{following.profile.nickname}}</span>
-                    {% else %}  
-                    <span class="name_content_txt text-center"> {{following.username}}</span>
-                    {% endif %}
-                  </a>
-                  {% endfor %}
-                </div>
-              </div>
-              {% else %}
-              <div class="text-center">다른 사람을 팔로우 하지 않았어요!</div>     
-              {% endif %}
-            </div>
-          </div>
-          <!-- 팔로워 collapse 내용 -->      
-          <div class="collapse multi-collapse" id="multiCollapseExample2">
-            <div class="card card-body">
-              {% if user.followers.all %}
-              <div class="feed_name">
-                <div class="gap-3" style="display: flex; align-items: center; flex-direction: row;;">
-                  {% for follower in user.followers.all %}
-
-                  <a href="{% url 'accounts:open_profile' follower.pk %}" class="modal-followers" style="color: black; text-decoration: none;">
-
-                    <!-- 프로필 이미지가 있으면 -->
-                    {% if follower.profile.image %}
-                    <div class="navi_profile_box mx-auto">
-                      <img class="navi_profile_img" src="{{ follower.profile.image.url }}">
-                    </div>
-                    {% else %}
-                    <div class="navi_profile_box mx-auto">
-                      <img class="navi_profile_img" src="{% static 'images/dummy-image-square.jpg' %}">
-                    </div>
-                    {% endif %}
-                    
-                    <!-- 이름이 있으면 이름, 없으면 아이디 -->
-                    {% if follower.profile.nickname != null %}
-                    <span class="name_content_txt text-center"> {{follower.profile.nickname}}</span>
-                    {% else %}  
-                    <span class="name_content_txt text-center"> {{follower.username}}</span>
-                    {% endif %}
-                  </a>
-                  {% endfor %}
-                </div>
-              </div>
-              {% else %}
-              <div class="text-center">팔로우 눌러준 유저가 없어요!</div>
-              {% endif %}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!--리뷰 갯수 표시-->
-    <div class="border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
-      <div class="d-flex justify-content-between mb-4">
-        <div class="mb-3" style="display: flex; flex-direction: row; margin-right: 100px">
-          <!--리뷰 갯수(collapse)-->
-          <div class="d-flex">
-            <div style="margin-right: 30px;">
-              <a id="link_user_articles" data-bs-toggle="collapse" href="#user_articles" role="button" aria-expanded="false" aria-controls="collapseExample" class="me-3">
-                리뷰 갯수<span class="ms-1">{{reviews_count}}</span>
-              </a>
-            </div>
-          </div>
-          <!--좋아요 글-->
-        
-       </div>
-      </div>
-      <!--작성글 collapse 시작-->
-      <div class="collapse" id="user_articles">
-        <div class="row row-cols-2 gap-3 justify-content-center">
-          {% for review in reviews %}
-          <div class="card align-items-center col" style="width: 150px;">
-            <a href="{% url 'review:detail' review.book_id %}">
-              <div class="img_box d-flex align-items-center justify-content-center">
-                {% if review.book_image %}
-                <img src="{{ review.book_image.image.url }}"  alt="{{book.title}}_img">
-                {% else %}
-                <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
-                {% endif %}
-              </div>
-            </a>
-            <div class="card-body">
-              <p class="card-title">{{review.title}}</p>
-              <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-                <div class="row flex-nowrap">
-                  {% if review.rating == 5 %}
-                  <h6>⭐⭐⭐⭐⭐</h6>
-                  {% elif review.rating == 4 %}
-                  <h6>⭐⭐⭐⭐</h6>
-                  {% elif review.rating == 3 %}
-                  <h6>⭐⭐⭐</h6>
-                  {% elif review.rating == 2 %}
-                  <h6>⭐⭐</h6>
-                  {% elif review.rating == 1 %}
-                  <h6>⭐</h6>
-                  {% endif %}
-                </div>
-              </div>
-            </div>
-          </div>
-          {%endfor%}
-        </div>
-      </div>
-      <!--리뷰 갯수(collapse) 내용 종료-->
-    </div>
-    <div class="row gap-3 m-0">
-      <!--선호나이-->
-      <div class="col border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
-        <h4 class="text-center">선호 나이</h4>
-        <div class="d-grid gap-3 d-md-flex justify-content-around">
-          <div class="border border-3 border-warning rounded-5 {% if user.profile.ages == "20대" %}bg-warning{% else %}bg-secondary{% endif %}">
-            <h5 class="fw-bold m-2">20대</h5>
-          </div>
-          <div class="border border-3 border-warning rounded-5 {% if user.profile.ages == "30대" %}bg-warning{% else %}bg-secondary{% endif %}">
-            <h5 class="fw-bold m-2">30대</h5>
-          </div>
-          <div class="border border-3 border-warning rounded-5 {% if user.profile.ages == "40대" %}bg-warning{% else %}bg-secondary{% endif %}">
-            <h5 class="fw-bold m-2">40대</h5>
-          </div>
-          <div class="border border-3 border-warning rounded-5 {% if user.profile.ages == "50대" %}bg-warning{% else %}bg-secondary{% endif %}">
-            <h5 class="fw-bold m-2">50대</h5>
-          </div>      
-        </div>
-      </div>
-      <!--활동지역-->
-      <div class="col border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
-        <h4>활동 지역</h4>
-        <p></p>
-        {% if user.profile.location == null %}
-          <p>아직 지역 설정을 하지 않았습니다.</p>
         {% else %}
-          <p>
-            {{user.profile.location}}</p>
+        <div class="mt-3 mb-3">
+          <img src="{% static 'images/dummy-image-square.jpg' %}" style="border-radius: 70%; max-width: 200px;" alt="">
+        </div>
         {% endif %}
       </div>
+      <!-- 회원 정보 & 팔로우 버튼 및 팔로잉, 팔로워 수 -->
+      <div class="ms-5 w-100">
+        <!--회원 정보-->
+        <div class="d-flex align-items-center mb-2">
+          {% if user.profile.nickname %}
+          <h1 class="mb-0" style="font-size: 30px;">{{ user.profile.nickname }}님의 프로필</h1>
+          {% else %}
+          <h1 class="mb-0" style="font-size: 30px;">{{ user.username}}님의 프로필</h1>
+          {% endif %}
+          <!--팔로우(언팔로우)버튼-->
+          <div>
+            {% if user == request.user %}
+            <!--버튼-->
+            <div class=" d-flex gap-2">
+              <a href="{% url 'accounts:update' user.pk %}">
+                <input type="button" class="btn ms-3 follow-btn-hover color-2"
+                  style="width: 100%; height: 40px; background-color: #4b3a88; color: white;" value="프로필 수정">
+              </a>
+            </div>
+            {% else %}
+            <form id="follow-form" data-user-id="{{ user.pk }}">
+              {% csrf_token %}
+              {% if request.user in user.followers.all %}
+              <input id="follow-btn" type="submit" formmethod="POST"
+                class="btn btn-secondary ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; color: white;"
+                value="언팔로우">
+              {% else %}
+              <input id="follow-btn" type="submit" formmethod="POST"
+                class="btn btn-primary ms-3 follow-btn-hover color-2" style="width: 100%; height: 40px; color: white;"
+                value="팔로우">
+              {% endif %}
+            </form>
+            {% endif %}
+
+          </div>
+        </div>
+        <h5>독토 매칭 찾고 있습니다</h5><!--매칭 휴식중이면 "독토 매칭 휴식중 입니다"로 변경 되도록 하려합니다-->
+        <!-- 팔로잉 / 팔로워 collapse 시작 -->
+        <!-- collapse 버튼 -->
+        <div class="text-primary mb-1">
+          <a class="btn btn-primary" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button"
+            aria-expanded="false" aria-controls="multiCollapseExample1">
+            팔로잉 <span id="followings-count">{{ user.followings.count }}</span>
+          </a>
+          <a class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2"
+            aria-expanded="false" aria-controls="multiCollapseExample2">
+            팔로워 <span id="followers-count">{{ user.followers.count }}</span>
+          </a>
+        </div>
+        <!-- 팔로잉 collapse 내용 -->
+        <div class="collapse multi-collapse" id="multiCollapseExample1">
+          <div class="card card-body">
+            {% if user.followings.all %}
+            <div class="feed_name">
+              <div class="gap-3" style="display: flex; align-items: center; flex-direction: row;">
+                {% for following in user.followings.all %}
+                <a href="{% url 'accounts:open_profile' following.pk %}" style="color: black; text-decoration: none;">
+                  <!-- 프로필 이미지가 있으면 -->
+                  {% if following.profile.image %}
+                  <div class="navi_profile_box mx-auto">
+                    <img class="navi_profile_img" src="{{ following.profile.image.url }}">
+                  </div>
+                  {% else %}
+                  <div class="navi_profile_box mx-auto">
+                    <img class="navi_profile_img" src="{% static 'images/dummy-image-square.jpg' %}">
+                  </div>
+                  {% endif %}
+                  <!-- 이름이 있으면 이름, 없으면 아이디 -->
+                  {% if following.profile.nickname != null %}
+                  <span class="name_content_txt text-center"> {{following.profile.nickname}}</span>
+                  {% else %}
+                  <span class="name_content_txt text-center"> {{following.username}}</span>
+                  {% endif %}
+                </a>
+                {% endfor %}
+              </div>
+            </div>
+            {% else %}
+            <div class="text-center">다른 사람을 팔로우 하지 않았어요!</div>
+            {% endif %}
+          </div>
+        </div>
+        <!-- 팔로워 collapse 내용 -->
+        <div class="collapse multi-collapse" id="multiCollapseExample2">
+          <div class="card card-body">
+            {% if user.followers.all %}
+            <div class="feed_name">
+              <div class="gap-3" style="display: flex; align-items: center; flex-direction: row;;">
+                {% for follower in user.followers.all %}
+
+                <a href="{% url 'accounts:open_profile' follower.pk %}" class="modal-followers"
+                  style="color: black; text-decoration: none;">
+
+                  <!-- 프로필 이미지가 있으면 -->
+                  {% if follower.profile.image %}
+                  <div class="navi_profile_box mx-auto">
+                    <img class="navi_profile_img" src="{{ follower.profile.image.url }}">
+                  </div>
+                  {% else %}
+                  <div class="navi_profile_box mx-auto">
+                    <img class="navi_profile_img" src="{% static 'images/dummy-image-square.jpg' %}">
+                  </div>
+                  {% endif %}
+
+                  <!-- 이름이 있으면 이름, 없으면 아이디 -->
+                  {% if follower.profile.nickname != null %}
+                  <span class="name_content_txt text-center"> {{follower.profile.nickname}}</span>
+                  {% else %}
+                  <span class="name_content_txt text-center"> {{follower.username}}</span>
+                  {% endif %}
+                </a>
+                {% endfor %}
+              </div>
+            </div>
+            {% else %}
+            <div class="text-center">팔로우 눌러준 유저가 없어요!</div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
     </div>
-    <!--선호시간-->
-    <div class="border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
-      <h4>선호시간</h4>
-      <div class="row justify-content-center">
-        <table class="table col-auto" style="width: 70%;">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">월</th>
-              <th scope="col">화</th>
-              <th scope="col">수</th>
-              <th scope="col">목</th>
-              <th scope="col">금</th>
-              <th scope="col">토</th>
-              <th scope="col">일</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">오전</th>
-              {% for tab in tab1 %}
-              <td>
+  </div>
+
+  <!--리뷰 갯수 표시-->
+  <div class="border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
+    <div class="d-flex justify-content-between mb-4">
+      <div class="mb-3" style="display: flex; flex-direction: row; margin-right: 100px">
+        <!--리뷰 갯수(collapse)-->
+        <div class="d-flex">
+          <div style="margin-right: 30px;">
+            <a id="link_user_articles" data-bs-toggle="collapse" href="#user_articles" role="button"
+              aria-expanded="false" aria-controls="collapseExample" class="me-3">
+              리뷰 갯수<span class="ms-1">{{reviews_count}}</span>
+            </a>
+          </div>
+        </div>
+        <!--좋아요 글-->
+
+      </div>
+    </div>
+    <!--작성글 collapse 시작-->
+    <div class="collapse" id="user_articles">
+      <div class="row row-cols-2 gap-3 justify-content-center">
+        {% for review in reviews %}
+        <div class="card align-items-center col" style="width: 150px;">
+          <a href="{% url 'review:detail' review.book_id %}">
+            <div class="img_box d-flex align-items-center justify-content-center">
+              {% if review.book_image %}
+              <img src="{{ review.book_image.image.url }}" alt="{{book.title}}_img">
+              {% else %}
+              <img src="{% static 'images/dummy-image-square.jpg' %}" alt="dummy_img">
+              {% endif %}
+            </div>
+          </a>
+          <div class="card-body">
+            <p class="card-title">{{review.title}}</p>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+              <div class="row flex-nowrap">
+                {% if review.rating == 5 %}
+                <h6>⭐⭐⭐⭐⭐</h6>
+                {% elif review.rating == 4 %}
+                <h6>⭐⭐⭐⭐</h6>
+                {% elif review.rating == 3 %}
+                <h6>⭐⭐⭐</h6>
+                {% elif review.rating == 2 %}
+                <h6>⭐⭐</h6>
+                {% elif review.rating == 1 %}
+                <h6>⭐</h6>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        {%endfor%}
+      </div>
+    </div>
+    <!--리뷰 갯수(collapse) 내용 종료-->
+  </div>
+  <div class="row gap-3 m-0">
+    <!--선호나이-->
+    <div class="col border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
+      <h4 class="text-center">선호 나이</h4>
+      <div class="d-grid gap-3 d-md-flex justify-content-around">
+        <div class="border border-3 border-warning rounded-5 {% if user.profile.ages == " 20대" %}bg-warning{% else
+          %}bg-secondary{% endif %}">
+          <h5 class="fw-bold m-2">20대</h5>
+        </div>
+        <div class="border border-3 border-warning rounded-5 {% if user.profile.ages == " 30대" %}bg-warning{% else
+          %}bg-secondary{% endif %}">
+          <h5 class="fw-bold m-2">30대</h5>
+        </div>
+        <div class="border border-3 border-warning rounded-5 {% if user.profile.ages == " 40대" %}bg-warning{% else
+          %}bg-secondary{% endif %}">
+          <h5 class="fw-bold m-2">40대</h5>
+        </div>
+        <div class="border border-3 border-warning rounded-5 {% if user.profile.ages == " 50대" %}bg-warning{% else
+          %}bg-secondary{% endif %}">
+          <h5 class="fw-bold m-2">50대</h5>
+        </div>
+      </div>
+    </div>
+    <!--활동지역-->
+    <div class="col border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
+      <h4>활동 지역</h4>
+      <p></p>
+      {% if user.profile.location == null %}
+      <p>아직 지역 설정을 하지 않았습니다.</p>
+      {% else %}
+      <p>
+        {{user.profile.location}}</p>
+      {% endif %}
+    </div>
+  </div>
+  <!--선호시간-->
+  <div class="border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
+    <h4>선호시간</h4>
+    <div class="row justify-content-center">
+      <table class="table col-auto" style="width: 70%;">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">월</th>
+            <th scope="col">화</th>
+            <th scope="col">수</th>
+            <th scope="col">목</th>
+            <th scope="col">금</th>
+            <th scope="col">토</th>
+            <th scope="col">일</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">오전</th>
+            {% for tab in tab1 %}
+            <td>
               {% for ck in daytime %}
               {% if tab == ck %}
-                <h5><i class="bi bi-emoji-smile" id="{{tab}}"></i></h5>
-                {% endif %}
-                {% endfor %}
-              </td>
+              <h5><i class="bi bi-emoji-smile" id="{{tab}}"></i></h5>
+              {% endif %}
               {% endfor %}
-            </tr>
-            <tr>
-              <th scope="row">오후</th>
-              {% for tab in tab2 %}
-              <td>
-                {% if tab in daytime %}
-                <h5><i class="bi bi-emoji-heart-eyes" id="{{tab}}"></i></h5>
-                {% endif %}
-              </td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <th scope="row">저녁</th>
-              {% for tab in tab3 %}
-              <td>
-                {% if tab in daytime %}
-                <h5><i class="bi bi-emoji-heart-eyes" id="{{tab}}"></i></h5>
-                {% endif %}
-              </td>
-              {% endfor %}
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      </div>
-    <!--선호장르-->
-    <div class="border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
-      <h4>선호 장르</h4>
-      {% if user.profile.genre == "장르" %}
-        <p>
-          선호 장르를 설정해주세요!
-        </p>
-      {% else %}
-        <p>{{ user.profile.genre }}</p>
-      {% endif %}
+            </td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <th scope="row">오후</th>
+            {% for tab in tab2 %}
+            <td>
+              {% if tab in daytime %}
+              <h5><i class="bi bi-emoji-heart-eyes" id="{{tab}}"></i></h5>
+              {% endif %}
+            </td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <th scope="row">저녁</th>
+            {% for tab in tab3 %}
+            <td>
+              {% if tab in daytime %}
+              <h5><i class="bi bi-emoji-heart-eyes" id="{{tab}}"></i></h5>
+              {% endif %}
+            </td>
+            {% endfor %}
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <!--하고 싶은 말-->
-    <div class="border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
-      <h4>소개글</h4>
-      <!-- 프로필 소개글 출력 -->
-      {% if user.profile.intro != blank %}
-      <h6> {{ user.profile.intro | linebreaksbr }} </h6>
-      {% else %}
-      <h6> 아직 소개글을 작성하지 않았습니다. </h6>
-      {% endif %}
   </div>
-  </section>
+  <!--선호장르-->
+  <div class="border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
+    <h4>선호 장르</h4>
+    {% if user.profile.genre == "장르" %}
+    <p>
+      선호 장르를 설정해주세요!
+    </p>
+    {% else %}
+    <p>{{ user.profile.genre }}</p>
+    {% endif %}
+  </div>
+  <!--하고 싶은 말-->
+  <div class="border border-1 border-dark rounded-5 mt-3 mb-3 p-3 bg-white">
+    <h4>소개글</h4>
+    <!-- 프로필 소개글 출력 -->
+    {% if user.profile.intro != blank %}
+    <h6> {{ user.profile.intro | linebreaksbr }} </h6>
+    {% else %}
+    <h6> 아직 소개글을 작성하지 않았습니다. </h6>
+    {% endif %}
+  </div>
+</section>
 
 {% endblock content %}
 
 {% block script %}
 
-  <script type="text/javascript" src="{% static 'js/profile_follow.js' %}"></script>
-  <!--유저 팔로우 비동기 js -->
-  <script type="text/javascript" src="{% static 'js/followers,folloings collapse.js' %}"></script>
-  <script> 
-    const link_user_articles = document.querySelector('#link_user_articles')
-    const link_like_articles = document.querySelector('#link_like_articles')
-    const link_bookmark_articles = document.querySelector('#link_bookmark_articles')
-    const user_articles = document.querySelector('#user_articles')
-    const like_articles = document.querySelector('#like_articles')
-    const bookmark_articles = document.querySelector('#bookmark_articles')
+<script type="text/javascript" src="{% static 'js/profile_follow.js' %}"></script>
+<!--유저 팔로우 비동기 js -->
+<script type="text/javascript" src="{% static 'js/followers,folloings collapse.js' %}"></script>
+<script>
+  const link_user_articles = document.querySelector('#link_user_articles')
+  const link_like_articles = document.querySelector('#link_like_articles')
+  const link_bookmark_articles = document.querySelector('#link_bookmark_articles')
+  const user_articles = document.querySelector('#user_articles')
+  const like_articles = document.querySelector('#like_articles')
+  const bookmark_articles = document.querySelector('#bookmark_articles')
 
-    const userCollapse = new bootstrap.Collapse('#user_articles', {
+  const userCollapse = new bootstrap.Collapse('#user_articles', {
+    toggle: false
+  })
+  const likeCollapse = new bootstrap.Collapse('#like_articles', {
+    toggle: false
+  })
+
+  if (bookmark_articles) {
+    const bookmarkCollapse = new bootstrap.Collapse('#bookmark_articles', {
       toggle: false
     })
-    const likeCollapse = new bootstrap.Collapse('#like_articles', {
-      toggle: false
-    })
 
-    if (bookmark_articles) {
-      const bookmarkCollapse = new bootstrap.Collapse('#bookmark_articles', {
-        toggle: false
-      })
-    
-      user_articles.addEventListener('show.bs.collapse', event => {
-        likeCollapse.hide()
-        bookmarkCollapse.hide()
-      })
-      like_articles.addEventListener('show.bs.collapse', event => {
-        userCollapse.hide()
-        bookmarkCollapse.hide()
-      })
-      bookmark_articles.addEventListener('show.bs.collapse', event => {
-        userCollapse.hide()
-        likeCollapse.hide()
-      })
-    } else {
-      user_articles.addEventListener('show.bs.collapse', event => {
-        likeCollapse.hide()
-      })
-      like_articles.addEventListener('show.bs.collapse', event => {
-        userCollapse.hide()
-      })
-    }
-  </script>
+    user_articles.addEventListener('show.bs.collapse', event => {
+      likeCollapse.hide()
+      bookmarkCollapse.hide()
+    })
+    like_articles.addEventListener('show.bs.collapse', event => {
+      userCollapse.hide()
+      bookmarkCollapse.hide()
+    })
+    bookmark_articles.addEventListener('show.bs.collapse', event => {
+      userCollapse.hide()
+      likeCollapse.hide()
+    })
+  } else {
+    user_articles.addEventListener('show.bs.collapse', event => {
+      likeCollapse.hide()
+    })
+    like_articles.addEventListener('show.bs.collapse', event => {
+      userCollapse.hide()
+    })
+  }
+</script>
 {% endblock script %}

@@ -17,15 +17,15 @@
             <a href="{% url 'review:detail' book.pk %}" class="">
               <div class="img_box d-flex align-items-center justify-content-center">
                 {% if book.image_set.all.0.image %}
-                <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
+                <img src="{{ book.image_set.all.0.image.url }}" alt="{{book.title}}_img">
                 {% else %}
-                <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
+                <img src="{% static 'images/dummy-image-square.jpg' %}" alt="dummy_img">
                 {% endif %}
               </div>
               <div class="card-body">
                 <h5 class="card-title">{{book.title}}</h5>
                 <p class="card-text">공포/추리</p>
-                <p class="card-text">평점: {{book.grade}}</p> 
+                <p class="card-text">평점: {{book.grade}}</p>
               </div>
             </a>
           </div>
@@ -39,9 +39,9 @@
             <a href="{% url 'review:detail' book.pk %}" class="">
               <div class="img_box d-flex align-items-center justify-content-center">
                 {% if book.image_set.all.0.image %}
-                <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
+                <img src="{{ book.image_set.all.0.image.url }}" alt="{{book.title}}_img">
                 {% else %}
-                <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
+                <img src="{% static 'images/dummy-image-square.jpg' %}" alt="dummy_img">
                 {% endif %}
               </div>
               <div class="card-body">
@@ -61,9 +61,9 @@
             <a href="{% url 'review:detail' book.pk %}" class="">
               <div class="img_box d-flex align-items-center justify-content-center">
                 {% if book.image_set.all.0.image %}
-                <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
+                <img src="{{ book.image_set.all.0.image.url }}" alt="{{book.title}}_img">
                 {% else %}
-                <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
+                <img src="{% static 'images/dummy-image-square.jpg' %}" alt="dummy_img">
                 {% endif %}
               </div>
               <div class="card-body">
@@ -83,9 +83,9 @@
             <a href="{% url 'review:detail' book.pk %}" class="">
               <div class="img_box d-flex align-items-center justify-content-center">
                 {% if book.image_set.all.0.image %}
-                <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
+                <img src="{{ book.image_set.all.0.image.url }}" alt="{{book.title}}_img">
                 {% else %}
-                <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
+                <img src="{% static 'images/dummy-image-square.jpg' %}" alt="dummy_img">
                 {% endif %}
               </div>
               <div class="card-body">
@@ -105,9 +105,9 @@
             <a href="{% url 'review:detail' book.pk %}" class="">
               <div class="img_box d-flex align-items-center justify-content-center">
                 {% if book.image_set.all.0.image %}
-                <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
+                <img src="{{ book.image_set.all.0.image.url }}" alt="{{book.title}}_img">
                 {% else %}
-                <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
+                <img src="{% static 'images/dummy-image-square.jpg' %}" alt="dummy_img">
                 {% endif %}
               </div>
               <div class="card-body">
@@ -121,11 +121,13 @@
         </div>
       </div>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls_1" data-bs-slide="prev">
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls_1"
+      data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Previous</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls_1" data-bs-slide="next">
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls_1"
+      data-bs-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>
@@ -145,57 +147,42 @@
         <div class="carousel-item" data-bs-interval="10000">
           <div class="row justify-content-center gap-4">
             {% for book in book_top10 %}
-            {% if forloop.counter <= 5 %}
-            <div class="card col-auto" style="width: 130px;">
+            {% if forloop.counter <= 5 %} <div class="card col-auto" style="width: 130px;">
               <a href="{% url 'review:detail' book.pk %}" class="">
                 <div class="img_box d-flex align-items-center justify-content-center">
                   {% if book.image_set.all.0.image %}
-                  <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
+                  <img src="{{ book.image_set.all.0.image.url }}" alt="{{book.title}}_img">
                   {% else %}
-                  <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
+                  <img src="{% static 'images/dummy-image-square.jpg' %}" alt="dummy_img">
                   {% endif %}
                 </div>
               </a>
-            </div>
-            {% endif %}
-            {% endfor %}
           </div>
-        </div>
-        <div class="carousel-item" data-bs-interval="10000">
-          <div class="row justify-content-center gap-4">
-            {% for book in book_top10 %}
-            {% if forloop.counter <= 5 %}
-            {% elif 5 < forloop.counter <= 10 %}
-            <div class="card col-auto" style="width: 130px;">
-              <a href="{% url 'review:detail' book.pk %}" class="">
-                <div class="img_box d-flex align-items-center justify-content-center">
-                  {% if book.image_set.all.0.image %}
-                  <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
-                  {% else %}
-                  <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
-                  {% endif %}
-                </div>
-              </a>
-            </div>
-            {% endif %}
-            {% endfor %}
-          </div>
+          {% endif %}
+          {% endfor %}
         </div>
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls_2" data-bs-slide="prev" style="width: 10%;">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls_2" data-bs-slide="next" style="width: 10%;">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
+      <div class="carousel-item" data-bs-interval="10000">
+        <div class="row justify-content-center gap-4">
+        </div>
+      </div>
     </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls_2" data-bs-slide="prev"
+      style="width: 10%;">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls_2" data-bs-slide="next"
+      style="width: 10%;">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
   </div>
   <!--작은 캐러셀 종료-->
 
   <!-- 여기부터 글쓰기 및 유저 정보 페이지 팔로우 확인용 시험 코드라서 디자인 바꾸실거면 자유롭게 바꾸셔도 되는데, 없애진 말고 주석으로 남겨주세요-->
-  <a href="{% url 'book:create' %}" class="text-dark btn btn-info">도서 정보 생성</a>
+  <a href="{% url 'book:create' %}" class="text-dark btn btn-info" style="writing-mode: vertical-rl;">도서 정보 생성</a>
 
 
   <!--장르별 리뷰 최신 도서-->
@@ -209,9 +196,9 @@
           <a href="{% url 'review:detail' book.pk %}" class="">
             <div class="img_box d-flex align-items-center justify-content-center">
               {% if book.image_set.all.0.image %}
-              <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
+              <img src="{{ book.image_set.all.0.image.url }}" alt="{{book.title}}_img">
               {% else %}
-              <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
+              <img src="{% static 'images/dummy-image-square.jpg' %}" alt="dummy_img">
               {% endif %}
             </div>
             <div class="card-body">
@@ -232,9 +219,9 @@
           <a href="{% url 'review:detail' book.pk %}" class="">
             <div class="img_box d-flex align-items-center justify-content-center">
               {% if book.image_set.all.0.image %}
-              <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
+              <img src="{{ book.image_set.all.0.image.url }}" alt="{{book.title}}_img">
               {% else %}
-              <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
+              <img src="{% static 'images/dummy-image-square.jpg' %}" alt="dummy_img">
               {% endif %}
             </div>
             <div class="card-body">
@@ -255,9 +242,9 @@
           <a href="{% url 'review:detail' book.pk %}" class="">
             <div class="img_box d-flex align-items-center justify-content-center">
               {% if book.image_set.all.0.image %}
-              <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
+              <img src="{{ book.image_set.all.0.image.url }}" alt="{{book.title}}_img">
               {% else %}
-              <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
+              <img src="{% static 'images/dummy-image-square.jpg' %}" alt="dummy_img">
               {% endif %}
             </div>
             <div class="card-body">
@@ -278,9 +265,9 @@
           <a href="{% url 'review:detail' book.pk %}" class="">
             <div class="img_box d-flex align-items-center justify-content-center">
               {% if book.image_set.all.0.image %}
-              <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
+              <img src="{{ book.image_set.all.0.image.url }}" alt="{{book.title}}_img">
               {% else %}
-              <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
+              <img src="{% static 'images/dummy-image-square.jpg' %}" alt="dummy_img">
               {% endif %}
             </div>
             <div class="card-body">
@@ -301,9 +288,9 @@
           <a href="{% url 'review:detail' book.pk %}" class="">
             <div class="img_box d-flex align-items-center justify-content-center">
               {% if book.image_set.all.0.image %}
-              <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
+              <img src="{{ book.image_set.all.0.image.url }}" alt="{{book.title}}_img">
               {% else %}
-              <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
+              <img src="{% static 'images/dummy-image-square.jpg' %}" alt="dummy_img">
               {% endif %}
             </div>
             <div class="card-body">
@@ -340,7 +327,7 @@
     {%endfor%}
     {% endfor %}
   -->
-  
+
   <!-- 여기까지 글쓰기 및 유저 정보 페이지 팔로우 확인용 시험 코드라서 디자인 바꾸실거면 자유롭게 바꾸셔도 되는데, 없애진 말고 주석으로 남겨주세요 -->
 </section>
 {% endblock %}
