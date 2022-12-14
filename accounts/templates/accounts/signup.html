@@ -9,12 +9,12 @@
 {% block content %}
 
 
-<section class="container" style="width: 640px;height: 1315px; margin-top: 100px;">
+<section class="container" style="width: 640px;height: 900px; margin-top: 100px;">
   <!-- <h2 class="d-flex justify-content-center my-5">회원가입</h2> -->
   <div>
     <div style="display: flex;align-items: center;justify-content: center">
-        <h2>독토</h2>
-    </div> 
+      <h2>독토</h2>
+    </div>
   </div>
   <div>
     <form class="mx-3" action="" style="border-top: 0px solid rgb(51, 51, 51); font-size:14px;" method="POST">
@@ -22,20 +22,23 @@
       <div class="d-flex align-items-center">
         <h6 class="my-3" style="width: 123px; color: rgb(51, 51, 51); font-size:14px;">아이디</h6>
         <div class="my-3">
-          <input type="text" style="width: 433px; height: 46px;" name="username" maxlength="150" autofocus="" class="signup-input form-control" placeholder="아이디를 입력해주세요" required="" id="id_username">
+          <input type="text" style="width: 433px; height: 46px;" name="username" maxlength="150" autofocus=""
+            class="signup-input form-control" placeholder="아이디를 입력해주세요" required="" id="id_username">
         </div>
       </div>
 
       <div class="d-flex align-items-center">
         <h6 class="my-3" style="width: 123px; color: rgb(51, 51, 51); font-size: 14px;">비밀번호</h6>
         <div class="my-3">
-          <input type="password" style="width:433px; height: 46px;"  name="password1" autocomplete="new-password" class="signup-input form-control" placeholder="비밀번호를 입력해주세요" required="" id="id_password1">
+          <input type="password" style="width:433px; height: 46px;" name="password1" autocomplete="new-password"
+            class="signup-input form-control" placeholder="비밀번호를 입력해주세요" required="" id="id_password1">
         </div>
       </div>
       <div class="d-flex align-items-center">
         <h6 class="my-3" style="width: 123px; color: rgb(51, 51, 51); font-size: 14px;">비밀번호 확인</h6>
         <div class="my-3">
-          <input type="password" style="width:433px; height: 46px;" name="password2" autocomplete="new-password" class="signup-input form-control" placeholder="비밀번호를 한 번 더 입력해주세요" required="" id="id_password2">
+          <input type="password" style="width:433px; height: 46px;" name="password2" autocomplete="new-password"
+            class="signup-input form-control" placeholder="비밀번호를 한 번 더 입력해주세요" required="" id="id_password2">
         </div>
       </div>
 
@@ -46,7 +49,7 @@
           <input type="text" style="width:333px; height: 46px;" name="address" class="signup-input form-control"
             placeholder="주소를 입력해주세요" id="sample6_address" required>
         </div> -->
-        <!-- <div>
+      <!-- <div>
           <input class="btn" type="button"
             style="width: 120px; height: 46px; border: 1px solid #2f664c; color: #2f664c; margin-left: 8px; font-weight: 500;"
             value="주소검색" onclick="sample6_execDaumPostcode()">
@@ -67,9 +70,10 @@
       <div class="d-flex align-items-center">
         <h6 class="my-3" style="width: 123px; color: rgb(51, 51, 51); font-size: 14px;">닉네임</h6>
         <div class="my-3">
-      <input type="text" name="nickname" style="width:433px; height: 46px;" maxlength="8" class="form-control" placeholder="닉네임" required="" id="id_nickname">
-    </div>
-  </div>
+          <input type="text" name="nickname" style="width:433px; height: 46px;" maxlength="8" class="form-control"
+            placeholder="닉네임" required="" id="id_nickname">
+        </div>
+      </div>
       <!-- 유효성 검사 실패시 오류 출력 -->
       <!-- <div class="d-flex justify-content-center">
         {% if error %}
@@ -82,7 +86,8 @@
 
 
       <div class="d-flex justify-content-center my-3">
-        <input type="submit" class="btn py-1 px-5 fw-bold form-control" style="border-radius:10px; height:60px; background-color: #2f664c; color: white" value="가입하기">
+        <input type="submit" class="btn py-1 px-5 fw-bold form-control"
+          style="border-radius:10px; height:60px; background-color: #2f664c; color: white" value="가입하기">
       </div>
     </form>
   </div>
@@ -94,8 +99,8 @@
 
 
 
-{% endblock content %}
-{% block script %}
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  {% endblock content %}
+  {% block script %}
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
-{% endblock script%}
+  {% endblock script%}
