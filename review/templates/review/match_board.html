@@ -36,11 +36,20 @@
       {% for i in test %}
       <tr>
         <th scope="row">{{ i.id }}</th>
-        <td>{{ i.title }}</td>
+        <td><a data-bs-toggle="collapse" href="#collapseExample{{forloop.counter}}" role="button" aria-expanded="false" aria-controls="collapseExample{{forloop.counter}}">{{ i.title }}</a></td>
         <td>{{ i.match_user }}</td>
         <td>{{ i.user.profile.nickname }}</td>
         <td>{{ i.created_at }}</td>
       </tr>
+      {% if forloop.counter == i.id %}
+      <tr>
+        <td class="collapse" id="collapseExample{{forloop.counter}}" colspan="5">
+          <div class="card card-body">
+            {{ i.content}}
+          </div>
+        </td>
+      </tr>
+      {% endif %}
       {% endfor %}
     </tbody>
   </table>
