@@ -29,43 +29,13 @@
     rel="stylesheet">
   <!-- font -->
 
-  <title> 독토 </title>
+    <title> 독토 </title>
 
-  <!-- <scripts src="https://cdn.tailwindcss.com"></scripts> -->
-  <script defer src="{% static 'js/indexjs.js'%}"></script>
-  <style>
-    .navi_profile_box {
-      width: 50px;
-      height: 50px;
-      border-radius: 70%;
-      overflow: hidden;
-      cursor: pointer;
-    }
+    <!-- <scripts src="https://cdn.tailwindcss.com"></scripts> -->
+    <script defer src="{% static 'js/indexjs.js'%}"></script>
+ </head>
+ <body>
 
-    .navi_profile_img {
-      width: 100%;
-      height: 100%;
-      object-fit: fill;
-    }
-
-    /* singup.html에서 유효성 검사 실패시 */
-    .errorlist {
-      display: flex;
-      display: inline-block;
-      font-size: 1rem;
-      line-height: 16px;
-      letter-spacing: -.5px;
-      color: #ff003e;
-      vertical-align: middle;
-    }
-
-    ul {
-      list-style-type: circle;
-    }
-  </style>
-</head>
-
-<body>
   <!--내비바 시작-->
   <nav class="navbar navbar-expand-lg bg-light" style="padding: 0px; box-shadow: 0.1em 0.1em 5px 0.5px #bfbfbf;">
     <div class="container-fluid">
@@ -93,11 +63,11 @@
               장르
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{% url 'book:book_list' 1%}">공포/추리</a></li>
-              <li><a class="dropdown-item" href="{% url 'book:book_list' 2%}">판타지</a></li>
-              <li><a class="dropdown-item" href="{% url 'book:book_list' 3%}">로맨스/가족</a></li>
-              <li><a class="dropdown-item" href="{% url 'book:book_list' 4%}">역사/철학</a></li>
-              <li><a class="dropdown-item" href="{% url 'book:book_list' 5%}">정치/경제</a></li>
+              <li><a class="dropdown-item" href="{% url 'book:book_list' 1 %}">공포/추리</a></li>
+              <li><a class="dropdown-item" href="{% url 'book:book_list' 2 %}">판타지</a></li>
+              <li><a class="dropdown-item" href="{% url 'book:book_list' 3 %}">로맨스/가족</a></li>
+              <li><a class="dropdown-item" href="{% url 'book:book_list' 4 %}">역사/철학</a></li>
+              <li><a class="dropdown-item" href="{% url 'book:book_list' 5 %}">정치/경제</a></li>
             </ul>
           </li>
           <li class="nav-item">
