@@ -8,14 +8,11 @@ def create(request):
         book_form = bookForm(request.POST)
         image_form = ImageForm(request.POST, request.FILES)
         images = request.FILES.getlist("image")
+        tags = request.POST.get("tags", "").split(",")
 
         if book_form.is_valid() and image_form.is_valid():
             book = book_form.save(commit=False)
             book.user = request.user
-
-            # images = image_form.save(commit=False)
-            # images.book = book
-            # images.save()
 
             if len(images):
                 for img in images:
@@ -23,6 +20,11 @@ def create(request):
                     book.save()
                     img_instance.save()
             book.save()
+            if tags:
+                for tag in tags:
+                    tag = tag.strip()
+                    book.tags.add(tag)
+                    book.save()
             return redirect("review:index")
     else:
         book_form = bookForm()
@@ -37,11 +39,17 @@ def create(request):
 def update(request, book_pk):
     book = Book.objects.get(pk=book_pk)
     imagess = Image.objects.filter(book_id=book.pk)
+    tags_ = book.tags.all()  # 기존에 있었던 태그(삭제)
+
+    if tags_:
+        for tag in tags_:
+            tag.delete()
+
     if request.method == "POST":
         book_form = bookForm(request.POST, instance=book)
         image_form = ImageForm(request.POST, request.FILES)
         images = request.FILES.getlist("image")
-
+        tags = request.POST.get("tags", "").split(",")
         for img in imagess:
             if img.image:
                 img.delete()
@@ -55,6 +63,10 @@ def update(request, book_pk):
                     book.save()
                     image_instance.save()
             book.save()
+            for tag in tags:
+                tag = tag.strip()
+                book.tags.add(tag)
+                book.save()
             return redirect("review:index")
     else:
         book_form = bookForm(instance=book)

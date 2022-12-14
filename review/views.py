@@ -27,21 +27,21 @@ def index(request):
     reviews = Review.objects.order_by("-pk")
     profile = Profile.objects.order_by("-pk")
     # 장르별 최고 평점 1권만 filter로 수정해야함.
-    genre_1 = Book.objects.order_by("-grade").filter(genre = 1)[:1]
-    genre_2 = Book.objects.order_by("-grade").filter(genre = 2)[:1]
-    genre_3 = Book.objects.order_by("-grade").filter(genre = 3)[:1]
-    genre_4 = Book.objects.order_by("-grade").filter(genre = 4)[:1]
-    genre_5 = Book.objects.order_by("-grade").filter(genre = 5)[:1]
+    genre_1 = Book.objects.order_by("-grade").filter(genre=1)[:1]
+    genre_2 = Book.objects.order_by("-grade").filter(genre=2)[:1]
+    genre_3 = Book.objects.order_by("-grade").filter(genre=3)[:1]
+    genre_4 = Book.objects.order_by("-grade").filter(genre=4)[:1]
+    genre_5 = Book.objects.order_by("-grade").filter(genre=5)[:1]
     # 전체 도서 평점 top10[10개까지]
     book_top10 = Book.objects.order_by("-grade")[:10]
     # 장르별 최근 리뷰 도서[3개까지]
-    new_book_1 = Book.objects.order_by("-pk").filter(genre = 1)[:3]
-    new_book_2 = Book.objects.order_by("-pk").filter(genre = 2)[:3]
-    new_book_3 = Book.objects.order_by("-pk").filter(genre = 3)[:3]
-    new_book_4 = Book.objects.order_by("-pk").filter(genre = 4)[:3]
-    new_book_5 = Book.objects.order_by("-pk").filter(genre = 5)[:3]
+    new_book_1 = Book.objects.order_by("-pk").filter(genre=1)[:3]
+    new_book_2 = Book.objects.order_by("-pk").filter(genre=2)[:3]
+    new_book_3 = Book.objects.order_by("-pk").filter(genre=3)[:3]
+    new_book_4 = Book.objects.order_by("-pk").filter(genre=4)[:3]
+    new_book_5 = Book.objects.order_by("-pk").filter(genre=5)[:3]
     book_image = Image.objects.all()
-    
+
     context = {
         "reviews": reviews,
         "profile": profile,
@@ -57,7 +57,6 @@ def index(request):
         "new_book_4": new_book_4,
         "new_book_5": new_book_5,
         "book_top10": book_top10,
-
     }
     return render(request, "review/index.html", context)
 
@@ -91,8 +90,6 @@ def create(request, book_pk):
             book__id=book_pk
         )  # book_pk로 Image.book_id가 필터(없어도 필터라 쿼리셋으로 변수지정)
 
-        tags = request.POST.get("tags", "").split(",")
-
         # if request.POST.get("tags", "") != "":
         #     tags = request.POST.get("tags", "").split(",")
         # else:
@@ -110,12 +107,8 @@ def create(request, book_pk):
                 for book_image in book_images:
                     review.book_image = book_image
             review.save()
-            if tags:
-                for tag in tags:
-                    tag = tag.strip()
-                    review.tags.add(tag)
-                    review.save()
-                return redirect("review:detail", book_pk=book.pk)
+
+            return redirect("review:detail", book_pk=book.pk)
     else:
         review_form = ReviewForm()
 
@@ -166,7 +159,7 @@ def detail(request, book_pk):
     reviews = Review.objects.filter(book_id=book_pk).order_by("-pk")
     book = Book.objects.get(pk=book_pk)
     book_image = Image.objects.get(book_id=book_pk)
-    genre_list = ["","공포/추리", "판타지", "로맨스/가족", "역사/철학", "정치/경제"]
+    genre_list = ["", "공포/추리", "판타지", "로맨스/가족", "역사/철학", "정치/경제"]
     genre = genre_list[int(book.genre)]
 
     context = {
@@ -252,7 +245,8 @@ def search(request):
     )  # title, title_content, hashtag, user
     # reviews = Review.objects.order_by("-pk")
     profiles = Profile.objects.order_by("-pk")
-
+    if not search_keyword:
+        return redirect("review:matching")
     if search_keyword:
         if search_option == "nickname":
             search_profiles = profiles.filter(Q(nickname__icontains=search_keyword))
@@ -278,9 +272,12 @@ def search(request):
 def main_search(request):
     books = Book.objects.order_by("-pk")
     search_keyword = request.GET.get("search_keyword", "")
-
+    if not search_keyword:
+        return redirect("review:index")
     if search_keyword:
         search_books = books.filter(Q(title__icontains=search_keyword))
+    elif search_keyword:
+        search_books = books.filter(Q(tags__name__icontains=search_keyword))
 
     context = {
         "search_books": search_books,
