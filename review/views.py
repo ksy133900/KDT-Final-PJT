@@ -13,7 +13,7 @@ from django.contrib.auth import logout as auth_logout
 from accounts.models import *
 from django.db.models import Q
 from book.models import *
-from django.db.models import Q
+from django.db.models import Q, Avg
 
 # Create your views here.
 
@@ -27,20 +27,37 @@ def index(request):
     reviews = Review.objects.order_by("-pk")
     profile = Profile.objects.order_by("-pk")
     # 장르별 최고 평점 1권만 filter로 수정해야함.
-    books = Book.objects.all()
+    genre_1 = Book.objects.order_by("-grade").filter(genre = 1)[:1]
+    genre_2 = Book.objects.order_by("-grade").filter(genre = 2)[:1]
+    genre_3 = Book.objects.order_by("-grade").filter(genre = 3)[:1]
+    genre_4 = Book.objects.order_by("-grade").filter(genre = 4)[:1]
+    genre_5 = Book.objects.order_by("-grade").filter(genre = 5)[:1]
     # 전체 도서 평점 top10[10개까지]
-    book_top10 = Book.objects.all()[:10]
+    book_top10 = Book.objects.order_by("-grade")[:10]
     # 장르별 최근 리뷰 도서[3개까지]
-    new_book = Book.objects.order_by("-pk")[:3]
+    new_book_1 = Book.objects.order_by("-pk").filter(genre = 1)[:3]
+    new_book_2 = Book.objects.order_by("-pk").filter(genre = 2)[:3]
+    new_book_3 = Book.objects.order_by("-pk").filter(genre = 3)[:3]
+    new_book_4 = Book.objects.order_by("-pk").filter(genre = 4)[:3]
+    new_book_5 = Book.objects.order_by("-pk").filter(genre = 5)[:3]
     book_image = Image.objects.all()
-
+    
     context = {
         "reviews": reviews,
         "profile": profile,
-        "books": books,
+        "genre_1": genre_1,
+        "genre_2": genre_2,
+        "genre_3": genre_3,
+        "genre_4": genre_4,
+        "genre_5": genre_5,
         "book_image": book_image,
-        "new_book": new_book,
+        "new_book_1": new_book_1,
+        "new_book_2": new_book_2,
+        "new_book_3": new_book_3,
+        "new_book_4": new_book_4,
+        "new_book_5": new_book_5,
         "book_top10": book_top10,
+
     }
     return render(request, "review/index.html", context)
 
@@ -193,8 +210,8 @@ def detail(request, book_pk):
     reviews = Review.objects.filter(book_id=book_pk).order_by("-pk")
     book = Book.objects.get(pk=book_pk)
     book_image = Image.objects.get(book_id=book_pk)
-    genre_list = ["공포/추리", "판타지", "로맨스/가족", "역사/철학", "정치/경제"]
-    genre = genre_list[int(book.genre) - 1]
+    genre_list = ["","공포/추리", "판타지", "로맨스/가족", "역사/철학", "정치/경제"]
+    genre = genre_list[int(book.genre)]
 
     context = {
         "reviews": reviews,

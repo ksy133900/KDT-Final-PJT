@@ -9,10 +9,10 @@
   <!--상단 캐러셀 시작-->
   <h1 class="title_font mb-1 ">장르별 최고 평점 도서</h1>
   <div id="carouselExampleControls_1" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner bg-dark">
-      {% for book in books %}
-      <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
         <div class="d-flex justify-content-center">
+          {% for book in genre_1 %}
           <div class="card" style="width: 230px;">
             <a href="{% url 'review:detail' book.pk %}" class="">
               <div class="img_box d-flex align-items-center">
@@ -24,13 +24,102 @@
               </div>
               <div class="card-body">
                 <h5 class="card-title">{{book.title}}</h5>
-                <p class="card-text">리뷰평점 평균값</p> <!-- review.rating 평균값으로 대체-->
+                <p class="card-text">공포/추리</p>
+                <p class="card-text">평점: {{book.grade}}</p> 
               </div>
             </a>
           </div>
+          {% endfor %}
         </div>
       </div>
-      {% endfor %}
+      <div class="carousel-item">
+        <div class="d-flex justify-content-center">
+          {% for book in genre_2 %}
+          <div class="card" style="width: 230px;">
+            <a href="{% url 'review:detail' book.pk %}" class="">
+              <div class="img_box d-flex align-items-center">
+                {% if book.image_set.all.0.image %}
+                <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
+                {% else %}
+                <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
+                {% endif %}
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">{{book.title}}</h5>
+                <p class="card-text">판타지</p>
+                <p class="card-text">평점: {{book.grade}}</p>
+              </div>
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="d-flex justify-content-center">
+          {% for book in genre_3 %}
+          <div class="card" style="width: 230px;">
+            <a href="{% url 'review:detail' book.pk %}" class="">
+              <div class="img_box d-flex align-items-center">
+                {% if book.image_set.all.0.image %}
+                <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
+                {% else %}
+                <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
+                {% endif %}
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">{{book.title}}</h5>
+                <p class="card-text">로맨스/가족</p>
+                <p class="card-text">평점: {{book.grade}}</p>
+              </div>
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="d-flex justify-content-center">
+          {% for book in genre_4 %}
+          <div class="card" style="width: 230px;">
+            <a href="{% url 'review:detail' book.pk %}" class="">
+              <div class="img_box d-flex align-items-center">
+                {% if book.image_set.all.0.image %}
+                <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
+                {% else %}
+                <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
+                {% endif %}
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">{{book.title}}</h5>
+                <p class="card-text">역사/철학</p>
+                <p class="card-text">평점: {{book.grade}}</p>
+              </div>
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="d-flex justify-content-center">
+          {% for book in genre_5 %}
+          <div class="card" style="width: 230px;">
+            <a href="{% url 'review:detail' book.pk %}" class="">
+              <div class="img_box d-flex align-items-center">
+                {% if book.image_set.all.0.image %}
+                <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
+                {% else %}
+                <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
+                {% endif %}
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">{{book.title}}</h5>
+                <p class="card-text">정치/경제</p>
+                <p class="card-text">평점: {{book.grade}}</p>
+              </div>
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls_1" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -45,7 +134,7 @@
   <!--작은 캐러셀 시작-->
   <div class="container-fluid mt-1 mb-5">
     <div id="carouselExampleControls_2" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-inner bg-dark">
+      <div class="carousel-inner">
         <div class="carousel-item active">
           <div class="d-flex justify-content-center gap-4">
             <div class="card d-flex justify-content-center" style="width: 400px; height: 130px;">
@@ -53,11 +142,11 @@
             </div>
           </div>
         </div>
-        <div class="carousel-item">
-          <div class="d-flex justify-content-center gap-4">
+        <div class="carousel-item" data-bs-interval="10000">
+          <div class="row justify-content-center gap-4">
             {% for book in book_top10 %}
             {% if forloop.counter <= 5 %}
-            <div class="card" style="width: 130px;">
+            <div class="card col-auto" style="width: 130px;">
               <a href="{% url 'review:detail' book.pk %}" class="">
                 <div class="img_box d-flex align-items-center">
                   {% if book.image_set.all.0.image %}
@@ -72,12 +161,12 @@
             {% endfor %}
           </div>
         </div>
-        <div class="carousel-item">
-          <div class="d-flex justify-content-center gap-4">
+        <div class="carousel-item" data-bs-interval="10000">
+          <div class="row justify-content-center gap-4">
             {% for book in book_top10 %}
             {% if forloop.counter <= 5 %}
             {% elif 5 < forloop.counter <= 10 %}
-            <div class="card" style="width: 130px;">
+            <div class="card col-auto" style="width: 130px;">
               <a href="{% url 'review:detail' book.pk %}" class="">
                 <div class="img_box d-flex align-items-center">
                   {% if book.image_set.all.0.image %}
@@ -115,11 +204,11 @@
   <!--장르별 리뷰 최신 도서-->
   <div class="container-fluid" style="width: 90%;">
     <!-- 1번 장르 -->
-    <div id="genre_book" class="border border-1 bg-dark p-2 mt-2 mb-2">
-      <h3 class="text-warning">000 장르 NEW 리뷰</h3>
-      <div class="d-flex justify-content-center gap-5">
-        {% for book in new_book %}
-        <div class="card" style="width: 230px;">
+    <div id="genre_book1" class="border border-1 p-2 mt-2 mb-2">
+      <h3 class="text-warning">공포/추리 장르 NEW 리뷰</h3>
+      <div class="row justify-content-center gap-5">
+        {% for book in new_book_1 %}
+        <div class="card col-auto" style="width: 180px;">
           <a href="{% url 'review:detail' book.pk %}" class="">
             <div class="img_box d-flex align-items-center">
               {% if book.image_set.all.0.image %}
@@ -130,7 +219,7 @@
             </div>
             <div class="card-body">
               <h5 class="card-title">{{book.title}}</h5>
-              <p class="card-text">book모델에 평점추가해야함</p>
+              <p class="card-text">평점: {{book.grade}}</p>
             </div>
           </a>
         </div>
@@ -138,11 +227,11 @@
       </div>
     </div>
     <!-- 2번 장르 -->
-    <div id="genre_book" class="border border-1 bg-dark p-2 mt-2 mb-2">
-      <h3 class="text-warning">000 장르 NEW 리뷰</h3>
-      <div class="d-flex justify-content-center gap-5">
-        {% for book in new_book %}
-        <div class="card" style="width: 230px;">
+    <div id="genre_book2" class="border border-1 p-2 mt-2 mb-2">
+      <h3 class="text-warning">판타지 장르 NEW 리뷰</h3>
+      <div class="row justify-content-center gap-5">
+        {% for book in new_book_2 %}
+        <div class="card col-auto" style="width: 180px;">
           <a href="{% url 'review:detail' book.pk %}" class="">
             <div class="img_box d-flex align-items-center">
               {% if book.image_set.all.0.image %}
@@ -153,13 +242,83 @@
             </div>
             <div class="card-body">
               <h5 class="card-title">{{book.title}}</h5>
-              <p class="card-text">book모델에 평점추가해야함</p>
+              <p class="card-text">평점: {{book.grade}}</p>
             </div>
           </a>
         </div>
         {% endfor %}
       </div>
     </div>
+    <!-- 3번 장르 -->
+    <div id="genre_book3" class="border border-1 p-2 mt-2 mb-2">
+      <h3 class="text-warning">로맨스/가족 장르 NEW 리뷰</h3>
+      <div class="row justify-content-center gap-5">
+        {% for book in new_book_3 %}
+        <div class="card col-auto" style="width: 180px;">
+          <a href="{% url 'review:detail' book.pk %}" class="">
+            <div class="img_box d-flex align-items-center">
+              {% if book.image_set.all.0.image %}
+              <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
+              {% else %}
+              <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
+              {% endif %}
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{{book.title}}</h5>
+              <p class="card-text">평점: {{book.grade}}</p>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <!-- 4번 장르 -->
+    <div id="genre_book4" class="border border-1 p-2 mt-2 mb-2">
+      <h3 class="text-warning">역사/철학 장르 NEW 리뷰</h3>
+      <div class="row justify-content-center gap-5">
+        {% for book in new_book_4 %}
+        <div class="card col-auto" style="width: 180px;">
+          <a href="{% url 'review:detail' book.pk %}" class="">
+            <div class="img_box d-flex align-items-center">
+              {% if book.image_set.all.0.image %}
+              <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
+              {% else %}
+              <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
+              {% endif %}
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{{book.title}}</h5>
+              <p class="card-text">평점: {{book.grade}}</p>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <!-- 5번 장르 -->
+    <div id="genre_book5" class="border border-1 p-2 mt-2 mb-2">
+      <h3 class="text-warning">정치/경제 장르 NEW 리뷰</h3>
+      <div class="row justify-content-center gap-5">
+        {% for book in new_book_5 %}
+        <div class="card col-auto" style="width: 180px;">
+          <a href="{% url 'review:detail' book.pk %}" class="">
+            <div class="img_box d-flex align-items-center">
+              {% if book.image_set.all.0.image %}
+              <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
+              {% else %}
+              <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
+              {% endif %}
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{{book.title}}</h5>
+              <p class="card-text">평점: {{book.grade}}</p>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
   </div>
   <!-- 리뷰 유저 프로필 부분이라 임시로 주석처리 합니다
     {% for review in reviews %}

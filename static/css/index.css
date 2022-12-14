@@ -5,8 +5,9 @@
   margin: 0 auto;
 }
 
-.img_box img {
-  width: 100%;
+#carouselExampleControls_1 .card {
+  border: #9ADBC5 5px solid;
+  border-radius: 2rem;
 }
 
 #carouselExampleControls_2 .img_box {
@@ -16,9 +17,75 @@
   margin: 0 auto;
 }
 
-#genre_book .img_box {
-  width: 100px;
-  height: 130px;
+#genre_book1 {
+  background-color: #9ADBC5;
+}
+
+#genre_book2 {
+  background-color: #FE8D6F;
+}
+
+#genre_book3 {
+  background-color: #FDC453;
+}
+
+#genre_book4 {
+  background-color: #DFDD6C;
+}
+
+#genre_book5 {
+  background-color: #A0DDE0;
+  border-radius: 1rem;
+}
+
+
+#genre_book1 .img_box {
+  width: 150px;
+  height: 170px;
   overflow: hidden;
   margin: 0 auto;
+}
+
+#genre_book2 .img_box {
+  width: 150px;
+  height: 170px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+#genre_book3 .img_box {
+  width: 150px;
+  height: 170px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+#genre_book4 .img_box {
+  width: 150px;
+  height: 170px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+#genre_book5 .img_box {
+  width: 150px;
+  height: 170px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.carousel-inner {
+  background-color: #fff;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: gray;
+  border-radius: 5rem;
+
+}
+
+.img_box img {
+  width: 100%;
+  border-radius: 10px;
 }
