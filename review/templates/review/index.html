@@ -8,14 +8,14 @@
 <section class="mt-3 mb-5">
   <!--상단 캐러셀 시작-->
   <h1 class="title_font mb-1 ">장르별 최고 평점 도서</h1>
-  <div id="carouselExampleControls_1" class="carousel slide" data-bs-ride="carousel">
+  <div id="carouselExampleControls_1" class="carousel slide" data-bs-ride="carousel" style="height: 450px">
     <div class="carousel-inner">
       <div class="carousel-item active">
         <div class="d-flex justify-content-center">
           {% for book in genre_1 %}
           <div class="card" style="width: 230px;">
             <a href="{% url 'review:detail' book.pk %}" class="">
-              <div class="img_box d-flex align-items-center">
+              <div class="img_box d-flex align-items-center justify-content-center">
                 {% if book.image_set.all.0.image %}
                 <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
                 {% else %}
@@ -37,7 +37,7 @@
           {% for book in genre_2 %}
           <div class="card" style="width: 230px;">
             <a href="{% url 'review:detail' book.pk %}" class="">
-              <div class="img_box d-flex align-items-center">
+              <div class="img_box d-flex align-items-center justify-content-center">
                 {% if book.image_set.all.0.image %}
                 <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
                 {% else %}
@@ -59,7 +59,7 @@
           {% for book in genre_3 %}
           <div class="card" style="width: 230px;">
             <a href="{% url 'review:detail' book.pk %}" class="">
-              <div class="img_box d-flex align-items-center">
+              <div class="img_box d-flex align-items-center justify-content-center">
                 {% if book.image_set.all.0.image %}
                 <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
                 {% else %}
@@ -81,7 +81,7 @@
           {% for book in genre_4 %}
           <div class="card" style="width: 230px;">
             <a href="{% url 'review:detail' book.pk %}" class="">
-              <div class="img_box d-flex align-items-center">
+              <div class="img_box d-flex align-items-center justify-content-center">
                 {% if book.image_set.all.0.image %}
                 <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
                 {% else %}
@@ -103,7 +103,7 @@
           {% for book in genre_5 %}
           <div class="card" style="width: 230px;">
             <a href="{% url 'review:detail' book.pk %}" class="">
-              <div class="img_box d-flex align-items-center">
+              <div class="img_box d-flex align-items-center justify-content-center">
                 {% if book.image_set.all.0.image %}
                 <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
                 {% else %}
@@ -148,7 +148,7 @@
             {% if forloop.counter <= 5 %}
             <div class="card col-auto" style="width: 130px;">
               <a href="{% url 'review:detail' book.pk %}" class="">
-                <div class="img_box d-flex align-items-center">
+                <div class="img_box d-flex align-items-center justify-content-center">
                   {% if book.image_set.all.0.image %}
                   <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
                   {% else %}
@@ -168,7 +168,7 @@
             {% elif 5 < forloop.counter <= 10 %}
             <div class="card col-auto" style="width: 130px;">
               <a href="{% url 'review:detail' book.pk %}" class="">
-                <div class="img_box d-flex align-items-center">
+                <div class="img_box d-flex align-items-center justify-content-center">
                   {% if book.image_set.all.0.image %}
                   <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
                   {% else %}
@@ -202,15 +202,15 @@
   {% endif %}
 
   <!--장르별 리뷰 최신 도서-->
-  <div class="container-fluid" style="width: 90%;">
+  <div class="container-fluid" style="width: 60%;">
     <!-- 1번 장르 -->
     <div id="genre_book1" class="border border-1 p-2 mt-2 mb-2">
-      <h3 class="text-warning">공포/추리 장르 NEW 리뷰</h3>
+      <h3 class="title_font">공포/추리 장르 NEW 리뷰</h3>
       <div class="row justify-content-center gap-5">
         {% for book in new_book_1 %}
         <div class="card col-auto" style="width: 180px;">
           <a href="{% url 'review:detail' book.pk %}" class="">
-            <div class="img_box d-flex align-items-center">
+            <div class="img_box d-flex align-items-center justify-content-center">
               {% if book.image_set.all.0.image %}
               <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
               {% else %}
@@ -228,12 +228,12 @@
     </div>
     <!-- 2번 장르 -->
     <div id="genre_book2" class="border border-1 p-2 mt-2 mb-2">
-      <h3 class="text-warning">판타지 장르 NEW 리뷰</h3>
+      <h3 class="title_font">판타지 장르 NEW 리뷰</h3>
       <div class="row justify-content-center gap-5">
         {% for book in new_book_2 %}
         <div class="card col-auto" style="width: 180px;">
           <a href="{% url 'review:detail' book.pk %}" class="">
-            <div class="img_box d-flex align-items-center">
+            <div class="img_box d-flex align-items-center justify-content-center">
               {% if book.image_set.all.0.image %}
               <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
               {% else %}
@@ -251,12 +251,12 @@
     </div>
     <!-- 3번 장르 -->
     <div id="genre_book3" class="border border-1 p-2 mt-2 mb-2">
-      <h3 class="text-warning">로맨스/가족 장르 NEW 리뷰</h3>
+      <h3 class="title_font">로맨스/가족 장르 NEW 리뷰</h3>
       <div class="row justify-content-center gap-5">
         {% for book in new_book_3 %}
         <div class="card col-auto" style="width: 180px;">
           <a href="{% url 'review:detail' book.pk %}" class="">
-            <div class="img_box d-flex align-items-center">
+            <div class="img_box d-flex align-items-center justify-content-center">
               {% if book.image_set.all.0.image %}
               <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
               {% else %}
@@ -274,12 +274,12 @@
     </div>
     <!-- 4번 장르 -->
     <div id="genre_book4" class="border border-1 p-2 mt-2 mb-2">
-      <h3 class="text-warning">역사/철학 장르 NEW 리뷰</h3>
+      <h3 class="title_font">역사/철학 장르 NEW 리뷰</h3>
       <div class="row justify-content-center gap-5">
         {% for book in new_book_4 %}
         <div class="card col-auto" style="width: 180px;">
           <a href="{% url 'review:detail' book.pk %}" class="">
-            <div class="img_box d-flex align-items-center">
+            <div class="img_box d-flex align-items-center justify-content-center">
               {% if book.image_set.all.0.image %}
               <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
               {% else %}
@@ -297,12 +297,12 @@
     </div>
     <!-- 5번 장르 -->
     <div id="genre_book5" class="border border-1 p-2 mt-2 mb-2">
-      <h3 class="text-warning">정치/경제 장르 NEW 리뷰</h3>
+      <h3 class="title_font">정치/경제 장르 NEW 리뷰</h3>
       <div class="row justify-content-center gap-5">
         {% for book in new_book_5 %}
         <div class="card col-auto" style="width: 180px;">
           <a href="{% url 'review:detail' book.pk %}" class="">
-            <div class="img_box d-flex align-items-center">
+            <div class="img_box d-flex align-items-center justify-content-center">
               {% if book.image_set.all.0.image %}
               <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
               {% else %}

@@ -7,7 +7,7 @@
   <div class="d-flex justify-content-center">
     <div class="card" style="width: 230px;">
       <a href="{% url 'review:detail' book.pk %}" class="">
-        <div class="img_box d-flex align-items-center">
+        <div class="img_box d-flex align-items-center justify-content-center">
           {% if book.image_set.all.0.image %}
           <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
           {% else %}

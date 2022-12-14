@@ -1,26 +1,35 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/book_list.css' %}">
+{% endblock css %}
+
 
 {% block content %}
 
-<h1>{{genre}} 장르의 책 목록</h1>
-
-{% for book in book_genre %}
-<div class="card" style="width: 230px;">
-  <a href="{% url 'review:detail' book.pk %}" class="">
-    <div class="img_box d-flex align-items-center">
-      {% if book.image_set.all.0.image %}
-      <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
-      {% else %}
-      <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
-      {% endif %}
+<section class="container">
+  <h1 class="title_font">{{genre}} 장르의 책 목록</h1>
+  <div class="row gap-3">
+  
+    {% for book in book_genre %}
+    <div class="card col-auto" style="width: 230px;">
+      <a href="{% url 'review:detail' book.pk %}" class="">
+        <div class="img_box d-flex align-items-center justify-content-center">
+          {% if book.image_set.all.0.image %}
+          <img src="{{ book.image_set.all.0.image.url }}"  alt="{{book.title}}_img">
+          {% else %}
+          <img src="{% static 'images/dummy-image-square.jpg' %}"  alt="dummy_img">
+          {% endif %}
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{book.title}}</h5>
+          <p class="card-text">{{genre}}</p>
+          <p class="card-text">{{book.grade}}</p>
+        </div>
+      </a>
     </div>
-    <div class="card-body">
-      <h5 class="card-title">{{book.title}}</h5>
-      <p class="card-text">book모델에 평점추가해야함</p>
-    </div>
-  </a>
-</div>
-{% endfor %}
+    {% endfor %}
+  </div>
+</section>
 
 {% endblock content %}

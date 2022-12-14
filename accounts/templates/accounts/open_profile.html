@@ -164,7 +164,7 @@
           {% for review in reviews %}
           <div class="card align-items-center col" style="width: 150px;">
             <a href="{% url 'review:detail' review.book_id %}">
-              <div class="img_box d-flex align-items-center">
+              <div class="img_box d-flex align-items-center justify-content-center">
                 {% if review.book_image %}
                 <img src="{{ review.book_image.image.url }}"  alt="{{book.title}}_img">
                 {% else %}
