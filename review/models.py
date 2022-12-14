@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from taggit.managers import TaggableManager
+
 from django.core.validators import MinValueValidator, MaxValueValidator
 from book.models import *
 
@@ -20,7 +20,6 @@ class Review(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    tags = TaggableManager(blank=True)
     modify_dt = models.DateTimeField("MODIFY DATE", auto_now=True)
     like_users = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="like_reviews"

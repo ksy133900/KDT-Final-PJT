@@ -52,6 +52,16 @@
               <th scope="row">도서 평점</th>
               <td>{{ book.grade }}</td>
             </tr>
+            <div> 
+              <tr>
+              
+            <th>태그</th>
+            <td>{% for tag in book.tags.all %}
+                <span class="text-primary">#{{ tag.name }}</span>
+                {% endfor %}
+            </td>
+
+            </tr></div>
           </tbody>
         </table>
       </div>
