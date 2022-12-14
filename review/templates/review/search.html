@@ -30,12 +30,14 @@
               <option value="#">매칭횟수</option>
             </select>
             <div>
-              
+
               <button class="search-btn-m" id="searchBtn" type="submit" maxlength="50" style="margin-top: -67.4px;">
                 <img src="{% static 'images/debate1.png' %}" alt="" class="jb-b-m"
                   style="width: 100%; max-width: 23px; margin-right: 8px; position: absolute;">
-                <img src="{% static 'images/debate2.png' %}" alt="" class="jb-c-m"
-                  style="width: 100%; max-width: 23px; margin-top: 98px; margin-right: 8px; position:absolute;">
+                <img src="{% static 'images/debate2.png' %}" alt="" class="jb-c-m" style="width: 120%;
+                  max-width: 30px;
+                  margin-right: 8px;
+                  position: relative;">
               </button>
             </div>
           </form>
@@ -44,7 +46,7 @@
     </div>
     <div id="list" class="row row-cols-2" style="    --bs-gutter-x: 5rem;
   --bs-gutter-y: 2rem; justify-content: center;">
-  {% if search_profiles %}
+      {% if search_profiles %}
       {% for profile_ in search_profiles %}
       <b style="width: 625px;">
         <div class="card mb-3" style="max-width: 540px;">
