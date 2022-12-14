@@ -41,23 +41,22 @@ min-height: 900px;">
         {% for i in test %}
         <tr style="border-color: #ffa5a5;">
           <th scope="row">{{ i.id }}</th>
-          <td><a data-bs-toggle="collapse" href="#collapseExample{{forloop.counter}}" role="button" aria-expanded="false" aria-controls="collapseExample{{forloop.counter}}">{{ i.title }}</a></td>
+          <td><a data-bs-toggle="collapse" href="#collapseExample{{i.id}}" role="button" aria-expanded="false" aria-controls="collapseExample{{i.id}}">{{ i.title }}</a></td>
           <td>{{ i.match_user }}</td>
           <td>{{ i.user.profile.nickname }}</td>
           <td>{{ i.created_at }} 
             {% if user == i.user %}
-            <a href="{% url 'review:match_delete' i.pk %}">삭제</a>{%endif%}</td>
-            
+            <a href="{% url 'review:match_delete' i.pk %}">삭제</a>
+            {% endif %}
+          </td>  
         </tr>
-        {% if forloop.counter == i.id %}
         <tr>
-          <td class="collapse" id="collapseExample{{forloop.counter}}" colspan="5">
+          <td class="collapse" id="collapseExample{{i.id}}" colspan="5">
             <div class="card card-body">
               {{ i.content}}
             </div>
           </td>
         </tr>
-        {% endif %}
         {% endfor %}
       </tbody>
     </table>
