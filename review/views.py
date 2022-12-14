@@ -265,6 +265,14 @@ def match_board(request):
     return render(request, "review/match_board.html", context)
 
 
+def match_delete(request, pk):
+    match = Match_review.objects.get(pk=pk)
+    if request.method == "POST":
+        if request.user == match.user:
+            match.delete()
+            return redirect("review:match_board")
+
+
 def match_create(request):
     if request.method == "POST":
         match_review_form = Match_reviewForm(request.POST)
