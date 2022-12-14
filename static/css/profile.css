@@ -34,5 +34,30 @@ h1 {
   max-height: 100%;
 }
 
+.navi_profile_box {
+  width: 50px;
+  height: 50px;
+  border-radius: 70%;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.navi_profile_img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+.feed_name {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.feed_name_txt {
+  font-size: 14px;
+  padding: 0px 10px;
+  font-weight: bold;
+}
 
 /* profile css시작 */

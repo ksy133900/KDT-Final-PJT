@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{% static 'css/index.css' %}">
 {% endblock css %}
 {% block content %}
-<section class="mt-3 mb-5">
+<section class="pt-5 pb-3">
   <!--상단 캐러셀 시작-->
   <h1 class="title_font mb-1 ">장르별 최고 평점 도서</h1>
   <div id="carouselExampleControls_1" class="carousel slide" data-bs-ride="carousel" style="height: 450px">
@@ -196,10 +196,7 @@
 
   <!-- 여기부터 글쓰기 및 유저 정보 페이지 팔로우 확인용 시험 코드라서 디자인 바꾸실거면 자유롭게 바꾸셔도 되는데, 없애진 말고 주석으로 남겨주세요-->
   <a href="{% url 'book:create' %}" class="text-dark btn btn-info">도서 정보 생성</a>
-  {% if request.user.is_authenticated %}
-  {% comment %} 쪽지 알람 {% endcomment %}
-  <a href="#" class="mailbox_label svg_all" title="전체메일">전체메일</a>
-  {% endif %}
+
 
   <!--장르별 리뷰 최신 도서-->
   <div class="container-fluid" style="width: 60%;">
