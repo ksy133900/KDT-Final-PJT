@@ -166,7 +166,7 @@
         <div class="row">
           <div class="col-auto col-md-2 text-center">
             {% if request.user != review.user %}
-            <a href="{% url 'notes:mail' %}" class="btn btn_docto btn-sm">독토요청하기</a>
+            <a href="{% url 'accounts:open_profile' review.user.pk %}" class="btn btn_docto btn-sm">독토요청하기</a>
             {% endif %}
           </div>
           <div class="col-auto col-md-7">
