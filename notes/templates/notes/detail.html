@@ -57,7 +57,7 @@
           {% else %}
           <img src="{% static 'images/no-profile.jpg' %}" class="mx-1" width="45" height="45">
           {% endif %}
-          {{ note.from_user.profile.nickname }}</h5>
+          {{ note.from_user.username }} - (닉네임: {{ note.from_user.profile.nickname }})</h5>
           <hr>
       </div>
       <h5 class="mb-3">받은 시간 :
