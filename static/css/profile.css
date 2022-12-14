@@ -23,6 +23,10 @@ h1 {
   background-color: rgb(255, 162, 129);
 
 }
+.button:hover {
+  background-color:#00ad56;
+  transition: 0.7s;
+}
 
 .img_box {
   width: 130px;
