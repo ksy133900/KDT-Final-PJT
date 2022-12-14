@@ -23,11 +23,11 @@
     <div class="ms-5 w-100">
       <!-- 프로필 수정 / 공개프로필 버튼 -->
       <div class="d-flex align-items-center mb-2">
-        {% if user.profile.nickname %}
+
         <h1 class="mb-0" style="font-size: 30px;">{{ user.profile.nickname }}님의 프로필</h1>
-        {% else %}
-        <h1 class="mb-0" style="font-size: 30px;">{{request.user.username}}</h1>
-        {% endif %}
+
+       
+      
         {% if user == request.user %}
         <!--버튼-->
         <div class=" d-flex gap-2">
@@ -42,6 +42,7 @@
       </div>
             
       <!-- 가입날짜 표시 시간까지 세세하게 표현하고 싶다면  h:i:s 추가-->
+      <h4> {{request.user.username}}</h4>
       <p> 가입일 : {{ user.date_joined | date:'Y년-m월-d일 h:i:s' }} </p>
 
       <!-- 팔로잉 / 팔로워 collapse 시작 -->
@@ -53,6 +54,7 @@
         <a class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
           팔로워 <span id="followers-count">{{ user.followers.count }}</span>
         </a>
+        <button style="border:none; background-color:transparent;" onClick="window.location.reload()"><i style="font-size: 1.5rem;" class="bi bi-arrow-repeat"></i></button>
       </div>
       <!-- 소개글 (프로필에서 삭제했고, 오픈 프로필로 이동했습니다. 여기 추가 ㄴㄴ)-->
     
