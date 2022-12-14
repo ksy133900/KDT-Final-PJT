@@ -13,7 +13,7 @@ class Book(models.Model):
     # 장르
     genre_choice = [
         ("1", "공포/추리"),
-        ("2", "판타지"),
+        ("2", "판타지/무협"),
         ("3", "로맨스/가족"),
         ("4", "역사/철학"),
         ("5", "정치/경제"),
@@ -26,7 +26,9 @@ class Book(models.Model):
     # 매칭수
     matching_count = models.PositiveIntegerField(default=0, blank=True)
     # 평점
-    grade = models.FloatField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True, default=1)
+    grade = models.FloatField(
+        validators=[MinValueValidator(1), MaxValueValidator(10)], null=True, default=1
+    )
 
     def __str__(self):
         return self.title

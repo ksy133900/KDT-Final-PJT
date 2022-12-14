@@ -33,6 +33,7 @@
             <tr>
               <th scope="row">제목</th>
               <td>{{ book.title }}<a href="{% url 'book:delete' book.pk %}" class="btn btn-sm"><i class="bi bi-trash"></i></a>
+                <a href="{% url 'book:update' book.pk %}" class="btn btn-sm"><i class="bi bi-pencil-square"></i></a>
               </td>
             </tr>
             <tr>
