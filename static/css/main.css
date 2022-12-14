@@ -193,9 +193,9 @@ font-family: 'Single Day', cursive;
 /* 검색창 끝 */
 /* nav바 */
 .nav-style {
-  background-color: rgb(255, 121, 40);
+  background-color: #FE8D6F;
   border-radius: 5rem;
-  border: 1px solid rgb(255, 121, 40);
+  border: 1px solid #FE8D6F;
   box-shadow: 0.1em 0.1em 5px 1px #dcdcdc;
   width: 80px;
   text-align: center;
