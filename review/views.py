@@ -142,7 +142,7 @@ def create(request, book_pk):
                     tag = tag.strip()
                     review.tags.add(tag)
                     review.save()
-                return redirect("review:index")
+                return redirect("review:detail", book_pk=book.pk)
     else:
         review_form = ReviewForm()
 
