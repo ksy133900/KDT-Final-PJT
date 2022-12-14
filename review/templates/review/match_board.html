@@ -6,44 +6,50 @@
 {% endblock css %}
 
 {% block content %}
-<section class="container">
-  <h1 class="text-center mt-5 mb-5">매칭후기 게시판</h1>
-  <div class="text-center mt-5 mb-5">
-    <a href="{% url 'review:match_create' %}" class="btn btn_1">후기작성</a>
-  </div>
-  <!--테이블 시작-->
-  <table class="table text-center">
-    <!--테이블 비율-->
-    <colgroup>
-      <col width="7%" /><!--No.-->
-      <col width="28%" /><!--후기 제목-->
-      <col width="20%" /><!--매칭 유저-->
-      <col width="20%" /><!--작성자-->
-      <col width="25%" /><!--작성일-->
-    </colgroup>
-    <!--테이블 헤드-->
-    <thead>
-      <tr>
-        <th scope="col">No.</th>
-        <th scope="col">후기 제목</th>
-        <th scope="col">매칭 유저</th>
-        <th scope="col">작성자</th>
-        <th scope="col">작성일</th>
-      </tr>
-    </thead>
-    <!--테이블 본문-->
-    <tbody>
-      {% for i in test %}
-      <tr>
-        <th scope="row">{{ i.id }}</th>
-        <td>{{ i.title }}</td>
-        <td>{{ i.match_user }}</td>
-        <td>{{ i.user.profile.nickname }}</td>
-        <td>{{ i.created_at }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  <!--테이블 종료-->
-</section>
+<div style="background-color: #ff555582;
+min-height: 900px;">
+  <section class="container" style="background-color: #ffe5e5;
+  min-height: 900px;
+  padding-top: 50px;">
+    <h1 class="text-center mb-3" style="font-family: 'East Sea Dokdo', cursive;
+    font-size: 5rem">매칭후기 게시판</h1>
+    <div class="text-center mt-4 mb-5">
+      <a href="{% url 'review:match_create' %}" class="btn btn_1">후기작성</a>
+    </div>
+    <!--테이블 시작-->
+    <table class="table text-center">
+      <!--테이블 비율-->
+      <colgroup>
+        <col width="7%" /><!--No.-->
+        <col width="28%" /><!--후기 제목-->
+        <col width="20%" /><!--매칭 유저-->
+        <col width="20%" /><!--작성자-->
+        <col width="25%" /><!--작성일-->
+      </colgroup>
+      <!--테이블 헤드-->
+      <thead>
+        <tr>
+          <th scope="col">No.</th>
+          <th scope="col">후기 제목</th>
+          <th scope="col">매칭 유저</th>
+          <th scope="col">작성자</th>
+          <th scope="col">작성일</th>
+        </tr>
+      </thead>
+      <!--테이블 본문-->
+      <tbody>
+        {% for i in test %}
+        <tr>
+          <th scope="row">{{ i.id }}</th>
+          <td>{{ i.title }}</td>
+          <td>{{ i.match_user }}</td>
+          <td>{{ i.user.profile.nickname }}</td>
+          <td>{{ i.created_at }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <!--테이블 종료-->
+  </section>
+</div>
 {% endblock content %}
