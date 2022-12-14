@@ -79,7 +79,7 @@ def book_list(request, pk):
     if pk == 1:
         genre = "공포/추리"
     elif pk == 2:
-        genre = "판타지"
+        genre = "판타지/무협"
     elif pk == 3:
         genre = "로맨스/가족"
     elif pk == 4:
