@@ -24,7 +24,7 @@ urlpatterns = [
     path("match_create/", views.match_create, name="match_create"),
     # 매칭후기 게시판
     path("match_board/", views.match_board, name="match_board"),
-    path("match_delete/<int:pk>", views.match_delete, name="match_delete"),
+    path("match_board/match_delete/<int:pk>", views.match_delete, name="match_delete"),
     # 검색 페이지
     path("search/", views.search, name="search"),
     path("main_search/", views.main_search, name="main_search"),

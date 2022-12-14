@@ -76,8 +76,8 @@ def matching(request):
         "notes_notice": notes_notice,
         "user": user,
     }
-    print(user_address)
     return render(request, "review/matching.html", context)
+
 
 @login_required
 def create(request, book_pk):
@@ -223,10 +223,9 @@ def match_board(request):
 
 def match_delete(request, pk):
     match = Match_review.objects.get(pk=pk)
-    if request.method == "POST":
-        if request.user == match.user:
-            match.delete()
-            return redirect("review:match_board")
+
+    match.delete()
+    return redirect("review:match_board")
 
 
 def match_create(request):

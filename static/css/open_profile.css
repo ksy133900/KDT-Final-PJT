@@ -9,5 +9,14 @@
   max-width: 100%;
   max-height: 100%;
 }
+.button:hover {
+  background-color:#002ead;
+  transition: 0.7s;
+}
 
+.btn_docto {
+	background-color: rgba(245, 140, 178, 0.7);
+	box-shadow: 3px 3px 3px rgb(121, 121, 121);
+
+}
 /* profile css시작 */

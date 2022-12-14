@@ -7,6 +7,7 @@
 
 {% block content %}
 
+
 <div style="background-color: #000000; min-height:950px;">
   <div class="container" style="background-color: #ffffff; min-height: 930px;">
     <div class="d-flex justify-content-center align-items-center mb-4">
@@ -33,18 +34,24 @@
         <!-- 가입날짜 표시 시간까지 세세하게 표현하고 싶다면  h:i:s 추가-->
         <p> 가입일 : {{ user.date_joined | date:'Y년-m월-d일 h:i:s' }} </p>
 
-        <!-- 팔로잉 / 팔로워 collapse 시작 -->
-        <!-- collapse 버튼 -->
-        <div class="text-primary mb-1" style="width: 190px;">
-          <a class="btn btn-primary" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button"
-            aria-expanded="false" aria-controls="multiCollapseExample1">
-            팔로잉 <span id="followings-count">{{ user.followings.count }}</span>
+      <!-- 팔로잉 / 팔로워 collapse 시작 -->
+      <!-- collapse 버튼 -->
+      <div class="text-primary mb-1" style="width: 190px;>
+        <a class="btn btn-primary" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
+          팔로잉 <span id="followings-count">{{ user.followings.count }}</span>
+        </a>
+        <a class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
+          팔로워 <span id="followers-count">{{ user.followers.count }}</span>
+        </a>
+        <button style="border:none; background-color:transparent;" onClick="window.location.reload()"><i style="font-size: 1.5rem;" class="bi bi-arrow-repeat"></i></button>
+
           </a>
           <a class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2"
             aria-expanded="false" aria-controls="multiCollapseExample2">
             팔로워 <span id="followers-count">{{ user.followers.count }}</span>
           </a>
         </div>
+
         <!-- 소개글 (프로필에서 삭제했고, 오픈 프로필로 이동했습니다. 여기 추가 ㄴㄴ)-->
 
 
