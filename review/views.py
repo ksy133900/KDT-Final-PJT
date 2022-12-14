@@ -76,7 +76,6 @@ def matching(request):
         "notes_notice": notes_notice,
         "user": user,
     }
-    print(user_address)
     return render(request, "review/matching.html", context)
 
 
