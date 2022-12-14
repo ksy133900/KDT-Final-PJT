@@ -39,22 +39,23 @@ def delete(request, book_pk):
     book.delete()
     return redirect("review:index")
 
+
 def book_list(request, pk):
     if pk == 1:
         genre = "공포/추리"
     elif pk == 2:
-        genre = "판타지"
+        genre = "판타지/무협"
     elif pk == 3:
         genre = "로맨스/가족"
     elif pk == 4:
         genre = "역사/철학"
     elif pk == 5:
         genre = "정치/경제"
-    book_genre = Book.objects.filter(genre__contains = pk)
+    book_genre = Book.objects.filter(genre__contains=pk)
 
     context = {
         "book_genre": book_genre,
         "genre": genre,
     }
-    
+
     return render(request, "book/book_list.html", context)

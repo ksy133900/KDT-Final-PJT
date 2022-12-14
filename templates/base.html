@@ -29,12 +29,13 @@
     rel="stylesheet">
   <!-- font -->
 
-    <title> 독토 </title>
+  <title> 독토 </title>
 
-    <!-- <scripts src="https://cdn.tailwindcss.com"></scripts> -->
-    <script defer src="{% static 'js/indexjs.js'%}"></script>
- </head>
- <body>
+  <!-- <scripts src="https://cdn.tailwindcss.com"></scripts> -->
+  <script defer src="{% static 'js/indexjs.js'%}"></script>
+</head>
+
+<body>
 
   <!--내비바 시작-->
   <nav class="navbar navbar-expand-lg bg-light" style="padding: 0px; box-shadow: 0.1em 0.1em 5px 0.5px #bfbfbf;">
@@ -64,7 +65,7 @@
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="{% url 'book:book_list' 1 %}">공포/추리</a></li>
-              <li><a class="dropdown-item" href="{% url 'book:book_list' 2 %}">판타지</a></li>
+              <li><a class="dropdown-item" href="{% url 'book:book_list' 2 %}">판타지/무협</a></li>
               <li><a class="dropdown-item" href="{% url 'book:book_list' 3 %}">로맨스/가족</a></li>
               <li><a class="dropdown-item" href="{% url 'book:book_list' 4 %}">역사/철학</a></li>
               <li><a class="dropdown-item" href="{% url 'book:book_list' 5 %}">정치/경제</a></li>
@@ -123,8 +124,8 @@
       <!--search_box-->
       <div class="search-box">
         <form role="search" action="{% url 'review:main_search' %}">
-          <input class="search-txt-m" type="search" placeholder="도서 검색" value="{{search_keyword}}" size="14" name="search_keyword"
-            style="vertical-align: top;">
+          <input class="search-txt-m" type="search" placeholder="도서 검색" value="{{search_keyword}}" size="14"
+            name="search_keyword" style="vertical-align: top;">
           <button class="search-btn" type="submit" maxlength="50">
             <img src="{% static 'images/book2.jpg' %}" alt="" class="jb-b">
             <img src="{% static 'images/book.gif' %}" alt="" class="jb-c">
